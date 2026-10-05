@@ -1,9 +1,21 @@
 # Using Git
 
+```git
+git init
+git add <file_name>
+git commit -m "commit_message"
+git pull <repo_name> 拉取仓库
+git push origin main 
 
+git restore
 
+git branch <new_branch_name>
+git swirch <new_branch_name>
+git branch -d <branch_name>
 
-
+git merge <branch_name>
+git rebase <branch_name>
+```
 
 # Learning Git Branching
 

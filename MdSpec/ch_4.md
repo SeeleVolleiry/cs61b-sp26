@@ -78,3 +78,38 @@ public class SelectionSort {
     }
 }
 ```
+
+具体的代码实现见`Sort.java`和`TestSort.java`。
+
+## 4.4 Reflection on the Development Process
+
+When you're writing and debugging a program, you'll often find yourself switching between different contexts. Trying to hold too much in your brain at once is a recipe for disaster at worst, and slow progress at best.
+
+Having a set of automated tests helps reduce this cognitive load.
+
+As mentioned earlier in this chapter, tests also allow you to gain confidence in the basic pieces of your program, so that if something goes wrong, you have a better idea of where to start looking.
+
+## 4.5 Testing Philosophy
+
+`Correctness Tool: JUnit Tests`: 
+JUnit testing, as we have seen, unlocks a new world for you.
+
+Rather than relying on an autograder written by someone else, you write tests for each piece of your program. `We refer to each of these pieces as a unit`. This allows you to have confidence in each unit of your code - you can depend on them. This also helps decrease debugging time as you can isolate attention to one unit of code at a time (often a single method). Unit testing also forces you to clarify what each unit of code should be accomplishing.
+
+There are some downsides to unit tests, however. First, writing thorough tests takes time. It's easy to write incomplete unit tests which give a false confidence to your code. It's also difficult to write tests for units that depend on other units (consider the addFirst method in your LinkedListDeque).
+
+`Correctness Tool: Integration Testing`:
+
+Unit tests are great, but we should also make sure these units work properly together (unlike this meme). Integration testing verifies that components interact properly together. JUnit can in fact be used for this. You can imagine unit testing as the most nitty gritty, with integration testing a level of abstraction above this.
+
+The challenge with integration testing is that it is tedious to do manually yet challenging to automate. And at a high level of abstraction, it's easy to miss subtle or rare errors.
+
+## 4.6 Test-Driven Development (TDD)
+
+TDD is a development process in which we write tests for code before writing the code itself. The steps are as follows:
+- Identify a new feature.
+- Write a unit test for that feature.
+- Run the test. It should fail.
+- Write code that passes the test. Yay!
+- Optional: refactor code to make it faster, cleaner, etc. Except now we have a reference to tests that should pass.
+- Test-Driven Development is not required in this class and may not be your style but unit testing in general is most definitely a good idea.

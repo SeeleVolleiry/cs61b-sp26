@@ -66,3 +66,57 @@ public class Planet {
     }
 }
 ```
+
+## 2. Helpful LLM Use
+
+On HW2, you had a chance to play around with large language models for solving the starTriangle problem.
+
+You’ve probably also used LLMs in prior programming classes.
+
+What are some ways that you’ve used LLMs to help your learning?
+What are some ways that you’ve used LLMs that actually hindered your learning? 
+Did you find it helpful to see what an LLM came up with for
+starTriangle?
+
+## 3. Lists Exercises
+
+(a) The code below shows the equivalent Java code for common List operations in Python.
+
+```python
+# 每段一个操作，与下面的Java代码一一对应。
+lst = []
+
+lst.append("zero")
+lst.append("one")
+
+lst[0] = "zed"
+
+print(lst[0])
+
+print(len(lst))
+
+if "one" in lst:
+    print("one in lst")
+
+for elem in lst:
+    print(elem)
+```
+```java
+List<String> lst = new ArrayList<>();
+
+lst.add("zero");
+lst.add("one");
+
+lst.set(0, "zed");
+
+System.out.println( lst.get(0) );
+System.out.println( lst.size() );
+
+if (lst.contain("one")) {
+    System.out.println("One in lst.");
+}
+
+for (String elem : lst) {
+    System.out.println(elem);
+}
+```

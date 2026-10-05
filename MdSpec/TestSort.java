@@ -9,7 +9,7 @@ public class TestSort {
         assertThat(input).isEqualTo(expected);
     }
 
-    // @Test
+    @Test
     public static void testFindSmallest() {
         String[] input = {"i", "have", "an", "egg"};
         int expected = 2;

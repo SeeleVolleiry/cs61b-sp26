@@ -102,21 +102,51 @@ for elem in lst:
     print(elem)
 ```
 ```java
-List<String> lst = new ArrayList<>();
+public static void main(String[] args) {
+    List<String> lst = new ArrayList<>();
 
-lst.add("zero");
-lst.add("one");
+    lst.add("zero");
+    lst.add("one");
 
-lst.set(0, "zed");
+    lst.set(0, "zed");
 
-System.out.println( lst.get(0) );
-System.out.println( lst.size() );
+    System.out.println(lst.get(0));
+    System.out.println(lst.size());
 
-if (lst.contain("one")) {
-    System.out.println("One in lst.");
-}
+    if (lst.contains("one")) {
+        System.out.println("One in lst.");
+    }
 
-for (String elem : lst) {
-    System.out.println(elem);
+    for (String elem : lst) {
+        System.out.println(elem);
+    }
 }
 ```
+
+Fill in the method below which takes in two lists of integers and returns a new list containing the common items of the two given lists. 
+
+Do not use the retainAll method.
+
+根据刚学习的操作，结果如下：
+```java
+/** Returns a list containing the common items of the two given lists */
+public static List<Integer> common(List<Integer> L1, List<Integer> L2) {
+    List<Interger> cList = new ArrayList<>();
+    for (int elem : L1) {
+        if (L2.contains(elem)) { cList.add(elem);}
+    }
+}
+```
+
+(b)  Fill in the method below which capitalizes all strings in the given list in place. 
+Note that "cat".toUpperCase() returns "CAT".
+```java
+/** Capitalizes all strings in the given list in place */
+public static void capitalize(List<String> L) {
+    for (int i = 0; i < L.length; i += 1) {
+        L[i] = L[i].toUpperCase();
+    }
+}
+```
+
+## 4. Map Exercises

@@ -86,11 +86,23 @@ Modify the `action` method so that the logic is:
 
 You can also test your code by running `testFallVisual` and `testBarrierDoesntFall` in `TestPaticleSimulator.java`.
 
-## Task 7:
+## Task 7: Making Water Flow
 
+We want water to flow. Fill in the `public void flow(Map<Direction, Particle> neighbors)` method in `Particle.java`.
 
+It should choose one of the following three choices:
+- With 1/3 chance, don’t do anything.
+- With 1/3 chance, if the left neighbor is empty, moveInto it.
+- With 1/3 chance, if the right neighbor is empty, moveInto it.
 
-## Task 8:
+To get a `random number` in the range [0, 1, 2], use `StdRandom.uniformInt(3)`. For each call to flow, generate only one random number total, and use the result of the random number generation to select which of three options occurs.
+
+After writing flow, *modify the action method* so that the logic is:
+- If the flavor of the current particle is EMPTY, return immediately.
+- If the flavor of the current particle is not BARRIER, call fall.
+- If the flavor of the current particle is WATER, call flow.
+
+## Task 8: Making Plants(and flowers) Grow
 
 
 

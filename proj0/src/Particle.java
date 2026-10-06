@@ -1,5 +1,3 @@
-import edu.princeton.cs.algs4.StdRandom;
-
 import java.awt.*;
 import java.util.Map;
 
@@ -23,6 +21,27 @@ public class Particle {
     public Color color() {
         if (flavor == ParticleFlavor.EMPTY) {
             return Color.BLACK;
+        }
+        if (flavor == ParticleFlavor.SAND) {
+            return Color.YELLOW;
+        }
+        if (flavor == ParticleFlavor.BARRIER) {
+            return Color.GRAY;
+        }
+        if (flavor == ParticleFlavor.WATER) {
+            return Color.BLUE;
+        }
+        if (flavor == ParticleFlavor.FOUNTAIN) {
+            return Color.CYAN;
+        }
+        if (flavor == ParticleFlavor.PLANT) {
+            return new Color(0, 255, 0);
+        }
+        if (flavor == ParticleFlavor.FIRE) {
+            return new Color(255, 0, 0);
+        }
+        if (flavor == ParticleFlavor.FLOWER) {
+            return new Color(255, 141, 161);
         }
         return Color.GRAY;
     }

@@ -17,7 +17,14 @@ public class Particle {
 
     public Particle(ParticleFlavor flavor) {
         this.flavor = flavor;
-        lifespan = -1;
+        if (flavor == ParticleFlavor.PLANT
+                || flavor == ParticleFlavor.FLOWER
+                || flavor == ParticleFlavor.FIRE) {
+            lifespan = LIFESPANS.get(flavor);
+        }
+        else {
+            lifespan = -1;
+        }
     }
 
     public Color color() {
@@ -101,6 +108,15 @@ public class Particle {
         }
         else {
             return ;
+        }
+    }
+
+    public void decrementLifespan() {
+        if (this.lifespan > 0) {
+            this.lifespan -= 1;
+        }
+        if (this.lifespan == 0) {
+            this.flavor = ParticleFlavor.EMPTY;
         }
     }
 

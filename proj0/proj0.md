@@ -126,20 +126,41 @@ Then modify action so that it has the following behavior:
 
 To test your grow method, run `testGrow` in `TestParticleSimulator.java.`
 
-## Task 9:
+## Task 9: Making Lifespan Count
+
+First, update the `Particle.java constructor` to set the lifespan based on the Particle’s flavor. You’ll see that the default implementation sets the lifespan to -1. 
+
+Change the behavior so that if the flavor is PLANT, FLOWER, or FIRE, the lifespan is set according to the variables at the top of the class. Otherwise, the lifespan should remain -1. Use the LIFESPANS map for the cleanest code.
+
+Next, **add a method to Particle.java** called public void decrementLifespan(). It should have the following behavior:
+- If the lifespan of the current particle is greater than 0, subtract 1 from the lifespan.
+- If the lifespan of the current particle is zero, set its flavor to EMPTY and its lifespan to -1.
+
+Then modify the `tick` method of `ParticleSimulator.java` so that after calling action on each particle, you then call decrementLifespan immediately. That is, the tick method should have these lines:
+```
+Map<Direction, Particle> neighbors = getNeighbors(x, y);
+particles[x][y].action(neighbors);
+particles[x][y].decrementLifespan();
+
+```
+
+To test your code, run `testLifespan()` in `TestParticleSimulator.java`.
+
+## Task 10: Making Lifespan Visible
 
 
 
-## Task 10:
+## Task 11: Making Fire Burn
 
 
 
-## Task 11:
+## Task 12: Get Creative(Optional)
 
+交完 Gradescope 之后，自由发挥给你的模拟器加东西。页面举的例子：让 FOUNTAIN 粒子干点什么、加新粒子类型、改宇宙的美术、加新的交互方式（比如用方向键控制一个可操作的角色到处跑）——随便你想做什么。
 
+这是可选题，不是必做题。
 
-## Task 12:
+## Task 13: Create a Video of Simulation(Optional)
 
-
-
-## Task 13:
+录一段短的屏幕录像，展示你在模拟器里发现的有意思的现象。
+同样是一道可选题，不是非做不可。

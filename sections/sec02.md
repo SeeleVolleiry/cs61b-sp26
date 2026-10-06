@@ -150,3 +150,154 @@ public static void capitalize(List<String> L) {
 ```
 
 ## 4. Map Exercises
+
+`字典/图`
+
+The code reference below shows the equivalent Java code for common Map operations.
+```python
+d = {}
+
+d["hello"] = "hi"
+d["hello"] = "goodbye"
+
+print(d["hello"])
+print(len(d))
+
+if "hello" in d:
+    print("\"hello\" in d")
+
+for key in d.keys():
+    print(key)
+```
+```java
+// initiate
+public static void main() {
+    
+    Map<String, String> map = new HashMap<>();
+    map.put("hello", "hi");
+    map.put("hello", "goodbye");
+    
+    System.out.println( map.get("hello") );
+    System.out.println( map.size() );
+    
+    if (map.containsKey("hello")) {
+        System.out.println("\"hello\" in map");
+    }
+    
+    for (String key : map.keySet()) {
+        System.out.println(key);
+    }
+}
+```
+
+Translate the following Python function into Java. The function takes a list of integers and returns a
+map where the keys are the integers from the list, and the values are lists containing all integers from the
+original list that are strictly less than the key (without duplicates). Don’t worry about order.
+```python
+def build_less_than_map(L):
+  '''
+   L = [4, 1, 3, 3]
+   m = build_less_than_map(L)
+   m is: {1: [],
+          3: [1],
+          4: [1, 3]}
+  '''
+  result = {}
+  for x in L:
+    if x not in result:
+      result[x] = []
+    for y in L:
+      if y < x:
+        if y not in result[x]:
+          result[x].append(y)
+  return result
+```
+
+The Java code is as follows:
+```java
+/** Returns a map from each integer x in the list to a list (without duplicates) 
+  *  of all integers in the list that are less than x. */
+ public static Map<Integer, List<Integer>> buildLessThanMap(List<Integer> L) {
+     // 创建 result存储结果。
+     Map<Integer, List<Integer>> result = new HashMap<>();
+     
+     for (Integer x : L) {
+         if ( !result.containsKey(x) ) {
+             result.put(x, null);
+         }
+         
+         for (Integer y : L) {
+             if (y < x) {
+                 if ( !result[x].caontians(y)){
+                     result[x].add(y);
+                 }
+             }
+         }
+     }
+ }
+```
+
+# 5. Positive Filter
+
+Fill in the function below, which takes in a list of integers and returns a new array containing only the positive
+integers from the original list.
+```java
+/** Returns an array containing only the positive integers from the given list */
+public static int[] filterPositive(List<Integer> L) {
+    int[] result = new int[]{};
+    for (Integer elem : L) {
+        if (elem > 0) {
+            result.add(elem);
+        }
+    }
+    return result;
+}
+```
+
+# 6. Particle Reference
+
+What will the code below print?
+```java
+public class Particle {
+    public String flavor;
+    public int lifespan;
+
+    public Particle(String f, int l) {
+        flavor = f;
+        lifespan = l;
+    }
+
+    public static void boil(Particle p) {
+        p.flavor = "steam";
+    }
+
+    public static void decrement(int x) {
+        x = x - 1;
+    }
+
+    public static void action(Map<Integer, Particle> m) {
+        m.get(2).flavor = "lava";
+        m.get(2).lifespan = 5;
+    }
+
+    public static void main() {
+        Particle p1 = new Particle("water", -1);
+        Particle p2 = new Particle("sand", -1);
+        Map<Integer, Particle> m = Map.of(1, p1, 2, p2);
+        boil(p1);
+        IO.println(p1.flavor);
+        decrement(p1.lifespan);
+        IO.println(p1.lifespan);
+        action(m);
+        IO.println(p2.lifespan);
+        IO.println(p2.flavor);
+    }
+}
+```
+
+The code prints:
+- "steam"
+- -2
+- 5
+- "lava"
+    

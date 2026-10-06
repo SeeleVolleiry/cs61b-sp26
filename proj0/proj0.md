@@ -28,21 +28,53 @@ Modify the `public Color color()` method in `Particle.java` so that it behaves a
 - If the flavor is FIRE, then return a Color which has 255 red, 0 green, 0 blue.
 - If the flavor is FLOWER, then return a Color which has 255 red, 141 green, 161 blue.
 
-## Task 2:
+## Task 2: Visually Testing the Color Function
 
+测试任务，观察Task 1写对了没有。
 
+We can try testing the color function using the Particle Simulator class!
 
-## Task 3:
+## Task 3: Testing the Color Function Automatically
 
+运行指定的测试函数，来自动测试Task 1写对了没有。
 
+Throughout this course, we’ll be writing and running tests using a library called Google Truth, covered in lecture 4.
 
-## Task 4:
+Open the TestParticle.java file and look at the method called testColor. Here, you can see the code we’ve set up to check your color method. This is also the exact code that we have running in our gradescope autograder.
 
+## Task 4: MoveInto
 
+We will want our particles to be able to move around. To allow our particles to move, we’ll implement a moveInto function that transfers the color and lifespan of a particle into a different particle.
 
-## Task 5:
+Fill in the `moveInto` function in `Particle.java`. The behavior of this function is that after running it:
+- `other.flavor` should be equal to the current particle’s flavor
+- `other.lifespan` should be equal to the current particle’s lifespan
+- The current particle’s flavor should be set to EMPTY (because it moved, leaving emptiness behind)
+- The current particle’s lifespan should be set to -1 (because it moved, leaving emptiness behind)
 
+别忘记运行对应的自动测试函数来验证正确性。
 
+下面给出了对应的Python代码以供参考/提示。
+```python
+def move_into(self, other: 'Particle'):    
+    other.flavor = self.flavor
+    other.lifespan = self.lifespan
+        
+    self.flavor = ParticleFlavor.EMPTY
+    self.lifespan = -1
+```
+
+## Task 5: Fall
+
+Fill in the `public void fall(Map<Direction, Particle> neighbors)` method in `Particle.java`.
+
+The method is given a Map that goes from each of the four possible directions `Direction.DOWN`, `Direction.LEFT`, `Direction.RIGHT`, `Direction.UP` to a Particle.
+
+The fall method should:
+- Check the neighbor in the down direction, e.g. neighbors.get(Direction.DOWN).
+- If that neighbor has a flavor equal to ParticleFlavor.EMPTY, then the current particle should moveInto that particle. You’ll want to use your moveInto function from earlier.
+
+To test your fall function call the testFall method in TestParticle.java. Run the test and verify your fall method works correctly.
 
 ## Task 6:
 

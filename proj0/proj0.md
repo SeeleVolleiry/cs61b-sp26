@@ -76,9 +76,15 @@ The fall method should:
 
 To test your fall function call the testFall method in TestParticle.java. Run the test and verify your fall method works correctly.
 
-## Task 6:
+## Task 6: Enabling Gravity
 
+Look at the `action` method in `Particle.java`. You’ll see it currently does nothing. We want to particles to obey the laws of gravity and fall towards the ground.
 
+Modify the `action` method so that the logic is:
+- If the flavor of the current particle is EMPTY, return immediately.
+- If the flavor of the current particle is not BARRIER, call fall.
+
+You can also test your code by running `testFallVisual` and `testBarrierDoesntFall` in `TestPaticleSimulator.java`.
 
 ## Task 7:
 

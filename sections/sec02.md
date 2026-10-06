@@ -40,20 +40,17 @@ public class Planet {
         this.y = y;
         this.mass = mass;
     }
-    
-    public double distance_to(Planet p1, Planet p2) {
-        xDiff = Math.abs(p1.x - p2.x);
-        yDiff = Math.abs(p1.y - p2.y);
-        
-        double distance;
-        distance = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-        return distance;
+
+    public double distanceTo(Planet other) {
+        double dx = this.x - other.x;
+        double dy = this.y - other.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
     
     public static double total_mass(Planet[] ps) {
         double totalMass = 0.0;
         for (int i = 0; i < ps.length; i += 1) {
-            totalMass += ps[i];
+            totalMass += ps[i].mass;
         }
         return totalMass;
     }
@@ -62,7 +59,7 @@ public class Planet {
         p1 = Planet(5, 10, 100);
         p2 = Planet(1, 2, 200);
         p1.distance_to(p2);
-        Planet.total_mass({p1, p2});
+        Planet.total_mass(List.of(p1, p2));
     }
 }
 ```
@@ -133,7 +130,9 @@ Do not use the retainAll method.
 public static List<Integer> common(List<Integer> L1, List<Integer> L2) {
     List<Interger> cList = new ArrayList<>();
     for (int elem : L1) {
-        if (L2.contains(elem)) { cList.add(elem);}
+        if (L2.contains(elem) && !cList.contains(elem)) { 
+            cList.add(elem);
+        }
     }
 }
 ```
@@ -144,7 +143,7 @@ Note that "cat".toUpperCase() returns "CAT".
 /** Capitalizes all strings in the given list in place */
 public static void capitalize(List<String> L) {
     for (int i = 0; i < L.length; i += 1) {
-        L[i] = L[i].toUpperCase();
+       L.set(i, L[i].toUpperCase());
     }
 }
 ```
@@ -223,7 +222,7 @@ The Java code is as follows:
      
      for (Integer x : L) {
          if ( !result.containsKey(x) ) {
-             result.put(x, null);
+             result.put(x, new ArrayList<>());
          }
          
          for (Integer y : L) {
@@ -234,6 +233,7 @@ The Java code is as follows:
              }
          }
      }
+     return result;
  }
 ```
 
@@ -244,11 +244,15 @@ integers from the original list.
 ```java
 /** Returns an array containing only the positive integers from the given list */
 public static int[] filterPositive(List<Integer> L) {
-    int[] result = new int[]{};
-    for (Integer elem : L) {
-        if (elem > 0) {
-            result.add(elem);
+    List<Integer> temp = new ArrayList<>();
+    for (int x : L) {
+        if (x > 0) {
+            temp.add(x);
         }
+    }
+    int[] result = new int[temp.size()];
+    for (int i = 0; i < temp.size(); i++) {
+        result[i] = temp.get(i);
     }
     return result;
 }
@@ -296,8 +300,8 @@ public class Particle {
 ```
 
 The code prints:
-- "steam"
-- -2
+- steam
+- -1 //按值传递（passing by value），不是-2
 - 5
-- "lava"
+- lava
     

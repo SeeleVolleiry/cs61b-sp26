@@ -148,11 +148,35 @@ To test your code, run `testLifespan()` in `TestParticleSimulator.java`.
 
 ## Task 10: Making Lifespan Visible
 
+This task is just a copy-and-paste job.
 
+To make it more clear how old PLANT, FLOWER, and FIRE particles are, replace the Color for these three particles with this code in the public Color color() method:
+```
+       if (flavor == ParticleFlavor.FLOWER) {
+           double ratio = (double) Math.max(0, Math.min(lifespan, FLOWER_LIFESPAN)) / FLOWER_LIFESPAN;
+           int r = 120 + (int) Math.round((255 - 120) * ratio);
+           int g = 70 + (int) Math.round((141 - 70) * ratio);
+           int b = 80 + (int) Math.round((161 - 80) * ratio);
+           return new Color(r, g, b);
+       }
+       if (flavor == ParticleFlavor.PLANT) {
+           double ratio = (double) Math.max(0, Math.min(lifespan, PLANT_LIFESPAN)) / PLANT_LIFESPAN;
+           int g = 120 + (int) Math.round((255 - 120) * ratio);
+           return new Color(0, g, 0);
+       }
+       if (flavor == ParticleFlavor.FIRE) {
+           double ratio = (double) Math.max(0, Math.min(lifespan, FIRE_LIFESPAN)) / FIRE_LIFESPAN;
+           int r = (int) Math.round(255 * ratio);
+           return new Color(r, 0, 0);
+       }
+```
 
 ## Task 11: Making Fire Burn
 
-
+Modify `public void burn(Map<Direction, Particle> neighbors)` in `Particle.java` such that it has the following behavior:
+- For each neighbor, if the neighbor is either PLANT or FLOWER, with 40% chance independently, give that flavor ParticleFlavor.FIRE and set its lifespan to FIRE_LIFESPAN.
+- 
+Then modify the `action` method to so that if the current particle is FIRE, it calls burn.
 
 ## Task 12: Get Creative(Optional)
 

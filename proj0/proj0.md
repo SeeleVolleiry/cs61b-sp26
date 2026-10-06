@@ -104,9 +104,30 @@ After writing flow, *modify the action method* so that the logic is:
 
 ## Task 8: Making Plants(and flowers) Grow
 
+Modify `public void grow(Map<Direction, Particle> neighbors)` in `Particle.java`. It should pick from the following four choices:
+- With 10% chance, if the UP neighbor has flavor EMPTY, set the flavor of the up neighbor to the same flavor as the current particle.
+- With 10% chance, if the LEFT neighbor has flavor EMPTY, set the flavor of the LEFT neighbor to the same flavor as the current particle.
+- With 10% chance, if the RIGHT neighbor has flavor EMPTY, set the flavor of the RIGHT neighbor to the same flavor as the current particle.
+- With 70% chance do none of the above.
 
+Make sure to set the neighbor’s lifespan based on the flavor of the current particle, e.g. if a PLANT grows into the UP position, it should have a lifespan of 150 as given in LIFESPANS.
+
+Only one of these four choices should be picked. You should not create any new Particle objects when growing. Instead, set the flavor of the existing particle to the same flavor as the current particle.
+
+HINT:
+- Use the LIFESPANS map for the cleanest code
+- To get a random number from [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], use StdRandom.uniformInt(10);.
+
+Then modify action so that it has the following behavior:
+- If the flavor of the current particle is EMPTY, return immediately.
+- If the flavor of the current particle is not BARRIER, call fall.
+- If the flavor of the current particle is WATER, call flow.
+- If the flavor of the current particle is PLANT or FLOWER, call grow.
+
+To test your grow method, run `testGrow` in `TestParticleSimulator.java.`
 
 ## Task 9:
+
 
 
 ## Task 10:

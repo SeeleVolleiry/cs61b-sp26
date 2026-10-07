@@ -86,7 +86,7 @@ public void testMethod() {
    - 一个测试方法里可以有一个或多个 `assertEquals` / `assertTrue`。
    - **所有测试方法必须非 static。**（看起来奇怪，因为测试不用实例变量、通常也不会 new 这个类；但 JUnit 的设计者就是这么定的。原文自述原因"unclear"。）
 
-## 在 IntelliJ（或其它 IDE）里运行 JUnit 测试
+### 在 IntelliJ（或其它 IDE）里运行 JUnit 测试(Task 3)
 
 > 页面原话：如果你不用 IntelliJ，助教没受过培训、也不提供其它 IDE 或命令行编译运行的支持。
 
@@ -101,17 +101,17 @@ public void testMethod() {
 
 ---
 
-## Application: IntLists (Task 3)
+## Application: IntLists (Task 4)
 
 背景：`IntList` 是本课讲的**裸递归链表**实现。每个 `IntList` 有 `first` 和 `rest` 两个变量：`first` 是节点里的整数，`rest` 是链上的下一个 `IntList`。
 
-`IntListExercises.java` 里有三个方法，**每个都有 bug**。这一节的任务就是把它们找出来并修掉。
+`IntListExercises.java` 里有三个方法，**每个都有 bug**。这一节的任务就是把它们找出来并修正。
 
 ### Starter Code
 
 在 Monday 的课堂实现之外，`IntList` 类新增了两个方法：`print` 和 `of`。
 
-**`of`** —— 便捷构造方法。原本要这样写：
+`of` —— 便捷构造方法。原本要这样写：
 
 ```java
 IntList lst = new IntList(1, new IntList(2, new IntList(3, null)));
@@ -140,11 +140,11 @@ System.out.println(lst.toString())
 // Output: 1 -> 2 -> 3
 ```
 
-这两个方法本身没有增加实质功能，但让创建和显示 `IntList` 变方便了 —— 页面明确说，就是为了让你写 JUnit 测试时更省事。
+这两个方法本身没有增加实质功能，但让创建和显示 `IntList` 变方便了。
 
 ### Part A: IntList Iteration
 
-调试 `IntListExercises.java` 里的 **`addConstant`**。它的意图是：**原地（mutatively）**给链表每个元素加上一个常数。
+调试 `IntListExercises.java` 里的 `addConstant`。它的意图是：原地（mutatively）给链表每个元素加上一个常数。
 
 ```java
 /* Expected Behavior */

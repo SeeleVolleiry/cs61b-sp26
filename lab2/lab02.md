@@ -66,7 +66,7 @@ lab02
 - 本课用 **JUnit** 写测试。JUnit 测试失败时，正好是调试的最佳起点。
 - 如果遇到难以修复的严重 bug，可以用 git 回退到"当时测试通过"的状态（Lab 4 会讲怎么回退）。
 
-### JUnit 语法
+### 2.1 JUnit 语法
 
 打开 `ArithmeticTest.java`。
 

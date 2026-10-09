@@ -35,3 +35,42 @@ Seriously. Do not skip this. You will spend hours confused if you skip this step
 3. Create an empty constructor.
 
 4. create a main method.
+
+## Task 3: Constructor
+
+For this project, you are required to implement a circular, doubly-linked topology with a sentinel.
+
+1. Implement the constructor for `LinkedListDeque61B`.
+- Add one or more instance variables to the LinkedListDeque61B class.
+- Instantiate a sentinel node.
+- Add one or more instance variables the to Node class.
+- Initialize the instance variables in the constructor.
+
+2. Verify the correctness of your constructor.
+- Set a breakpoint in your main method and verify using the visualizer that your code matches the expected topology.
+
+## Task 4:
+
+
+
+## Task 5:
+
+
+
+## Task 6:
+
+
+
+## Task 7:
+
+
+
+## Task 8:
+
+
+
+## Task 9:
+
+
+
+## Task 10:

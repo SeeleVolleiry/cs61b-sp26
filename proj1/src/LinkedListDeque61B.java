@@ -1,8 +1,26 @@
 import java.util.List;
 
 public class LinkedListDeque61B<T> implements Deque61B<T> {
+    // 类属性和实例属性
+    public int dequeSize;
+    public class Node {
+        Node prev;
+        T val;
+        Node next;
+
+        public Node(Node p, T v, Node n) {
+            prev = p;
+            val = v;
+            next = n;
+        }
+    }
+    Node sentinel;
+
     public LinkedListDeque61B() {
-        //
+        dequeSize = 0;
+        sentinel = new Node(null, null,null);
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
     }
 
     public static void main(String[] args) {

@@ -49,9 +49,17 @@ For this project, you are required to implement a circular, doubly-linked topolo
 2. Verify the correctness of your constructor.
 - Set a breakpoint in your main method and verify using the visualizer that your code matches the expected topology.
 
-## Task 4:
+## Task 4: addFirst and addLast
 
+We’ll implement the other methods called in your main method.
 
+1. Implement `addFirst` and `addLast`.
+- addFirst and addLast may not use looping or recursion. A single add operation must take "constant time," that is, adding an element should take approximately the same amount of time no matter how large the deque is. This means that you cannot use loops that iterate through all / most elements of the deque.
+
+2. Verify by `Java Visualizer`
+- After implementing these two methods, set a breakpoint at the end of your main method and verify that the created LinkedListDeque61B matches the expected topology below.
+
+推荐画出 `boxes and pointers` 示意图，这样比纯靠脑子想要来的准确、实际和易懂。
 
 ## Task 5:
 

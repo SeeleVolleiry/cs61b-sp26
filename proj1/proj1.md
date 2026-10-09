@@ -19,3 +19,19 @@ We don’t need all the methods defined in Java’s Deque, and have defined our 
 This spec doesn’t have all the information you need to complete the project, so it’s important that you read through all of Deque61B.java!
 
 Seriously. Do not skip this. You will spend hours confused if you skip this step. Please save yourself the time and stress! And, You should not edit Deque61B.java.
+
+## Task 2: Creating the file
+
+1. Start by creating a file called `LinkedListDeque61B`.
+- This file should be created in the `proj1/src` directory.
+- To do this, right-click on the src directory, navigate to “New -> Java Class”, and give it the name `LinkedListDeque61B`.
+- edit the declaration of your class so that it reads: `public class LinkedListDeque61B<T>`
+- change the declaration of your class so that it reads: `public class LinkedListDeque61B<T> implements Deque61B<T>`
+
+第一步会造成一个error，在下面会修正它。
+
+2. Hover your mouse over the red squiggle, and click the “implement methods” button when the error message box pops up. This will autogenerate the method headers for you.
+
+3. Create an empty constructor.
+
+4. create a main method.

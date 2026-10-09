@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinkedListDeque61B<T> implements Deque61B<T> {
@@ -63,7 +64,14 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public List<T> toList() {
-        return List.of();
+        List<T> returnList = new ArrayList<>();
+        //用循环或者递归，把每一个Node的val添加进列表。
+        Node ptr = this.sentinel.next;
+        while (ptr != sentinel) {
+            returnList.add(ptr.val);
+            ptr = ptr.next;
+        }
+        return returnList;
     }
 
     /**

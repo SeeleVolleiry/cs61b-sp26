@@ -61,24 +61,39 @@ We’ll implement the other methods called in your main method.
 
 推荐画出 `boxes and pointers` 示意图，这样比纯靠脑子想要来的准确、实际和易懂。
 
-## Task 5:
+## Task 5: toList
+
+依靠debugger的可视化插件来，判断代码之前Task完成地是否正确，这是很枯燥乏味且操作冗长。所以，有了toList这个方法来帮助判断deque是否符合预期。这样就比之前简单明了得多了。
+
+When called, this method returns a List representation of the Deque61B.
+
+For example, if the Deque61B has had addLast(5), addLast(9), addLast(10), then addFirst(3) called on it, then the result of toList() should be a List with 3 at the front, then 5, then 9, then 10. If printed in Java, it’d show up as `[3, 5, 9, 10]`.
+
+If the Deque is empty, then toList should return an empty list with zero items, e.g. return new ArrayList<>(). The toList method should never return null.
+
+1. write the `toList` method:
+
+2. Verify the toList method:
+- `LinkedListDeque61BTest.java`中给出的三个写好的测试能够通过，就说明写对了。
+
+## Writing Tests
 
 
 
-## Task 6:
+## Task 6: isEmpty and size
 
 
 
-## Task 7:
+## Task 7: getFirst and getLast
 
 
 
-## Task 8:
+## Task 8: get and getRecursvie
 
 
 
-## Task 9:
+## Task 9: removeFirst and removeLast
 
 
 
-## Task 10:
+## Task 10: Testing your Tests

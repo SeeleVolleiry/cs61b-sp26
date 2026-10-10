@@ -54,4 +54,36 @@ public class LinkedListDeque61BTest {
      }
 
     // Below, you'll write your own tests for LinkedListDeque61B.
+    @Test
+    // Test the method "isEmpty"
+    public void isEmptyTest() {
+         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+         assertThat(lld1.isEmpty()).isTrue();
+         lld1.addFirst(-1);
+         assertThat(lld1.isEmpty()).isFalse();
+         lld1.addLast(0);
+         lld1.addLast(1);
+        assertThat(lld1.isEmpty()).isFalse();
+    }
+
+    @Test
+    // Test the method "size"
+    public void sizeTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+        assertThat(lld1.size()).isEqualTo(0);
+        lld1.addFirst(-1);
+        lld1.addLast(0);
+        lld1.addLast(1); // [-1, 0, 1]
+        assertThat(lld1.size()).isEqualTo(3);
+
+        Deque61B<Integer> lld2 = new LinkedListDeque61B<>();
+
+        assertThat(lld2.size()).isEqualTo(0);
+        lld2.addFirst(5);
+        lld2.addLast(6); // [5, 6]
+        lld1.addLast(7); // [-1, 0, 1, 7]
+        assertThat(lld2.size()).isEqualTo(2);
+        assertThat(lld1.size()).isEqualTo(4);
+    }
 }

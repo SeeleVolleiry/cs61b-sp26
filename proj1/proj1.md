@@ -78,11 +78,79 @@ If the Deque is empty, then toList should return an empty list with zero items, 
 
 ## Writing Tests
 
+For other methods, you will need to write your own unit tests!
 
+To write tests, we will use `Google’s Truth assertions library`. We love it because it’s easy to use and generates useful error messages.
+
+`Arrange-Act-Assert pattern`: pattern of writing tests.
+- Arrange the test case, such as instantiating the data structure or filling it with elements.
+- Act by performing the behavior you want to test.
+- Assert the result of the action in (2).
+
+We will often have multiple “act” and “assert” steps in a single test method to reduce the amount of boilerplate (repeated) code.
+
+简单来讲，就是执行操作后，比较预期结果和实际结果是否相同。
+
+### Truth Assertions
+
+```
+assertThat(actual).isEqualTo(expected);
+
+assertWithMessage("actual is not expected")
+    .that(actual)
+    .isEqualTo(expected);
+
+assertThat(actualList)
+    .containsExactly(0, 1, 2, 3)
+    .inOrder();
+
+assertThat(actualList)
+    .containsExactlyElementsIn(expected)  // `expected` is a List
+    .inOrder();
+
+@Test
+public void isEmptyTest() {
+    Deque61B<String> lld = new LinkedListDeque61B<>();
+    assertThat(lld.isEmpty()).isTrue;
+}
+```
+
+### Example Test
+
+```java
+@Test
+/* In this test, we use only one assertThat statement.Sometimes, the tedious work of adding the extra assertion statements isn't worth it. */
+public void addLastTestBasic() {
+    Deque61B<String> lld1 = new LinkedListDeque61B<>();
+
+    lld1.addLast("front"); // after this call we expect: ["front"]
+    lld1.addLast("middle"); // after this call we expect: ["front", "middle"]
+    lld1.addLast("back"); // after this call we expect: ["front", "middle", "back"]
+    assertThat(lld1.toList()).containsExactly("front", "middle", "back").inOrder();
+}
+```
+
+1. @Test tells Java that this is method is a test, and should be run when we run tests.
+2. Arrange: We construct a new Deque61B, and add 3 elements to it using addLast.
+3. Act: We call toList on Deque61B. This implicitly depends on the earlier addLast calls.
+4. Assert: We use a Truth assertion to check that the toList contains specific elements in a specific order.
+
+Now you should test and implement all the remaining methods. 
+
+For the rest of this project, we’ll describe our suggested steps at a high level. We strongly encourage you to follow the remaining steps in the order given.
+
+In particular, write tests before you implement. This is called `“test-driven development”` and helps ensure that you know what your methods are supposed to do before you do them.
 
 ## Task 6: isEmpty and size
 
+1. write tests for the two methods.
+2. After you’ve written tests, you can implement isEmpty and size.
 
+Hint:
+- For these tests, you can use the isTrue or isFalse methods on your assertThat statements.
+- Your tests can range from very fine-grained, e.g. testIsEmpty, testSizeZero, testSizeOne to very coarse grained, e.g. testSizeAndIsEmpty. It’s up to you to explore and find what granularity you prefer.
+
+注意：截至Task 6，只显示了add而没有实现remove，所以目前写的测试示例，不要调用没有被补全的method。
 
 ## Task 7: getFirst and getLast
 

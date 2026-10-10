@@ -154,11 +154,30 @@ Hint:
 
 ## Task 7: getFirst and getLast
 
+1. Write a test for the getFirst and getLast methods.
+- Make sure to test the cases where Deque61B has no items or is empty. In these cases getFirst and getLast should return null.
 
+2. After you’ve written tests and verified that they fail, implement getFirst and getLast.
+
+These methods must take `constant time`. That is, the time it takes to for either method to finish execution should not depend on how many elements are in the deque.
 
 ## Task 8: get and getRecursvie
 
+1. Write a test for the get method.
+- Make sure to test the cases where get receives an invalid argument, e.g. get(28723) when the Deque61B only has 1 item, or a negative index. In these cases get should `return null`.
 
+Note: `get` must use iteration.
+
+2. After you’ve written tests and verified that they fail, implement get.
+- Since we’re working with a linked list, it is interesting to write a recursive get method, getRecursive.
+
+3. Copy and paste your tests for the get method so that they are the same except they call getRecursive. (While there is a way to avoid having copy and pasted tests, though the syntax is not worth introducing – passing around functions in Java is a bit messy.)
+
+4. After you’ve copy-pasted tests and verified that they fail, implement getRecursive.
+
+在写getRecursive的代码时，我在该方法内定义了一个新的辅助函数。思路来源于Python的高阶函数思想。虽然该辅助函数确实能够完成Task的要求，但是在Java的语法中这是不允许的。
+
+`Java不能在方法中实现方法，要想实现高阶函数得用其他办法`。
 
 ## Task 9: removeFirst and removeLast
 

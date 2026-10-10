@@ -86,4 +86,70 @@ public class LinkedListDeque61BTest {
         assertThat(lld2.size()).isEqualTo(2);
         assertThat(lld1.size()).isEqualTo(4);
     }
+
+    @Test
+    // Test the method "getFirst"
+    public void getFirstTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.getFirst()).isNull();
+
+        lld1.addFirst(-1);
+        assertThat(lld1.getFirst()).isEqualTo(-1);
+        lld1.addLast(0); // [-1, 0]
+        assertThat(lld1.getFirst()).isEqualTo(-1);
+        lld1.addFirst(1); // [1, -1, 0]
+        assertThat(lld1.getFirst()).isEqualTo(1);
+    }
+
+    @Test
+    // Test the method "getLast"
+    public void getLatTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.getLast()).isNull();
+
+        lld1.addFirst(-1);
+        assertThat(lld1.getLast()).isEqualTo(-1);
+        lld1.addLast(0); // [-1, 0]
+        assertThat(lld1.getLast()).isEqualTo(0);
+        lld1.addLast(1); // [-1, 0, 1]
+        assertThat(lld1.getLast()).isEqualTo(1);
+    }
+
+    @Test
+    // Test the get method
+    public void getTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.get(3)).isNull();
+
+        lld1.addFirst(-3);
+        lld1.addFirst(-1);
+        lld1.addFirst(1); // [1, -1, -3]
+        assertThat(lld1.get(3)).isNull();
+        assertThat(lld1.get(1)).isEqualTo(-1);
+
+        lld1.addFirst(0);
+        lld1.addFirst(-6);
+        lld1.addFirst(5); // [5, -6, 0, 1, -1, -3]
+        assertThat(lld1.get(20)).isNull();
+        assertThat(lld1.get(1)).isEqualTo(-6);
+    }
+
+    @Test
+    // Test the getRecursive method
+    public void getRecursiveTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.getRecursive(3)).isNull();
+
+        lld1.addFirst(-3);
+        lld1.addFirst(-1);
+        lld1.addFirst(1); // [1, -1, -3]
+        assertThat(lld1.getRecursive(3)).isNull();
+        assertThat(lld1.getRecursive(1)).isEqualTo(-1);
+
+        lld1.addFirst(0);
+        lld1.addFirst(-6);
+        lld1.addFirst(5); // [5, -6, 0, 1, -1, -3]
+        assertThat(lld1.getRecursive(20)).isNull();
+        assertThat(lld1.getRecursive(1)).isEqualTo(-6);
+    }
 }

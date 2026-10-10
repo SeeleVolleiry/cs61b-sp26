@@ -152,4 +152,48 @@ public class LinkedListDeque61BTest {
         assertThat(lld1.getRecursive(20)).isNull();
         assertThat(lld1.getRecursive(1)).isEqualTo(-6);
     }
+
+    @Test
+    // Test the removeFirst method
+    public void removeFirstTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.removeFirst()).isNull();
+
+        lld1.addFirst(-3);
+        lld1.addFirst(-1);
+        lld1.addFirst(1); // [1, -1, -3]
+        assertThat(lld1.removeFirst()).isEqualTo(1); // return 1, [-1. -3]
+        lld1.removeFirst(); // return -1, [-3]
+        lld1.removeFirst(); // return -3, []
+        assertThat(lld1.removeFirst()).isNull();
+
+        Deque61B<Integer> lld2 = new LinkedListDeque61B<>();
+        assertThat(lld2.removeFirst()).isNull();
+        lld2.addFirst(0);
+        lld2.addFirst(-6);
+        lld2.addFirst(5); // [5, -6, 0]
+        lld2.removeFirst(); // return 5, [-6, 0]
+        lld2.removeFirst(); // return -6, [0]
+        assertThat(lld2.size()).isEqualTo(1);
+        assertThat(lld2.removeFirst()).isEqualTo(0); // return 0, []
+        assertThat(lld1.size()).isEqualTo(0);
+        assertThat(lld1.removeFirst()).isNull();
+    }
+
+    @Test
+    // Test the removeLast method.
+    public void removeLastTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.removeLast()).isNull();
+
+        lld1.addFirst(-3);
+        lld1.addFirst(-1);
+        lld1.addFirst(1); // [1, -1, -3]
+        assertThat(lld1.removeLast()).isEqualTo(-3); // return -3, [1, -1]
+        assertThat(lld1.size()).isEqualTo(2);
+        lld1.removeLast(); // return -1, [1]
+        lld1.removeLast(); // return 1, []
+        assertThat(lld1.size()).isEqualTo(0);
+        assertThat(lld1.removeFirst()).isNull();
+    }
 }

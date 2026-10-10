@@ -161,7 +161,7 @@ Hint:
 
 These methods must take `constant time`. That is, the time it takes to for either method to finish execution should not depend on how many elements are in the deque.
 
-## Task 8: get and getRecursvie
+## Task 8: get and getRecursive
 
 1. Write a test for the get method.
 - Make sure to test the cases where get receives an invalid argument, e.g. get(28723) when the Deque61B only has 1 item, or a negative index. In these cases get should `return null`.
@@ -181,6 +181,15 @@ Note: `get` must use iteration.
 
 ## Task 9: removeFirst and removeLast
 
+1. Write some tests: testing the behavior of removeFirst and removeLast, and again ensure that the tests fail.
+- For these tests you’ll want to use toList! 
+- Use addFirstAndAddLastTest as a guide.
 
+Important:
+- Do not maintain references to items that are no longer in the deque. The amount of memory that your program uses at any given time must be proportional to the number of items. For example, if you add 10,000 items to the deque, and then remove 9,999 items, the resulting memory usage should amount to a deque with 1 item, and not 10,000. Remember that the Java garbage collector will “delete” things for us if and only if there are no pointers to that object.
+- If Deque61B is empty, removing should return null.
+- removeFirst and removeLast may not use looping or recursion. Like addFirst and addLast, these operations must take "constant time." Refer to the section on writing addFirst and addLast for more information on what this means.
+
+2. After you’ve written tests and verified that they fail, implement removeFirst and removeLast.
 
 ## Task 10: Testing your Tests

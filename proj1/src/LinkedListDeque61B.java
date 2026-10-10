@@ -130,7 +130,18 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeFirst() {
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        Node tmp = this.sentinel.next;
+        T firstVal = tmp.val;
+
+        this.sentinel.next.next.prev = this.sentinel;
+        this.sentinel.next = this.sentinel.next.next;
+        tmp.prev = null; tmp.next =null;
+
+        this.dequeSize -= 1;
+        return firstVal;
     }
 
     /**
@@ -140,7 +151,18 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeLast() {
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        Node tmp = this.sentinel.prev;
+        T lastVal = tmp.val;
+
+        this.sentinel.prev.prev.next = this.sentinel;
+        this.sentinel.prev = this.sentinel.prev.prev;
+        tmp.prev = null; tmp.next =null;
+
+        this.dequeSize -= 1;
+        return lastVal;
     }
 
     /**

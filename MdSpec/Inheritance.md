@@ -325,3 +325,143 @@ The problem lies in the contains method where we check `items[i].equals(x)`. If 
 `Exception`: causes normal flow of control to stop.
 - Exceptions are objects.
 - Throw exceptions using the format: `throw new ExceptionObject(parameter1, ...)`
+
+学习了异常这一机制后，马上学以致用：用抛出异常更新改造add方法(in ArraySet.java)。
+
+主动抛出异常的好处：
+- we can control our code, consciously deciding where point to stop the flow of code.
+- Readable and helpful error message.
+
+除了主动抛出异常，还有两种方法：
+- 让add不接受null参数。
+- 让contains方法能够处理某一个元素是null的情况。
+
+#### Iteration：迭代 （10.3节）
+
+`增强for`：
+能不能用增强 for，等价于"你有没有 iterator/迭代器 对象，返回的东西有没有 hasNext/next"。
+也就是说：该对象有没有iterator()方法生成一个迭代器？生成的iterator（迭代器）有没有hashNext()和next()这两种方法使得迭代能一步步走下去？
+
+下面的代码片段，可以辅助理解这一等价代换。
+```
+for (String city : s) {
+        System.out.println(city);
+}
+等价于下列代码
+Iterator<String> seer = s.iterator();
+while (seer.hasNext()) {
+String city = seer.next()
+```
+
+`iterator` approach:
+- First, we get a new `iterator object` with `Iterator<Integer> seer = friends.iterator()`
+- Next, we loop through the list with our while loop. We check that there are still items left with `seer.hasNext()`, which will return true if there are unseen items remaining, and false if all items have been processed. 
+- Last, `seer.next()` does two things at once. It returns the next element of the list, and here we print it out. It also advances the iterator by one item. In this way, the iterator will only inspect each item once.
+
+```java
+public interface Iterable<T> {
+    Iterator<T> iterator();
+}
+
+// public interface List<T> extends Iterable<T>{
+      // 接口 extends 接口 = 把两个接口并成一份
+// }
+
+public interface Iterator<T> {
+    boolean hasNext();
+    T next();
+}
+```
+
+#### Object Methods（10.4节）
+
+类能够继承Object类的方法。接口则是隐式声明了与 Object 的 public 方法对应的抽象方法，也“等同于”继承了。
+
+All classes inherit from the overarching `Object` class. The methods that are inherited are as follows:
+- `toString`：本节的重点
+- `equals`：本节的重点
+- getClass
+- `hashCode`
+- clone
+- finalize: Deprecated, for removal
+- notify
+- notifyAll
+- wait ×3
+
+`toString()`: The toString() method provides a string representation of an object.
+
+The System.out.println() function implicitly calls this method on whatever object is passed to it and prints the string returned. 
+
+格式默认是：`类名@十六进制哈希码` 这个格式。
+
+When you run System.out.println(dog), it's actually doing this:
+
+    String s = dog.toString()
+    System.out.println(s)
+```java
+// First version: O(N^2)
+public String toString() {
+    String returnString = "{";
+    for (int i = 0; i < size; i += 1) {
+        returnString += keys[i]; // create a new string.
+        returnString += ", ";
+    }
+    returnString += "}";
+    return returnString;
+}
+```
+```java
+// Second version: StringBuilder
+public String toString() { // 注意为空时这一特殊情形
+    StringBuilder returnSB = new StringBuilder("{");
+    for (int i = 0; i < size - 1; i += 1) {
+        returnSB.append(items[i].toString());
+        returnSB.append(", ");
+    }
+    returnSB.append(items[size - 1]);
+    returnSB.append("}");
+    return returnSB.toString();
+}
+```
+
+`equals`:
+
+`equals()` and `==` have different behaviors in Java.:
+1. `==` Checks if two objects are actually the same object in memory.
+   - For primitives, this means checking if the values are equal.
+   - For objects, this means checking if the address/pointer is equal.
+2. `equals(Object o)` is a method in the Object class that, by default, acts like == in that it checks if the memory address of the this is the same as o. However, we can override it to define equality in whichever way we wish!
+
+Rules for Equals(four rules):
+1. equals must be an equivalence relation
+    - reflexive: x.equals(x) is true 
+    - symmetric: x.equals(y) if and only if y.equals(x)
+    - transitive: x.equals(y) and y.equals(z) implies x.equals(z)
+2. It must take an Object argument, in order to override the original .equals() method
+3. It must be consistent: if x.equals(y), then as long as x and y remain unchanged: x must continue to equal y
+4. It is never true for null: x.equals(null) must be false"
+```java
+// implementation of equals() method:  O(N²)
+@Override
+public boolean equals(Object other) {
+    if (this == other) {
+        return true;
+    }
+    if (other == null) {
+        return false;
+    }
+    if (other.getClass() != this.getClass()) {
+        return false;
+    }
+    ArraySet<T> o = (ArraySet<T>) other;
+    if (o.size() != this.size()) {
+        return false;
+    }
+    for (T item : this) {
+        if (!o.contains(item)) {
+            return false;
+        }
+    }
+    return true;
+}
+```

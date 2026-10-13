@@ -22,21 +22,32 @@ Modify the class declaration like:
 
 # Task 2: Constructor
 
+Your deque must use a Java array as the backing data structure.
 
+You will need to somehow keep track of what array indices hold the deque’s front and back elements. We strongly recommend that you treat your array as circular for this exercise.
 
+You may add any private helper classes or methods in ArrayDeque61B.java if you deem it necessary. We recommend creating one (or more) helper functions to avoid implementing the wraparound logic in multiple places.
 
+1. Declare the necessary instance variables, and implement the constructor.
+2. For `autograder` purposes, the starting size of your backing array must be 8.
+
+根据课件和网页要求有：size, nextFirst, nextLast, items（a array of length 8）。
 
 # Task 3: addFirst and addLast
 
+These two methods must not use looping or recursion. A single add operation must take `constant time`.
 
+Implement `addFirst` and `addLast`. Don't forget to modify the size of deque.
 
-
+You will need to complete `Task 7: toList` before writing tests for addFirst and addLast since a working toList is needed to test these methods. Once you’ve done so, write tests and verify your implementation.
 
 # Task 4: getFIrst and getLast
 
+1. Writing Tests.
+   - Write a test for the `getFirst` and `getLast` methods.
+   - Make sure to test the cases where Deque61B has no items or is empty. In these cases getFirst and getLast should `return null`.
 
-
-
+2. After you’ve written tests and verified that they fail, implement `getFirst` and `getLast`.
 
 # Task 5: get and getRecursive
 

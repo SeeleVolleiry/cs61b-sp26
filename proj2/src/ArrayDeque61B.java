@@ -1,6 +1,19 @@
 import java.util.List;
 
 public class ArrayDeque61B<T> implements Deque61B {
+    public int dequeSize;
+    public int maxSize = 8; // 最大容量
+    public int nextFirst;
+    public int nextLast;
+    public T[] items;
+
+    public ArrayDeque61B() {
+        dequeSize = 0;
+        nextFirst = 4;
+        nextLast = 5;
+        items = (T[]) new Object[8];
+    }
+
     public static void main(String[] args) {
 
     }
@@ -11,8 +24,11 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @param x item to add
      */
     @Override
-    public void addFirst(Object x) {
-
+    public void addFirst(Object x) { // need to judge whether it can be added ?
+        this.items[this.nextFirst] = (T)x;
+        nextFirst -= 1; // 记得修改为取模。暂未修改！
+        nextFirst = nextFirst % maxSize;
+        this.dequeSize += 1;
     }
 
     /**
@@ -21,8 +37,11 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @param x item to add
      */
     @Override
-    public void addLast(Object x) {
-
+    public void addLast(Object x) { // need to judge whether it can be added ?
+        this.items[this.nextLast] = (T)x;
+        nextLast += 1; // 记得修改为取模。暂未修改！
+        nextLast = nextLast % maxSize;
+        this.dequeSize += 1;
     }
 
     /**

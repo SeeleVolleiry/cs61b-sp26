@@ -1,11 +1,11 @@
 // package lec10_inheritance2;
 
-import java.util.Iterator;
+import java.util.Iterator; // Iterable、Iterator都是来自Java 25的库中的Java文件。
 import java.util.List;
 
 // saying implements Iterable<T>
 // is the magic ingredient so that : works properly as in for (int i : aset)
-public class ArraySet<T> implements Iterable<T> {
+public class ArraySet<T> implements Iterable<T> { // Iterable -> 第三行的import
     private T[] items;
     private int size; // the next item to be added will be at position size
 
@@ -28,7 +28,7 @@ public class ArraySet<T> implements Iterable<T> {
     /* Associates the specified value with the specified key in this map.
        Throws an IllegalArgumentException if the key is null. */
     public void add(T x) {
-        if (x == null) {
+        if (x == null) { // Throws an exception.
             throw new IllegalArgumentException("can't add null");
         }
         if (contains(x)) {
@@ -71,12 +71,12 @@ public class ArraySet<T> implements Iterable<T> {
         }
     }
 
-    public Iterator<T> iterator() {
+    public Iterator<T> iterator() { //这里应该有一个@Override，因为这是为了完成“implements Iterator<T>”的承诺过写的对应方法。
         return new ArraySetIterator();
     }
 
     @Override
-    public String toString() {
+    public String toString() { // override the Object class's toString() method.
         StringBuilder returnString = new StringBuilder("[");
         for (T x : this) {
             returnString.append(x).append(", ");
@@ -85,7 +85,7 @@ public class ArraySet<T> implements Iterable<T> {
         return returnString.toString();
     }
 
-    public boolean equals(ArraySet o) {
+    public boolean equals(ArraySet o) { // override the Object class's equals() method.
         if (o instanceof ArraySet uddaSet) {
             // in this if statement, uddaSet is of type ArraySet
             // and refers to whatever was given to equals as its parameter

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayDeque61B<T> implements Deque61B {
+public class ArrayDeque61B<T> implements Deque61B<T> {
     public int dequeSize;
     public int maxSize; // 最大容量
     public int nextFirst;
@@ -16,6 +16,22 @@ public class ArrayDeque61B<T> implements Deque61B {
         maxSize = 8;
     }
 
+    // If the ArrayDeque is full,return true.Otherwise, false
+    public boolean isFull() {
+        if (dequeSize == maxSize) {
+            return true;
+        }
+        return false;
+    }
+
+    // resizing the ArrayDeque.
+    private void resizeHelper() {
+        T[] newItems = (T[]) new Object[maxSize * 2];
+
+        this.maxSize *= 2;
+        this.items = newItems;
+    }
+
     public static void main(String[] args) {
 
     }
@@ -26,10 +42,12 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @param x item to add
      */
     @Override
-    public void addFirst(Object x) { // need to judge whether it can be added ?
+    public void addFirst(T x) { // need to judge whether it can be added ?
         this.items[this.nextFirst] = (T)x;
-        nextFirst -= 1; // 记得修改为取模。暂未修改！
-        nextFirst = nextFirst % maxSize;
+        nextFirst -= 1;
+        if (nextFirst < 0) {
+            nextFirst = (nextFirst + maxSize) % maxSize;
+        }
         this.dequeSize += 1;
     }
 
@@ -39,10 +57,12 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @param x item to add
      */
     @Override
-    public void addLast(Object x) { // need to judge whether it can be added ?
+    public void addLast(T x) { // need to judge whether it can be added ?
         this.items[this.nextLast] = (T)x;
-        nextLast += 1; // 记得修改为取模。暂未修改！
-        nextLast = nextLast % maxSize;
+        nextLast += 1;
+        if (nextLast >= maxSize) {
+            nextLast = nextLast % maxSize;
+        }
         this.dequeSize += 1;
     }
 
@@ -57,7 +77,7 @@ public class ArrayDeque61B<T> implements Deque61B {
         // 循环取值添加
         int index = 0;
         while (index < this.dequeSize) {
-            resultList.addLast((T) this.get(index));
+            resultList.addLast(this.get(index));
             index += 1;
         }
         return resultList;
@@ -92,11 +112,12 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @return element, otherwise {@code null}.
      */
     @Override
-    public Object getFirst() {
+    public T getFirst() {
         if (this.isEmpty()) {
             return null;
         }
-        return this.items[nextFirst + 1]; // 注意首尾衔接。module operate?
+        int idx = (nextFirst + 1) % maxSize;
+        return this.items[idx]; // 注意首尾衔接。module operate?
     }
 
     /**
@@ -105,11 +126,15 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @return element, otherwise {@code null}.
      */
     @Override
-    public Object getLast() {
+    public T getLast() {
         if (this.isEmpty()) {
             return null;
         }
-        return this.items[nextLast- 1]; // 注意首尾衔接。module operate?
+        int idx = nextLast -1;
+        if (idx < 0 ) {
+            idx = (idx + maxSize) % maxSize;
+        }
+        return this.items[idx]; // 注意首尾衔接。module operate?
     }
 
     /**
@@ -118,13 +143,14 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @return removed element, otherwise {@code null}.
      */
     @Override
-    public Object removeFirst() {
+    public T removeFirst() {
         if (this.isEmpty()) {
             return null;
         }
         this.dequeSize -= 1;
-        T firstVal = this.items[nextFirst + 1];
-        this.nextFirst += 1;
+        int firstIdx = (nextFirst + 1) % maxSize;
+        T firstVal = this.items[firstIdx];
+        this.nextFirst = firstIdx;
         this.items[nextFirst] = null;
         return firstVal;
     }
@@ -135,13 +161,17 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @return removed element, otherwise {@code null}.
      */
     @Override
-    public Object removeLast() {
+    public T removeLast() {
         if (this.isEmpty()) {
             return null;
         }
         this.dequeSize -= 1;
-        T lastVal = this.items[nextLast - 1];
-        this.nextLast -= 1;
+        int lastIdx = nextLast - 1;
+        if (lastIdx < 0) {
+            lastIdx = (lastIdx + maxSize) % maxSize;
+        }
+        T lastVal = this.items[lastIdx];
+        this.nextLast = lastIdx;
         this.items[nextLast] = null;
         return lastVal;
     }
@@ -156,14 +186,15 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @return element at {@code index} in the deque
      */
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (this.isEmpty()) {
             return null;
         }
         if (index < 0 || index > this.size() - 1) {
             return null;
         }
-        return this.items[nextFirst + 1 + index];
+        int idx = (nextFirst + 1 + index) % maxSize;
+        return this.items[idx];
     }
 
     /**

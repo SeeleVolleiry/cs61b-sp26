@@ -12,7 +12,7 @@
 
 3. Hover your mouse over the red squiggle, and click the “implement methods” button when the error message box pops up. This will autogenerate the method headers for you.
 
-顺序： 1 2 3 6 5 7
+该project推荐使用逻辑上为环形、首尾连接的结构，并用数字来实现。这就导致——添加元素和减少元素会让nextFirst和nextLast会“转圈”。当越界后，要能够靠取模使它回到正确的空位，保证它的指示功能是正确的
 
 # Task 1: Creating the File
 
@@ -96,22 +96,28 @@ Do not maintain references to items that are no longer in the deque.
 
 # Task 9: Resizing Up
 
+Make sure to resize by a geometric factor. If you get an ExecutionTimeoutException when working on resizing, make sure you’re resizing using a multiplicative (geometric) factor and not an additive factor!
 
+Some tips as you work on resizing:
 
+Try to get everything working for a fixed-size array first. This would be good point to start to familiarize yourself.
+Once you are confident working solution for a fixed-size array, try resizing - consider having a helper method for it!
+When in doubt, draw it out! We suggest drawing box-and-pointer diagrams (or diagrams in general) when faced with issues in your methods, it will help you understand both your code as well as the intended logic better.
+We do not recommend using arraycopy with a circular implementation. It will work, but results in a significantly more complex (and harder to debug!) implementation than necessary. Instead, we suggest thinking forward to how you might implement get and using a for loop in some way.
 
+After you have a working addFirst and addLast (without resizing), modify the methods so they support resizing. Use tests to verify that they are correct.
 
+当数组满了时，能够成几何倍数的增加。换句话说，容量要乘以一个因子，而不是加一个因子。再调整过大小后，之前的属性和方法也要修正以适应新的数组。
+
+怎么扩容？我的想法是把旧的数据放在扩容后的数组的中间部分。
 
 # Task 10: Resizing Down
 
-
-
-
+After you have a working removeFirst and removeLast (without resizing), modify the methods so they support resizing. Use tests to verify that they are correct.
 
 # Task 11: Writing Tests
 
-
-
-
+和project 1的writing tests一样，自学没有伯克利学生权限的，我感觉没必要做。
 
 # Task 12: iterator
 

@@ -119,7 +119,14 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public Object removeFirst() {
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        this.dequeSize -= 1;
+        T firstVal = this.items[nextFirst + 1];
+        this.nextFirst += 1;
+        this.items[nextFirst] = null;
+        return firstVal;
     }
 
     /**
@@ -129,7 +136,14 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public Object removeLast() {
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        this.dequeSize -= 1;
+        T lastVal = this.items[nextLast - 1];
+        this.nextLast -= 1;
+        this.items[nextLast] = null;
+        return lastVal;
     }
 
     /**

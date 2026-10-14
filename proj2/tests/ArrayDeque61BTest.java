@@ -95,4 +95,26 @@ public class ArrayDeque61BTest {
         adeque1toList.addLast(4); adeque1toList.addLast(5);
         assertThat(adeque1.toList()).isEqualTo(adeque1toList);
     }
+
+    // Test for removeFirst method
+    @Test
+    public void removeFirstTest() {
+        Deque61B<Integer> adeque1 = new ArrayDeque61B<>();
+        assertThat(adeque1.removeFirst()).isNull();
+
+        adeque1.addLast(4);
+        assertThat(adeque1.removeFirst()).isEqualTo(4);
+        assertThat(adeque1.removeFirst()).isNull();
+    }
+
+    // Test for removeLast method
+    @Test
+    public void removeLastTest() {
+        Deque61B<Integer> adeque1 = new ArrayDeque61B<>();
+        assertThat(adeque1.removeLast()).isNull();
+
+        adeque1.addFirst(4);
+        assertThat(adeque1.removeLast()).isEqualTo(4);
+        assertThat(adeque1.removeLast()).isNull();
+    }
 }

@@ -87,8 +87,11 @@ Hint:
 
 # Task 8: removeFirst and removeLast
 
+Write some tests that test the behavior of `removeFirst` and `removeLast`, and again, ensure that the tests fail. Then, implement the methods.
 
+Do not maintain references to items that are no longer in the deque.
 
+`removeFirst` and `removeLast` may not use looping or recursion. Like addFirst and addLast, these operations must take constant time. Refer to the sections above for more information on what this means.
 
 
 # Task 9: Resizing Up

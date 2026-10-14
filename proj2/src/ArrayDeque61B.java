@@ -318,9 +318,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("[");
-        for (int idx = 0; idx < this.size()-1; idx++) {
+        if (this.size() != 0) {
+            int idx = 0;
+            while (idx < this.size() - 1) {
+                result.append(this.get(idx));
+                result.append(", ");
+                idx++;
+            }
             result.append(this.get(idx));
-            result.append(", ");
         }
         result.append("]");
         return result.toString();

@@ -34,23 +34,31 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             newItems[half + index] = this.get(index);
         }
         this.nextFirst = half - 1;
-        this.nextLast = this.nextFirst + this.size() + 1;
         this.maxSize *= 2;
+        this.nextLast = this.nextFirst + this.size() + 1;
         this.items = newItems;
+    }
+
+    // If the ArrayDeque should be resizeDown(),return true.Otherwise, false
+    public boolean needDown() {
+        if (dequeSize * 4 <= maxSize && maxSize >= 16) {
+            return true;
+        }
+        return false;
     }
 
     // resizing down the ArrayDeque.
     private void resizeDown() {
         T[] newItems = (T[]) new Object[maxSize / 2];
-        int incrementSpace = maxSize;
-        int half = incrementSpace / 2; // 相当于新数组中第一个元素的索引
+        int leftSpace = maxSize / 2;
+        int half = leftSpace / 2 - 1; // 相当于新数组中第一个元素的索引
 
-        for (int index = 0; index < maxSize; index++) { // 复制已有元素进新数组。
+        for (int index = 0; index < this.size(); index++) { // 复制已有元素进新数组。
             newItems[half + index] = this.get(index);
         }
         this.nextFirst = half - 1;
-        this.nextLast = this.nextFirst + this.size() + 1;
-        this.maxSize *= 2;
+        this.maxSize /= 2;
+        this.nextLast = (this.nextFirst + this.size() + 1) % maxSize;
         this.items = newItems;
     }
 
@@ -175,6 +183,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         if (this.isEmpty()) {
             return null;
         }
+        if (this.needDown()) {
+            this.resizeDown();
+        }
         this.dequeSize -= 1;
         int firstIdx = (nextFirst + 1) % maxSize;
         T firstVal = this.items[firstIdx];
@@ -192,6 +203,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     public T removeLast() {
         if (this.isEmpty()) {
             return null;
+        }
+        if (this.needDown()) {
+            this.resizeDown();
         }
         this.dequeSize -= 1;
         int lastIdx = nextLast - 1;

@@ -22,6 +22,13 @@ public class ArrayDeque61BTest {
         adeque1.addLast(7); adeque1.addFirst(1); adeque1.addFirst(0);
         adeque1.addFirst(-1);
         assertThat(adeque1.size()).isEqualTo(9);
+
+        //Tests resizeDown()
+        assertThat(((ArrayDeque61B<Integer>) adeque1).maxSize).isEqualTo(16);
+        adeque1.removeFirst(); adeque1.removeFirst(); adeque1.removeFirst();
+        adeque1.removeFirst(); adeque1.removeFirst(); adeque1.removeFirst();
+        adeque1.removeFirst(); adeque1.removeFirst(); adeque1.removeFirst();
+        assertThat(((ArrayDeque61B<Integer>) adeque1).maxSize).isEqualTo(8);
     }
 
     // Test for isEmpty() method.

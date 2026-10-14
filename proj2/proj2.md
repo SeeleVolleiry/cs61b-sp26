@@ -113,6 +113,8 @@ After you have a working addFirst and addLast (without resizing), modify the met
 
 # Task 10: Resizing Down
 
+before performing a remove operation, if the number of elements in the array is at or under 25% the length of the array, you should resize the array down.
+
 After you have a working removeFirst and removeLast (without resizing), modify the methods so they support resizing. Use tests to verify that they are correct.
 
 # Task 11: Writing Tests

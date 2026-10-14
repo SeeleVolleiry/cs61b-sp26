@@ -17,6 +17,11 @@ public class ArrayDeque61BTest {
         adeque1.addFirst(4); adeque1.addFirst(3); adeque1.addFirst(2);
         adeque1.addLast(5); adeque1.addLast(6);
         assertThat(adeque1.size()).isEqualTo(5);
+
+        //Tests resizeUp()
+        adeque1.addLast(7); adeque1.addFirst(1); adeque1.addFirst(0);
+        adeque1.addFirst(-1);
+        assertThat(adeque1.size()).isEqualTo(9);
     }
 
     // Test for isEmpty() method.

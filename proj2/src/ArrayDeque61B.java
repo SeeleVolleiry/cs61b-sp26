@@ -24,10 +24,32 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         return false;
     }
 
-    // resizing the ArrayDeque.
-    private void resizeHelper() {
+    // resizing up the ArrayDeque.
+    private void resizeUp() {
         T[] newItems = (T[]) new Object[maxSize * 2];
+        int incrementSpace = maxSize;
+        int half = incrementSpace / 2; // 相当于新数组中第一个元素的索引
 
+        for (int index = 0; index < this.size(); index++) { // 复制已有元素进新数组。
+            newItems[half + index] = this.get(index);
+        }
+        this.nextFirst = half - 1;
+        this.nextLast = this.nextFirst + this.size() + 1;
+        this.maxSize *= 2;
+        this.items = newItems;
+    }
+
+    // resizing down the ArrayDeque.
+    private void resizeDown() {
+        T[] newItems = (T[]) new Object[maxSize / 2];
+        int incrementSpace = maxSize;
+        int half = incrementSpace / 2; // 相当于新数组中第一个元素的索引
+
+        for (int index = 0; index < maxSize; index++) { // 复制已有元素进新数组。
+            newItems[half + index] = this.get(index);
+        }
+        this.nextFirst = half - 1;
+        this.nextLast = this.nextFirst + this.size() + 1;
         this.maxSize *= 2;
         this.items = newItems;
     }
@@ -43,7 +65,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public void addFirst(T x) { // need to judge whether it can be added ?
-        this.items[this.nextFirst] = (T)x;
+        if (this.isFull()) {
+            this.resizeUp();
+        }
+        this.items[this.nextFirst] = x;
         nextFirst -= 1;
         if (nextFirst < 0) {
             nextFirst = (nextFirst + maxSize) % maxSize;
@@ -58,7 +83,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public void addLast(T x) { // need to judge whether it can be added ?
-        this.items[this.nextLast] = (T)x;
+        if (this.isFull()) {
+            this.resizeUp();
+        }
+        this.items[this.nextLast] = x;
         nextLast += 1;
         if (nextLast >= maxSize) {
             nextLast = nextLast % maxSize;

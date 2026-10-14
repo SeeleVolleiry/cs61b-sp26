@@ -4,7 +4,7 @@
    - Lecture 4 (Testing)
    - Lecture 7 (DLLists, ArrayLists)
    - Lecture 8 (ArrayLists)
-   - Lecture 10 (Iterators, Object Methods) This is only needed for the last two tasks.
+   - Lecture 10 (Iterators, Object Methods) This is only needed for the last several tasks.
 
 2. Follow the "Assign Workflow Guide".
     - Modify "Data Structure"
@@ -121,18 +121,165 @@ After you have a working removeFirst and removeLast (without resizing), modify t
 
 # Task 11: Writing Tests
 
-和project 1的writing tests一样，自学没有伯克利学生权限的，我感觉没必要做。
+和project 1的writing tests一样，自学没有伯克利学生权限的，我感觉没必要做。要写的话可以参考以下列出来的方法及其作用来写。
+
+Flags for add tests：
+- `add_first_from_empty`: Check that addFirst works on an empty deque.
+- `add_last_from_empty`: Check that addLast works on an empty deque.
+- `add_first_nonempty`: Check that addFirst works on a non-empty deque.
+- `add_last_nonempty`: Check that addLast works on a non-empty deque.
+- `add_first_trigger_resize`: Check that addFirst works when called on a full underlying array
+- `add_last_trigger_resize`: Check that addLast works when called on a full underlying array
+
+Flags for add after remove tests
+- `add_first_after_remove_to_empty`: Add some elements to a deque and remove them all, then check that addFirst still works.
+- `add_last_after_remove_to_empty`: Add some elements to a deque and remove them all, then check that addLast still works.
+
+Flags for remove Tests
+- `remove_first`: Check that removeFirst works.
+- `remove_last`: Check that removeLast works.
+- `remove_first_to_empty`: Add some elements to a deque and remove almost all of them. Check that removing the last element with removeFirst works.
+- `remove_last_to_empty`: Add some elements to a deque and remove almost all of them. Check that removing the last element with removeLast works.
+- `remove_first_to_one`: Add some elements to a deque and remove almost all of them. Check that removing the second to last element with removeFirst works.
+- `remove_last_to_one`: Add some elements to a deque and remove almost all of them. Check that removing the second to last element with removeLast works.
+- `remove_first_trigger_resize`: Called when usage factor is <= 25% and array size > 8. Checks that the array resizes appropriately.
+- `remove_last_trigger_resize`: Called when usage factor is <= 25% and array size > 8. Checks that the array resizes appropriately.
+
+Flags for get Tests
+- `get_first_empty`: Check that getFirst works on an empty ArrayDeque.
+- `get_first_valid`: Check that getFirst works on a nonempty ArrayDeque.
+- `get_last_empty`: Check that getLast works on an empty ArrayDeque.
+- `get_last_valid`: Check that getLast works on a nonempty ArrayDeque.
+- `get_valid`: Check that get works on a valid index.
+- `get_oob_large`: Check that get works on a large, out of bounds index.
+- `get_oob_neg`: Check that get works on a negative index.
+
+Flags for size tests
+- `size`: Check that size works.
+- `size_after_remove_to_empty`: Add some elements to a deque and remove them all, then check that size still works.
+- `size_after_remove_from_empty`: Remove from an empty deque, then check that size still works.
+
+Flags for isEmpty Tests
+- `is_empty_true`: Check that size works on an empty deque.
+- `is_empty_false`: Check that size works on a non- empty deque.
+
+Flags for toList tests
+- `to_list_empty`: Check that toList works with empty ArrayDeque.
+- `to_list_nonempty`: Check that toList works with non-empty ArrayDeque.
+
+Flags for advanced resize tests
+- `resize_up_and_resize_down`: Trigger a resize up and then a resize down in the same test.
 
 # Task 12: iterator
 
+In the remainder of the project, you are going to expand upon the functionality of the Deque61B interface.
 
+One shortcoming of our Deque61B interface is that it can not be iterated over.
 
+1. To fix this, you should first modify the `Deque61B` interface(In `Deque61B.java`). This is the only place in the project where you should modify `Deque61B.java`.:
+```
+public interface Deque61B<T> extends Iterable<T> {
+```
 
+2. Implement the `iterator()` method in `ArrayDeque61B.java`, using the techniques described in lecture.
+
+解题思路：
+- 修改首行添加： implements Iterable<T> ，表明该类将要继承Iterable interface。使自身这一类能够成为迭代对象（iterable）。
+- 因为implements，所以类需要实现接口中的抽象方法。Iterable接口中有一个方法——Iterator()，这是我们为了完成继承（实现迭代）必须要补充完整的方法。所以接下来就是实现该方法。
+- 要实现抽象方法，一定要看接口中该方法的签名。
+  - ```java
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+       */
+       Iterator<T> iterator();
+    ```
+- 通过观察，我们可以发现：Iterator()方法需要返回一个Iterator<T>（包括其子类）的实例/对象。在已有的类代码当中，并没有Iterator类。因此，我们需要写一个Iterator类或者其子类。
+- 在之前的学习中，我们了解到解决的方法就是继承 Iterator interface。注意：有两个Iterator，但是一个是方法名，一个是接口名，二者并不相同。
+- 于是，新写一个类继承Iterator接口。这一接口同样要求必须实现两个抽象方法（非default方法）——hasnext()和next()。如下所示：
+  - ```java
+    public interface Iterator<E> {
+    /**
+     * Returns {@code true} if the iteration has more elements.
+     * (In other words, returns {@code true} if {@link #next} would
+     * return an element rather than throwing an exception.)
+     *
+     * @return {@code true} if the iteration has more elements
+     */
+    boolean hasNext();
+
+    /**
+     * Returns the next element in the iteration.
+     *
+     * @return the next element in the iteration
+     * @throws NoSuchElementException if the iteration has no more elements
+     */
+    E next();
+    // default Methods are omitted.
+    }
+    ```
+- 于是，接下来就要在新写的子类中实现这两个方法。
 
 # Task 13: equals
 
+Override the `equals()` method in the ArrayDeque61B class.
+
+The instanceof keyword is very powerful in Java.
+- Checks to see if o is pointing at the class.
+- If no, returns false.
+- If yes, returns true and puts o in a new variable of that class(new variable's name is behind on class-name).
+- Works correctly, even if o is null.
+
+课件上的示例代码如下所示：
+```java
+@Override
+   public boolean equals(Object o) {
+       if (o instanceof ArraySet oas) {
+           // check sets are of the same size
+           if (oas.size != this.size) {
+               return false;
+           }
+
+           // check that all of MY items are in the other array set
+           for (T x : this) {
+               if (!oas.contains(x)) {
+                   return false;
+               }
+           }
 
 
+       }
+       // o is not an arrayset, so return false
+       return false;
 
+
+   }
+```
 
 # Task 14: toString
+
+Since you didn’t override `toString` method, it uses the default, which is given by the code below (you don’t need to understand how this code works).
+```java
+public String toString() {
+return getClass().getName() + "@" + Integer.toHexString(hashCode());
+}
+```
+
+In turn the `hashCode` method, which you have also not overridden, simply returns the address of the object, which in the example above was 1a04f701.
+
+Override the `toString` method in ArrayDeque61B.java, such that the code above prints out [front, middle, back].
+
+课件上的示例代码如下：
+```java
+@Override
+public String toString() {
+   StringBuilder returnSB = new StringBuilder("{");
+   for (int i = 0; i < size; i += 1) {
+       returnSB.append(items[i]);
+       returnSB.append(", ");
+   }
+   returnSB.append("}");
+   return returnSB.toString();
+}
+```

@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ArrayDeque61B<T> implements Deque61B<T> {
     public int dequeSize;
@@ -254,5 +256,73 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public T getRecursive(int index) {
         throw new UnsupportedOperationException("No need to implement getRecursive for ArrayDeque61B.");
+    }
+
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<T> iterator() { // 这个Iterator是方法
+        return new ArrayDeque61BIterator();
+    }
+
+    private class ArrayDeque61BIterator implements Iterator<T> { // 这个Iterator是接口/基类
+        private int ptr = 0;
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return ptr < dequeSize;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public T next() {
+            if (! this.hasNext()) {
+                throw new NoSuchElementException("No more elements");
+            }
+            T val = get(ptr);
+            ptr += 1;
+            return val;
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArrayDeque61B objNew) {
+            if (this.size() == objNew.size()) {
+                for(int idx = 0; idx < this.size(); idx++) {
+                    if ( !this.get(idx).equals(objNew.get(idx)) ) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("[");
+        for (int idx = 0; idx < this.size()-1; idx++) {
+            result.append(this.get(idx));
+            result.append(", ");
+        }
+        result.append("]");
+        return result.toString();
     }
 }

@@ -12,6 +12,8 @@
 
 3. Hover your mouse over the red squiggle, and click the “implement methods” button when the error message box pops up. This will autogenerate the method headers for you.
 
+顺序： 1 2 3 6 5 7
+
 # Task 1: Creating the File
 
 Start by creating a file called `ArraryDeque61B` in `src`.
@@ -51,21 +53,37 @@ You will need to complete `Task 7: toList` before writing tests for addFirst and
 
 # Task 5: get and getRecursive
 
+The get method must take `constant time`. `get` should return null when the index is invalid (too large or negative).
 
+Note that you should return null if the index is larger than the size of your deque, not the underlying array.
 
+After you’ve written tests and verified that they fail, implement `get`.
 
+Just copy this code block for implementing `getRecursive`:
+```java
+@Override
+public T getRecursive(int index) {
+    throw new UnsupportedOperationException("No need to implement getRecursive for ArrayDeque61B.");
+}
+```
 
 # Task 6: isEmpty and size
 
+Write tests for the `isEmpty` and `size` methods, and check that they fail. Then, implement the methods.
 
-
-
+These two methods must take constant time.
 
 # Task 7: toList
 
+`toList` will continue to be useful to test your Deque61B.
 
+Write tests for the `toList` method, and check that they fail. Then, implement the method. You are not given tests this time, so you will need to write them!
 
-
+Hint:
+- The first line of the method should be something like `List<T> returnList = new ArrayList<>()`. This is one location where you are allowed to use a built-in Java data structure.
+- One of the earlier methods may be helpful for implementing this method.
+- Your toList method should return a list with the elements in ArrayDeque61B and in the order that the elements were added (i.e. the “conceptual version of the Deque”).
+- Be sure to return only values added as elements into the deque (e.g. don’t return null unless it was explicitly added as an element).
 
 # Task 8: removeFirst and removeLast
 

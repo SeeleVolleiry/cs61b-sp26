@@ -1,17 +1,19 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArrayDeque61B<T> implements Deque61B {
     public int dequeSize;
-    public int maxSize = 8; // 最大容量
+    public int maxSize; // 最大容量
     public int nextFirst;
     public int nextLast;
     public T[] items;
 
     public ArrayDeque61B() {
         dequeSize = 0;
-        nextFirst = 4;
-        nextLast = 5;
+        nextFirst = 3;
+        nextLast = 4;
         items = (T[]) new Object[8];
+        maxSize = 8;
     }
 
     public static void main(String[] args) {
@@ -51,7 +53,14 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public List toList() {
-        return List.of();
+        List<T> resultList = new ArrayList<>();
+        // 循环取值添加
+        int index = 0;
+        while (index < this.dequeSize) {
+            resultList.addLast((T) this.get(index));
+            index += 1;
+        }
+        return resultList;
     }
 
     /**
@@ -61,6 +70,9 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public boolean isEmpty() {
+        if (this.size() == 0) {
+            return true;
+        }
         return false;
     }
 
@@ -71,7 +83,7 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public int size() {
-        return 0;
+        return this.dequeSize;
     }
 
     /**
@@ -81,7 +93,10 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public Object getFirst() {
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        return this.items[nextFirst + 1]; // 注意首尾衔接。module operate?
     }
 
     /**
@@ -91,7 +106,10 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public Object getLast() {
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        return this.items[nextLast- 1]; // 注意首尾衔接。module operate?
     }
 
     /**
@@ -125,7 +143,13 @@ public class ArrayDeque61B<T> implements Deque61B {
      */
     @Override
     public Object get(int index) {
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        if (index < 0 || index > this.size() - 1) {
+            return null;
+        }
+        return this.items[nextFirst + 1 + index];
     }
 
     /**
@@ -136,8 +160,12 @@ public class ArrayDeque61B<T> implements Deque61B {
      * @param index index to get
      * @return element at {@code index} in the deque
      */
+//    @Override
+//    public Object getRecursive(int index) {
+//        return null;
+//    }
     @Override
-    public Object getRecursive(int index) {
-        return null;
+    public T getRecursive(int index) {
+        throw new UnsupportedOperationException("No need to implement getRecursive for ArrayDeque61B.");
     }
 }

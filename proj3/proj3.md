@@ -89,11 +89,12 @@ Open PercolationStats.java and take a look at the provided constructor and metho
 
 If you’ve implemented Percolation.java correctly, you should now have a 95% confidence interval for the percolation threshold p.
 
-# Task 4: Runtime Analysis
+# Task 4: Runtime Analysis(Ungraded)
 
+This part of the project will also not be graded, but it is highly recommended that you at least read though and think about the following points.
 
+Implement the Percolation data type using the quick-find algorithm in QuickFindUF. Use `Stopwatch.java` to measure the total running time of PercolationStats for various values of N and T. How does doubling N affect the total running time? How does doubling T affect the total running time?
 
-
-
+Now, implement the Percolation data type using the weighted quick-union algorithm in WeightedQuickUnionUF. What are your answers to the same questions from before?
 
 # Outputs

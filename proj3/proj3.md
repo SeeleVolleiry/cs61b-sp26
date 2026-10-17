@@ -74,12 +74,20 @@ Task 1中的 WQUUF 类特定了两个虚拟节点top和bottom。当两条路径�
 - 考虑到时间复杂度的要求，采用虚拟节点是必要的。
 - 一个方法需要虚拟的bottom节点，一个不需要。所以，可以建立两个 WQUUF 对象。一个对象有top和bottom（用于percolates），一个对象只有top（用于isFull）。
 
-# Task 3: Percolation Threshold
+# Task 3: Percolation Threshold(Ungraded/不计分)
 
+This part of the project will not be graded, but it is highly recommended that you at least read though and think about the following points.
 
+`Monte Carlo simulation`: To estimate the percolation threshold, consider the following computational experiment:
+- Initialize all sites to be blocked.
+- Repeat the following until the system percolates:
+    - Choose a site uniformly at random among all blocked sites.
+    - Open the site.
+- The fraction of sites that are opened when the system percolates provides an estimate of the percolation threshold.
 
+Open PercolationStats.java and take a look at the provided constructor and methods. Then, run the main method, and interpret the results. What do these numbers tell you about the solution to the Percolation Problem?
 
-
+If you’ve implemented Percolation.java correctly, you should now have a 95% confidence interval for the percolation threshold p.
 
 # Task 4: Runtime Analysis
 

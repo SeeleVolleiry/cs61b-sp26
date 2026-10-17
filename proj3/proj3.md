@@ -48,19 +48,31 @@ Note:
 - Your code must use the WeightedQuickUnionUF class! It has already been implemented for you, so do not reimplement the Union Find ADT.
 - We’ve released a set of videos that contain some hints for how to approach this homework! Please do watch them; they might save you a lot of time on this assignment.
 
+Hint:
+- Virtual Sites: virtual top site, virtual bottom site.
+- isFull: check for a connection to top site.
+- percolates: check for a connection between top site and bottom site.
+
 # Testing
 
 
 
+# Task 2: Backwash(回流)
 
+为什么会出现backwash？
 
+Task 1中的 WQUUF 类特定了两个虚拟节点top和bottom。当两条路径都与bottom连接时，即使其中一个原本不应该full的，也会因为另一条full的路径，连接到top。
+   
+    top site -> path1 -> bottom <--|
+    path2 -> bottom <--------------|
 
-# Task 2: Backwash
+两条原本不同的路径，却通过虚拟节点相通了！
 
-
-
-
-
+解决办法：
+- backwash的原因很明白了：因为虚拟底部节点，所以会在isFull方法上判断错误，而percolates方法不会。
+- 因此，错误根源在于virtual bottom site。这一虚拟节点存在时，percolates是正确的但isFull不会。该虚拟节点不存在时，两者的正确性又会相反。
+- 考虑到时间复杂度的要求，采用虚拟节点是必要的。
+- 一个方法需要虚拟的bottom节点，一个不需要。所以，可以建立两个 WQUUF 对象。一个对象有top和bottom（用于percolates），一个对象只有top（用于isFull）。
 
 # Task 3: Percolation Threshold
 

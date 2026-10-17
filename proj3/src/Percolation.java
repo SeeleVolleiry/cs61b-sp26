@@ -1,14 +1,15 @@
-// import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     // Adding necessary instance variables.
-    public int[][] grid ; // 2D Array: 0-blocked, 1-open
-    public int size;
-    public int openNum;
-    private WeightedQuickUnionUF WQU;
-    // public double p; // probability
+    private int[][] grid; // 2D Array: 0-blocked, 1-open
+    private int size;
+    private int openNum;
+    private WeightedQuickUnionUF uf;      // 含 顶+底 两个虚拟节点 —— 只给 percolates 用
+    private WeightedQuickUnionUF ufTop;   // 只含 顶 虚拟节点    —— 只给 isFull 用
+
+    private int top;      // 顶虚拟节点下标 = N*N
+    private int bottom;   // 底虚拟节点下标 = N*N + 1
 
     public Percolation(int N) {
         // create N-by-N grid, with all sites initially blocked
@@ -19,7 +20,10 @@ public class Percolation {
         grid = new int[N][N];
         size = N;
         openNum = 0;
-        WQU = new WeightedQuickUnionUF(N * N);
+        uf = new WeightedQuickUnionUF(N * N + 2);
+        ufTop = new WeightedQuickUnionUF(N * N + 1);
+        top = N * N;
+        bottom = N * N + 1;
     }
 
     public void open(int row, int col) {
@@ -27,23 +31,34 @@ public class Percolation {
         // take constant time plus a constant number of calls to the union-find methods.
         validate(row, col);
         if (isOpen(row, col)) {
-            return ;
+            return;
         }
         this.grid[row][col] = 1;
         openNum += 1;
+
+        int id = xyTo1D(row, col);
+        if (row == 0)         { uf.union(id, top);    ufTop.union(id, top); }  // 顶行 → 顶节点
+        if (row == size - 1)  { uf.union(id, bottom); }                        // 底行 → 底节点（ufTop 里没有它）
         // 如果上下左右open，就union
-        int root = WQU.find(xyTo1D(row, col));
-        if (inBounds(row, col-1) && this.isOpen(row, col-1)) { // left
-            WQU.union(xyTo1D(row, col-1), root);
+        if (inBounds(row, col - 1) && this.isOpen(row, col - 1)) { // left
+            int idLeft = xyTo1D(row, col - 1);
+            uf.union(idLeft, id);
+            ufTop.union(idLeft, id);
         }
-        if (inBounds(row, col+1) && this.isOpen(row, col+1)) { // right
-            WQU.union(xyTo1D(row, col+1), root);
+        if (inBounds(row, col + 1) && this.isOpen(row, col + 1)) { // right
+            int idRight = xyTo1D(row, col + 1);
+            uf.union(idRight, id);
+            ufTop.union(idRight, id);
         }
-        if (inBounds(row-1, col) && this.isOpen(row-1, col)) { // up
-            WQU.union(xyTo1D(row-1, col), root);
+        if (inBounds(row - 1, col) && this.isOpen(row - 1, col)) { // up
+            int idUp = xyTo1D(row - 1, col);
+            uf.union(idUp, id);
+            ufTop.union(idUp, id);
         }
-        if (inBounds(row+1, col) && this.isOpen(row+1, col)) { // down
-            WQU.union(xyTo1D(row+1, col), root);
+        if (inBounds(row + 1, col) && this.isOpen(row + 1, col)) { // down
+            int idDown = xyTo1D(row + 1, col);
+            uf.union(idDown, id);
+            ufTop.union(idDown, id);
         }
     }
 
@@ -57,17 +72,20 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         // is the site (row, col) full?
         // take constant time plus a constant number of calls to the union-find methods.
+//        validate(row, col);
+//        if (!isOpen(row, col)) {
+//            return false;
+//        }
+//        int idx = xyTo1D(row, col);
+//        for (int top = 0; top < size; top++) {
+//            if (WQU.connected(top, idx)) {
+//                return true;
+//            }
+//        }
+//        return false;
         validate(row, col);
-        if (!isOpen(row, col)) {
-            return false;
-        }
-        int idx = xyTo1D(row, col);
-        for (int top = 0; top < size; top++) {
-            if (WQU.connected(top, idx)) {
-                return true;
-            }
-        }
-        return false;
+        // 必须 open，且所在组与"顶虚拟节点"同组
+        return isOpen(row, col) && ufTop.connected(xyTo1D(row, col), top);
     }
 
     public int numberOfOpenSites() {
@@ -79,12 +97,14 @@ public class Percolation {
     public boolean percolates() {
         // does the system percolate?
         // take constant time plus a constant number of calls to the union-find methods.
-        for(int c = 0; c < size; c++) {
-            if(isFull(size-1, c)) {
-                return true;
-            }
-        }
-        return false;
+//        for(int c = 0; c < size; c++) {
+//            if(isFull(size-1, c)) {
+//                return true;
+//            }
+//        }
+//        return false;
+        // 顶节点和底节点同组 ⟺ 渗流
+        return uf.connected(top, bottom);
     }
     // Strong recommendation, write an xyTo1D(int r, int c) method, e.g. xyTo1D(2, 4) = 14
     public int xyTo1D(int row, int col) {

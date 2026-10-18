@@ -98,3 +98,5 @@ Implement the Percolation data type using the quick-find algorithm in QuickFindU
 Now, implement the Percolation data type using the weighted quick-union algorithm in WeightedQuickUnionUF. What are your answers to the same questions from before?
 
 # Outputs
+
+一些输出样例的图片展示。

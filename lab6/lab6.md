@@ -32,3 +32,40 @@ System.out.println("args: " + Arrays.toString(args));
 The word `Arrays` will be in red, so you’ll want to put your cursor on the red word and press alt+enter (or option+enter on a Mac) to `import the java.util.Arrays` class. 
 
 
+## 2. Files and Directions in Java
+
+### File System Basics
+
+1. CWD(current work directory): the directory from where you execute that Java program.
+   - System.getProperty("user.dir") : access the CWD from within a Java program.
+2. Absolute and Relative Paths(绝对路径和相对路径):
+    - Path: the location of a file or directory.
+    - Absolute path: the location of a file or directory relative to the root of the file system.
+    - Relative path: the location of a file or directory relative to the CWD of your program.
+    - We use `~` as a shorthand to refer to your home directory.
+    - When using paths, `.` refers to the CWD. `..` refers to the parent (or enclosing) directory. 
+
+### File & Directory Manipulation in Java
+
+The Java `File` class represents a file or directory in your operating system and allows you to do operations on those files and directories. 
+
+In this class, you usually will want to be doing operations on files and directories by referring to them to their relative paths.
+
+1. Files
+```
+File f = new File("dummy.txt"); // creating the new File object, we aren’t actually creating the file itself, we are just saying, “in the future, when I do operations with f, I want to do these operations on the file”.
+
+f.createNewFile(); // create the file actually
+f.exists(); //  check if the file already exists or not
+
+// Actually writing to a file is pretty ugly in Java. To keep things simple, we’ve provided you with a Utils.java.
+Utils.writeContents(f, "Hello World");
+```
+
+2. Directories
+
+Directories in Java are also represented with File objects.
+```
+File d = new File("dummy");
+d.mkdir(); // actually create the folder
+```

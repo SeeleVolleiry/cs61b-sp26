@@ -41,17 +41,9 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public void put(K key, V value) {
-        /* BSTMap就是一个名为root的BSTNode。BSTNode有四个属性：key, val, left, right.
-        * 首先想到的是利用递归去解决这一问题：判断当前树的根的key和传入的key之间的大小关系：
-        *   当前树的根为空，更新root为新建的BSTNode节点，size += 1；
-        *   当前树根的key更大，说明应该刚在左子树中；当前树根key更小，说明应该放在右子树中。
-        *   当前树根的key相等，更新key对应的val。size不变。
-        * 注意：
-        *   put是BSTMap的方法。递归中，在左/右子树中put的对象是BSTNode，而BSTNode没有put()！
-        *   因此，需要给BSTNode写一个方法（不可行） or 辅助函数实现递归/高阶函数(上面的递归对应修改)。
-        * */
         root = put(root, key, value);
     }
+
     private BSTNode put(BSTNode node, K key, V value) {
         if (node == null) {
             size += 1;

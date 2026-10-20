@@ -1,9 +1,10 @@
 package main;
 
-import java.util.Collection;
+import edu.princeton.cs.algs4.In;
 
-import static main.TimeSeries.MAX_YEAR;
-import static main.TimeSeries.MIN_YEAR;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * An object that provides utility methods for making queries on the
@@ -17,13 +18,47 @@ import static main.TimeSeries.MIN_YEAR;
  */
 public class NGramMap {
 
-    // TODO: Add any necessary static/instance variables.
+    // static/instance variables.
+    public Map<String, TimeSeries> wordHistory;
+    public TimeSeries yearHistory;
 
     /**
      * Constructs an NGramMap from WORDHISTORYFILENAME and YEARHISTORYFILENAME.
      */
     public NGramMap(String wordHistoryFilename, String yearHistoryFilename) {
-        // TODO: Fill in this constructor. See the "NGramMap Tips" section of the spec for help.
+        // wordHistoryFile: wordHistory; yearHistoryFile: yearHistory
+        wordHistory = new TreeMap<String, TimeSeries>();
+        yearHistory = new TimeSeries();
+
+        // 读取文件并存储
+        In wordIn = new In(wordHistoryFilename);
+        int i = 0;
+        while (wordIn.hasNextLine()) {
+            i += 1;
+            String wordline = wordIn.readLine();
+            String[] wordlineSplit = wordline.split("\t");
+            String word = wordlineSplit[0];
+            Integer year = Integer.parseInt(wordlineSplit[1]);
+            Double freq = Double.parseDouble(wordlineSplit[2]);
+
+            if (!wordHistory.containsKey(word)) {
+                wordHistory.put(word, new TimeSeries());
+            }
+            wordHistory.get(word).put(year, freq);
+        }
+
+        In yearIn = new In(yearHistoryFilename);
+        int j = 0;
+        while (yearIn.hasNextLine()) {
+            j += 1;
+            String yearline = yearIn.readLine();
+            String[] yearlineSplit = yearline.split(",");
+            Integer year = Integer.parseInt(yearlineSplit[0]);
+            Double total = Double.parseDouble(yearlineSplit[1]);
+
+            yearHistory.put(year, total);
+        }
+
     }
 
     /**
@@ -98,5 +133,4 @@ public class NGramMap {
     }
 
     // TODO: Add any private helper methods.
-    // TODO: Remove all TODO comments before submitting.
 }

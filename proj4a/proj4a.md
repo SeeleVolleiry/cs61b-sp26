@@ -48,3 +48,25 @@ Useful methods in `TreeMap`: 通过观察要写的方法去寻找基类中的实
 # Task 2: NGramMap
 
 The `NGramMap` class will provide various convenient methods for interacting with Google’s NGrams dataset. This task is more open-ended and challenging than the creation of the TimeSeries class.
+
+1个构造函数 + 7个方法。
+
+Fill out the constructor of `NGramMap`:
+- 解析提供的文件，决定保留哪些信息以及用什么样的数据结构去存储这些信息。
+- Parse provided files: read files in Java - `In` class. demo中有读取文件的示例代码。
+- Choose the right data structure: look thorough the methods to help decision
+- Implement the constructor.
+
+解决办法：
+1. 数据结构选型思路：数据结构如何选择要看数据的样子及操作数据的便捷性。
+    - 观察两个文件的数据格式，以及proj明确指出了哪些列是有效数据，哪些列是无效数据。 word中只有一二三共三列，year中只有一二共两列。数据量并不大，可以在实现一个版本之后，有余力再去优化结构。
+    - word_history给出的直观信息是：一个word和多个（year-frequency）键值对相关联；存储许多个word；
+    - year_history给出的直观信息是：一个year唯一对应一个total，（year-total）键值对。
+    - 这种一对一、一对多的数据关系，更偏向于树、图或者抽象列表。在Task 1中就已经实现了一个一对一的数据结构。直接拿来利用，避免重复工作。即year_history中的数据存为`TimeSeries`这一类的实例。
+    - 一对一解决了，一对多呢？转化为一对一+一对多。一个word和它的TimeSeries对象一一对应。TimeSeries对象存储多个键值对。这样就可以了，即word_history中的数据使用 `Map<String, TimeSeries>`这一数据结构存储。
+    - project提示可以通过观察方法的返回值类型，来辅助数据结构选型。很明显，最后的结构与TimeSeries相关。印证了之前的选择不会太差。
+2. 写构造函数：创建两个实例变量，分别保存两个文件的数据。类型在选型时已经定好了。
+    - 创建对应文件的In class对象。当对象还有下一行时就读取那一行，一直循环读取直到结束。
+    - 循环中：按照文件实际的分隔符将读取到的String对象划分为String[]对象。选取需要的列（依靠数组的索引），然后强制转换为需要的数据结构（如Integer.parseInt，Double.parseDouble）。提取出有效数据后，存入实例变量中即可。
+    - 注意：word_history的实例变量没有刚读取到的word这一key时，就新建一个new TimeSeries对象。有就put进word对应的TimeSeries对象。
+3. Implement Methods

@@ -69,8 +69,10 @@ public class NGramMap {
      * returns an empty TimeSeries.
      */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
-        // TODO: Fill in this method.
-        return null;
+        if (this.wordHistory.containsKey(word)) {
+            return new TimeSeries(this.wordHistory.get(word), startYear, endYear);
+        }
+        return new TimeSeries();
     }
 
     /**
@@ -80,16 +82,17 @@ public class NGramMap {
      * is not in the data files, returns an empty TimeSeries.
      */
     public TimeSeries countHistory(String word) {
-        // TODO: Fill in this method.
-        return null;
+        if (this.wordHistory.containsKey(word)) {
+            return new TimeSeries(this.wordHistory.get(word), TimeSeries.MIN_YEAR, TimeSeries.MAX_YEAR);
+        }
+        return new TimeSeries();
     }
 
     /**
      * Returns a defensive copy of the total number of words recorded per year in all volumes.
      */
     public TimeSeries totalCountHistory() {
-        // TODO: Fill in this method.
-        return null;
+        return new TimeSeries(this.yearHistory, TimeSeries.MIN_YEAR, TimeSeries.MAX_YEAR);
     }
 
     /**
@@ -132,5 +135,4 @@ public class NGramMap {
         return null;
     }
 
-    // TODO: Add any private helper methods.
 }

@@ -69,4 +69,11 @@ Fill out the constructor of `NGramMap`:
     - 创建对应文件的In class对象。当对象还有下一行时就读取那一行，一直循环读取直到结束。
     - 循环中：按照文件实际的分隔符将读取到的String对象划分为String[]对象。选取需要的列（依靠数组的索引），然后强制转换为需要的数据结构（如Integer.parseInt，Double.parseDouble）。提取出有效数据后，存入实例变量中即可。
     - 注意：word_history的实例变量没有刚读取到的word这一key时，就新建一个new TimeSeries对象。有就put进word对应的TimeSeries对象。
-3. Implement Methods
+3. Implement Methods:
+    - countHistory: 返回word对应的TimeSeries对象。如果有起止年份，就筛选[start, end]区间内的数据。
+        - 如果含有word关键字，返回一个TimeSeries对象—— `this.wordHistory.get(word)`的`副本`。有起止年份，用需要起止年份的的三参数TimeSeries构造函数。
+        - 否则返回一个空的TimeSeries， `return new TimeSeries()`
+    - totalCountHistory: 返回新的对象，是一个`副本`/copy
+        - 直接返回yearHistory在最小年份和最大年份两个宏之间的副本即可。用TimeSeries的三参数构造函数。
+    - weightHistory:
+    - summedWeightHistory:

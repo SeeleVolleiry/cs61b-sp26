@@ -76,4 +76,4 @@ Fill out the constructor of `NGramMap`:
     - totalCountHistory: 返回新的对象，是一个`副本`/copy
         - 直接返回yearHistory在最小年份和最大年份两个宏之间的副本即可。用TimeSeries的三参数构造函数。
     - weightHistory:返回的同样要求是副本。思路与之前的方法类似。
-    - summedWeightHistory:返回的同样要求是副本。思路与之前的方法类似。
+    - summedWeightHistory:返回的同样要求是副本。思路与之前的方法类似。多了循环而已。主要注意用一个变量记录多个对象的和（使用plus相加），最后dividedBy、三参数构造函数按需选用。

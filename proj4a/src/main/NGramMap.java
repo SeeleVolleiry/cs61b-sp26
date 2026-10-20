@@ -130,8 +130,15 @@ public class NGramMap {
      */
     public TimeSeries summedWeightHistory(Collection<String> words,
                                           int startYear, int endYear) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries sum = new TimeSeries();
+
+        for (String word: words) {
+            if (this.wordHistory.containsKey(word)) {
+                sum = sum.plus(this.wordHistory.get(word));
+            }
+        }
+
+        return new TimeSeries(sum.dividedBy(this.yearHistory), startYear, endYear);
     }
 
     /**
@@ -139,8 +146,16 @@ public class NGramMap {
      * exist in this time frame, ignore it rather than throwing an exception.
      */
     public TimeSeries summedWeightHistory(Collection<String> words) {
-        // TODO: Fill in this method.
-        return null;
+        //一个变量记录和的结果
+        TimeSeries sum = new TimeSeries();
+        // 循环：每个TimeSeries plus sum变量
+        for (String word: words) {
+            if (this.wordHistory.containsKey(word)) {
+                sum = sum.plus(this.wordHistory.get(word));
+            }
+        }
+        // 除以年份的total
+        return sum.dividedBy(this.yearHistory);
     }
 
 }

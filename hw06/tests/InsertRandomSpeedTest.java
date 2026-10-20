@@ -1,9 +1,17 @@
-import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.Scanner;
 import edu.princeton.cs.algs4.Stopwatch;
 
-/** Performs a timing test on three different set implementations.
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+/** Performs a timing test on three different This program inserts random Strings of length L into different types of maps as <String, Integer> pairs.
+ Please enter desired length of each string: 10000
+
+ Enter # strings to insert into the maps: 10000
+ class ULLMap: 1.17 sec
+ class BSTMap: 0.44 sec
+ Java's Built-in TreeMap: 0.44 sec
+ Java's Built-in HashMap: 0.43 secset implementations.
  *  @author Josh Hug
  *  @author Brendan Hu
  */

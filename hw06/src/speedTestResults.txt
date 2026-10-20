@@ -1,0 +1,45 @@
+This program inserts random Strings of length L into different types of maps as <String, Integer> pairs.
+Please enter desired length of each string: 10
+
+Enter # strings to insert into the maps: 10000
+class ULLMap: 0.15 sec
+class BSTMap: 0.01 sec
+Java's Built-in TreeMap: 0.00 sec
+Java's Built-in HashMap: 0.00 sec
+
+Enter # strings to insert into the maps: 20000
+class ULLMap: 0.66 sec
+class BSTMap: 0.01 sec
+Java's Built-in TreeMap: 0.01 sec
+Java's Built-in HashMap: 0.00 sec
+
+Enter # strings to insert into the maps: 40000
+class ULLMap: 2.55 sec
+class BSTMap: 0.02 sec
+Java's Built-in TreeMap: 0.01 sec
+Java's Built-in HashMap: 0.02 sec
+
+Enter # strings to insert into the maps: 60000
+--Stack Overflow -- couldn't add 60000 strings of length 10.
+class BSTMap: 0.02 sec
+Java's Built-in TreeMap: 0.02 sec
+Java's Built-in HashMap: 0.01 sec
+
+Enter # strings to insert into the maps: 80000
+--Stack Overflow -- couldn't add 80000 strings of length 10.
+class BSTMap: 0.05 sec
+Java's Built-in TreeMap: 0.03 sec
+Java's Built-in HashMap: 0.01 sec
+
+Enter # strings to insert into the maps: 100000
+--Stack Overflow -- couldn't add 100000 strings of length 10.
+class BSTMap: 0.06 sec
+Java's Built-in TreeMap: 0.06 sec
+Java's Built-in HashMap: 0.02 sec
+
+length = 10, sec
+class        1w      2w       4w       6w       8w      10w
+ULLMap:     0.15    0.66     2.55   overflow overflow overflow     N^2
+BSTMap:     0.01    0.01     0.02     0.02     0.05     0.06       log N
+TreeMap:    0.00    0.01     0.01     0.02     0.03     0.06       log N
+HashMap:    0.00    0.00     0.02     0.01     0.01     0.02       log N

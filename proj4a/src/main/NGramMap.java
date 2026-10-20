@@ -101,8 +101,13 @@ public class NGramMap {
      * TimeSeries.
      */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
-        // TODO: Fill in this method.
-        return null;
+        // frequency / total
+        if (this.wordHistory.containsKey(word)) {
+            // word对应范围内的拷贝副本：year-frequency键值对，TimeSeries对象。
+            TimeSeries wordYearFreq = new TimeSeries(this.wordHistory.get(word), startYear, endYear);
+            return wordYearFreq.dividedBy(this.yearHistory); // 除以total
+        }
+        return new TimeSeries();
     }
 
     /**
@@ -111,8 +116,11 @@ public class NGramMap {
      * TimeSeries.
      */
     public TimeSeries weightHistory(String word) {
-        // TODO: Fill in this method.
-        return null;
+        if (this.wordHistory.containsKey(word)) {
+            // word对应范围内的拷贝副本：year-frequency键值对，TimeSeries对象。
+            return this.wordHistory.get(word).dividedBy(this.yearHistory); // 除以total
+        }
+        return new TimeSeries();
     }
 
     /**

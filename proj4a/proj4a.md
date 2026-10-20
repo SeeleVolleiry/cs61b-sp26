@@ -75,5 +75,5 @@ Fill out the constructor of `NGramMap`:
         - 否则返回一个空的TimeSeries， `return new TimeSeries()`
     - totalCountHistory: 返回新的对象，是一个`副本`/copy
         - 直接返回yearHistory在最小年份和最大年份两个宏之间的副本即可。用TimeSeries的三参数构造函数。
-    - weightHistory:
-    - summedWeightHistory:
+    - weightHistory:返回的同样要求是副本。思路与之前的方法类似。
+    - summedWeightHistory:返回的同样要求是副本。思路与之前的方法类似。

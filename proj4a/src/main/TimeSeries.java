@@ -1,7 +1,6 @@
 package main;
 
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * An object for mapping a year number (e.g. 1996) to numerical data. Provides
@@ -30,15 +29,15 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        // TODO: Fill in this constructor.
+        ts.putAll(subMap(startYear, true, endYear, true));
     }
 
     /**
      *  Returns all years for this time series in ascending order.
      */
     public List<Integer> years() {
-        // TODO: Fill in this method.
-        return null;
+        Set<Integer> yearSet = this.keySet();
+        return new ArrayList<>(yearSet);
     }
 
     /**
@@ -46,8 +45,8 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      *  order of years().
      */
     public List<Double> data() {
-        // TODO: Fill in this method.
-        return null;
+        Collection<Double> dataSet = this.values();
+        return new ArrayList<>(dataSet);
     }
 
     /**
@@ -60,8 +59,21 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * should store the value from the TimeSeries that contains that year.
      */
     public TimeSeries plus(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        // 求出this和ts的keySet的并集，然后遍历每个年份。
+        // 按照this和ts是否containsKey分情况put进新的TimeSeries对象。
+        TimeSeries plusTs = new TimeSeries();
+        Set<Integer> yearsAll = new HashSet<>(this.keySet());
+        yearsAll.addAll(ts.keySet());
+        for (Integer year: yearsAll) {
+            if (this.containsKey(year) && ts.containsKey(year)) {
+                plusTs.put(year, this.get(year) + ts.get(year));
+            } else if (!this.containsKey(year) && ts.containsKey(year)) {
+                plusTs.put(year, ts.get(year));
+            } else if (this.containsKey(year) && !ts.containsKey(year)) {
+                plusTs.put(year, this.get(year));
+            }
+        }
+        return plusTs;
     }
 
     /**
@@ -74,10 +86,17 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * If TS has a year that is not in this TimeSeries, ignore it.
      */
     public TimeSeries dividedBy(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        // 遍历this中的所有年份：如果ts中有，则this除以ts；如果没有，返回抛出异常
+        TimeSeries result = new TimeSeries();
+
+        for (Integer year: this.keySet()) {
+            if (ts.containsKey(year)) {
+                result.put(year, this.get(year) / ts.get(year));
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
+        return result;
     }
 
-    // TODO: Add any private helper methods.
-    // TODO: Remove all TODO comments before submitting.
 }

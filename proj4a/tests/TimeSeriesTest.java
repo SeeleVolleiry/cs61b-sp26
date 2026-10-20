@@ -60,4 +60,63 @@ public class TimeSeriesTest {
         assertThat(totalPopulation.years()).isEmpty();
         assertThat(totalPopulation.data()).isEmpty();
     }
-} 
+
+    @Test
+    public void yearsTest() {
+        TimeSeries ts = new TimeSeries();
+        List<Integer> tsYears = new ArrayList<>();
+
+        ts.put(2003, 0.1);
+        tsYears.add(2003);
+        assertThat(ts.years()).isEqualTo(tsYears);
+
+        ts.put(1990, 3.6);
+        tsYears.addFirst(1990);
+        assertThat(ts.years()).isEqualTo(tsYears);
+    }
+
+    @Test
+    public void dataTest() {
+        TimeSeries ts = new TimeSeries();
+        List<Double> tsYears = new ArrayList<>();
+
+        ts.put(2003, 0.1);
+        tsYears.add(0.1);
+        assertThat(ts.years()).isEqualTo(tsYears);
+
+        ts.put(1990, 3.6);
+        tsYears.addFirst(3.6);
+        assertThat(ts.years()).isEqualTo(tsYears);
+    }
+
+    @Test
+    public void plusTest() {
+        TimeSeries ts1 = new TimeSeries();
+        TimeSeries ts2 = new TimeSeries();
+
+        TimeSeries ts3= ts1.plus(ts2);
+        assertThat(ts3 != ts2).isTrue();
+
+        ts1.put(1990, 4.5); ts1.put(2000, 3.6);
+        ts2.put(1990, 2.5); ts2.put(1995, 2.4);
+        ts3 = ts1.plus(ts2);
+        List<Integer> years = new ArrayList<>();
+        List<Double> data = new ArrayList<>();
+        years.add(1990); years.add(1995); years.add(2000);
+        data.add(7.0); data.add(2.4); data.add(3.6);
+        assertThat(ts3.years()).isEqualTo(years);
+        assertThat(ts3.data()).isEqualTo(data);
+    }
+
+    @Test
+    public void dividedByTest() {
+        TimeSeries ts1 = new TimeSeries();
+        TimeSeries ts2 = new TimeSeries();
+
+        ts1.put(1990, 1.0); ts1.put(1995, 2.0); ts1.put(2000, 4.0);
+        ts2.put(1990, 2.0); ts2.put(1995, 4.0);
+
+        ts2.dividedBy(ts1);
+        assertThat(ts2.get(1990)).isEqualTo(2.0);
+    }
+}

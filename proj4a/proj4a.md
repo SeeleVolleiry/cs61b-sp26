@@ -108,10 +108,14 @@ Tips:
 
 按照网页说明一步步进行即可
 
-In the main folder, create a new file called HistoryHandler.java that takes the given NgordnetQuery and returns a String that contains a base-64 encoded image of the appropriate plot.
+In the `main` folder, create a new file called `HistoryHandler.java` that takes the given NgordnetQuery and returns a String that contains a base-64 encoded image of the appropriate plot.
 
-Then, modify the Main.java so that your HistoryHandler is called when someone clicks the History button.
+Then, modify the `Main.java` so that your HistoryHandler is called when someone clicks the History button.
 
 Tips:
 - The constructor for HistoryHandler should be of the following form: public HistoryHandler(NGramMap map).
 - Just like before, use DummyHistoryHandler.java as a guide. As mentioned in the previous section, we really want you to learn the skill of tinkering with complex library code to get the behavior you want.
+-  the `Plotter.generateTimeSeriesChart` method, which takes two arguments. The first is `a list of strings`, and the second is `a List<TimeSeries>`. The TimeSeries are all plotted in a different color, and each is assigned the label given in the list of strings. Both lists must be of the same length (since the ith string is the label for the ith time series).
+- The `Plotter.generateTimeSeriesChart` method returns an object of type `XYChart`. This object can in turn either be converted into base-64 by the `Plotter.encodeChartAsString` method, or can be displayed to the screen directly by `Plotter.displayChart`.
+
+解题思路就是：参考demo文件夹下的`PlotDemo.java`和`DummyHistoryHandler.java`两个文件。历程类似于Task 3。

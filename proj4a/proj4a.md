@@ -77,3 +77,41 @@ Fill out the constructor of `NGramMap`:
         - 直接返回yearHistory在最小年份和最大年份两个宏之间的副本即可。用TimeSeries的三参数构造函数。
     - weightHistory:返回的同样要求是副本。思路与之前的方法类似。
     - summedWeightHistory:返回的同样要求是副本。思路与之前的方法类似。多了循环而已。主要注意用一个变量记录多个对象的和（使用plus相加），最后dividedBy、三参数构造函数按需选用。
+
+In tasks 3 and 4 of Project 4A, we’ll do a bit of software engineering to set up a web server that can handle NgordnetQueries.
+
+# Task 3: HistoryTextHandler
+
+按照网页说明一步步进行即可：
+
+In the `main` folder, create a new file called `HistoryTextHandler.java` that takes the given NgordnetQuery and returns a String in the same format as above.
+
+Then, modify `Main.java` so that your HistoryTextHandler is used when someone clicks History (Text). In other words, instead of registering DummyHistoryTextHandler, you should register your HistoryTextHandler class instead.
+
+Tips:
+- Use the `DummyHistoryTextHandler.java` as a guide, pattern matching where appropriate. Being able to tinker with example code and bend it to your will is an incredibly important real world skill. Experiment away, don’t be afraid to break something!
+- For Project 4A, you can ignore the k instance variable of NgordnetQuery.
+- Use the `.toString()` method built into the TimeSeries class that gets inherited from TreeMap.
+- For your HistoryTextHandler to be able to do something useful, it’s going to need to be able to access the data stored in your NGramMap. **Do not make the NGramMap into a static variable!** This is known as a “global variable” and is rarely the appropriate solution for any problem. Hint: Your HistoryTextHandler class can have a constructor like this: public HistoryTextHandler(NGramMap map).
+- If a word is invalid, think about how NGramMap is handling this situation.
+- The provided test is already mostly comprehensive. If you’d like to write additional tests, see the `Testing` spec for more information.
+
+解决思路：
+- 创建要求的文件 & 修改Main中的两行代码（一行原本为注释内容，一行为对应的htn.register）
+- 写HistoryTextHandler的构造函数（参数为NGramMap对象）和实例变量来存储那一个参数的数据。
+- 覆写extends来的Handle方法：参考demo中的代码 + 一个循环
+    - 遍历words中的元素，把每个元素的weightHistory计算结果转为就字符串。
+    - 按照格式拼接字符串，并更新最新的字符串记录变量
+    - 遍历完后返回记录结果的字符串
+
+# Task 4: HistoryHandler
+
+按照网页说明一步步进行即可
+
+In the main folder, create a new file called HistoryHandler.java that takes the given NgordnetQuery and returns a String that contains a base-64 encoded image of the appropriate plot.
+
+Then, modify the Main.java so that your HistoryHandler is called when someone clicks the History button.
+
+Tips:
+- The constructor for HistoryHandler should be of the following form: public HistoryHandler(NGramMap map).
+- Just like before, use DummyHistoryHandler.java as a guide. As mentioned in the previous section, we really want you to learn the skill of tinkering with complex library code to get the behavior you want.

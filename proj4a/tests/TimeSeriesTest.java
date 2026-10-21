@@ -82,11 +82,11 @@ public class TimeSeriesTest {
 
         ts.put(2003, 0.1);
         tsYears.add(0.1);
-        assertThat(ts.years()).isEqualTo(tsYears);
+        assertThat(ts.data()).isEqualTo(tsYears);
 
         ts.put(1990, 3.6);
         tsYears.addFirst(3.6);
-        assertThat(ts.years()).isEqualTo(tsYears);
+        assertThat(ts.data()).isEqualTo(tsYears);
     }
 
     @Test

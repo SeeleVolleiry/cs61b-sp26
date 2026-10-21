@@ -1,19 +1,16 @@
-
-/*
 import browser.NgordnetQuery;
 import main.HistoryTextHandler;
 import main.NGramMap;
-
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
-import static main.Main.*;
 import static com.google.common.truth.Truth.assertThat;
- */
+import static main.Main.WORD_HISTORY_SIZE3_FILE;
+import static main.Main.YEAR_HISTORY_FILE;
 
 // uncomment this test whenever you are ready!
 public class HistoryTextHandlerTest {
-    /*
     @Test
     public void testHandle() {
         NGramMap ngm = new NGramMap(WORD_HISTORY_SIZE3_FILE, YEAR_HISTORY_FILE);
@@ -26,5 +23,4 @@ public class HistoryTextHandlerTest {
                 """;
         assertThat(actual).isEqualTo(expected);
     }
-    */
 }

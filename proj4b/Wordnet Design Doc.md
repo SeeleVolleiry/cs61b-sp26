@@ -1,7 +1,7 @@
 # Project 4B: Wordnet Design
 
-Author:  
-Last Updated:
+Author:  CYQ
+Last Updated: 2026/10/26
 
 ## Data
 

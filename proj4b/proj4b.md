@@ -77,7 +77,7 @@ These files are in comma separated format, meaning that each line contains a seq
   - e.g. : `79537,38611,9007`, means that the synset `79537` (“viceroy vicereine”) has two hyponyms: `38611` (“exarch”) and `9007` (“Khedive”), representing that exarchs and Khedives are both types of viceroys (or vicereine).
   - There may be more than one line that starts with the same synset ID. This indicates that both synsets 12 and 13 are direct hyponyms of synset 11. These two could also have been combined on to one line.
 
-### Project 4B
+### Project 4C
 
 Starter:
 - Task 1: Dummy HyponymsHandler(假的HyponymsHandler实现，先占位用)
@@ -104,17 +104,18 @@ Summary:
   - 逻辑结构：
     - 数据库有两类文件，一类是synset（word及其ID和一个word的描述），一类是hyponym（各个词/ID之间的关系）。
     - 直觉上感觉：synset充当着节点的角色（vertex），hyponym起着关系连接的作用（directed edge）。
-  - 数据操作：构造函数、遍历方法
-  - 存储结构：
+  - 数据操作：
+    - 构造函数的构想: 读入两类文件，创建两个实例变量（vertices, edges）
+    - 遍历方法：广度优先遍历BFS？
+    - 返回所有字类words的列表：以输入为起点，遍历其所有子类并记录每个值。（可能是集合添加值，最后转换为列表）
+  - 存储结构：每个synset总共有三个字段的信息（字段id，同义词的集合，该synset的字典描述），每个hyponym总共有两大类字段（第一个数字是基类的id，剩余的都是子类的id）。
+    - 将有向图定义为自定义节点类的聚合。——>一个有向图类，一个包含在图类中的节点类。
+    - 有向图设计为：实例变量——属于节点类数组的顶点变量？、许多个一对多的关系的序列？；节点类设计为：一个变量存储id？一个集合存储同义词？一个字符串记录描述？一个变量记录children？——>构造器的参数？
 
+### Project 4D
 
-
-
-
-
-
-### Project 4C
-
+Handling `k != 0`: k represents the maximum number of hyponyms that we want in output.
+- 返回的是要求的时间范围内，出现次数最多的那k个单词（按照大小写排序）。
 
 
 

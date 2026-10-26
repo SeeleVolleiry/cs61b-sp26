@@ -120,8 +120,36 @@ Handling `k != 0`: k represents the maximum number of hyponyms that we want in o
 
 ## Summary of Design
 
+要读入的数据主要有两部分：WordNet数据库中的数据（图结构，完成Project 4C）；wordHistory + yearHistory的NGMap、TimeSeries（来自 Project 4A，用于按照时间范围内的出现次数高低进行排序，解决4D的问题）。
 
+数据结构：
+- NGMap，TimesSeries：
+- Graph（own implementation of directed graph）：a list of Sets, a list of synsetNodes
 
+算法：
+1. 给出wordsList的hyponyms：
+   ```
+   Pseudocode: 根据word查询ID - 根据ID查询所有子类（graph traversal）
+   for word in wordlist:
+     wordsID.add( searchID(word) )
+   for ID in wordsID:
+     hypoWords.add( searchHyponyms(ID) )
+   return hypoWords
+   ```
+
+2. 给出wordsList的hyponyms中前k个的方法：
+   ```
+   Pseudocode: 给出wordsList的hyponyms - 计算出现次数 - 排序
+   给出wordsList的hyponyms
+   计算每个hyponym word的出现次数——> NGMap
+   保留最大的五个 ——> 最小PQ？比PQ中的最小大，就remove最小，并添加该值
+   ```
+
+3. 的方法：
+   ```
+   Pseudocode:
+   
+   ```
 
 # Task 1: Checkpoint
 

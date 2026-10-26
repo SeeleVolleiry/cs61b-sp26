@@ -77,7 +77,7 @@ These files are in comma separated format, meaning that each line contains a seq
   - e.g. : `79537,38611,9007`, means that the synset `79537` (“viceroy vicereine”) has two hyponyms: `38611` (“exarch”) and `9007` (“Khedive”), representing that exarchs and Khedives are both types of viceroys (or vicereine).
   - There may be more than one line that starts with the same synset ID. This indicates that both synsets 12 and 13 are direct hyponyms of synset 11. These two could also have been combined on to one line.
 
-### Project 4C
+## Project 4C Overview
 
 Starter:
 - Task 1: Dummy HyponymsHandler(假的HyponymsHandler实现，先占位用)
@@ -112,10 +112,13 @@ Summary:
     - 将有向图定义为自定义节点类的聚合。——>一个有向图类，一个包含在图类中的节点类。
     - 有向图设计为：实例变量——属于节点类数组的顶点变量？、许多个一对多的关系的序列？；节点类设计为：一个变量存储id？一个集合存储同义词？一个字符串记录描述？一个变量记录children？——>构造器的参数？
 
-### Project 4D
+## Project 4D Overview
 
 Handling `k != 0`: k represents the maximum number of hyponyms that we want in output.
 - 返回的是要求的时间范围内，出现次数最多的那k个单词（按照大小写排序）。
+- 因此，需要记录每个单词在每个时间出现的次数，这样才能求和。Project 4A的NGMap？TimeSeries？
+
+## Summary of Design
 
 
 

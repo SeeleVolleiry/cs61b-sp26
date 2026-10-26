@@ -77,6 +77,45 @@ These files are in comma separated format, meaning that each line contains a seq
   - e.g. : `79537,38611,9007`, means that the synset `79537` (“viceroy vicereine”) has two hyponyms: `38611` (“exarch”) and `9007` (“Khedive”), representing that exarchs and Khedives are both types of viceroys (or vicereine).
   - There may be more than one line that starts with the same synset ID. This indicates that both synsets 12 and 13 are direct hyponyms of synset 11. These two could also have been combined on to one line.
 
+### Project 4B
+
+Starter:
+- Task 1: Dummy HyponymsHandler(假的HyponymsHandler实现，先占位用)
+
+Hyponyms Button implementation(2 & 3 & 4):
+- The button do: 返回输入词及其所有下位词组成的列表。要求按照字母排序、不重复且大小写敏感。
+- Task 2: Graph implementation. Implement a directed graph to represent Wordnet(build your own graph class or classes).
+- Task 3: Reading the WordNet Dataset files. Parse the Wordnet data files and use graph (from task 2) to store the data.
+- Task 4: Traversing the WordNet Graph. Use an algorithm on your directed graph implementation to return the hyponyms of the query.
+
+Handling the lists of words: return common hyponyms of each word in the list.
+- Getting the intersection of words, not nodes.
+- Task 5: Lists of Words. Modify your `HyponymsHandler` and the rest of your implementation to deal with the list of words case.
+- Task 6: Autograder Buddy. Open `AutograderBuddy.java` and fill in the `getHyponymHandler` method such that it returns a HyponymsHandler that uses synsetFile and hyponymFile. Your code here should be quite similar to your code in `Main.java`.
+
+Summary:
+- Project 4C 的目标是实现HyponymsHandler。接收网页传来的word(s)，返回其共有的下位word(s)。——> 接收输入，返回输入中每个word共有的字类。
+- 输入输出有了，现在需要的是思考输入与输出之间的黑匣子。
+- 中间的第一个问题很明显——为了找到字类，我要到数据中去查询。这就引发了接下来的问题：我用来查询的数据是哪里来？数据怎么存储在内存中/什么class（数据结构）？查询的方法（算法）？
+  - 数据源是WordNet这一数据库，文件都打包在了data文件夹中。两种文件及其格式解读都在前文简要叙述了。
+  - 读取的WordNet数据库的数据怎么存？数据库的数据一张网，用于查询此之间的上下位关系（基类和字类）。这种关系应该首先考虑树或者图。proj的说明已经提出了要使用有向图。——> 实现一个自己的有向图class。
+- 查询的方法，以目前的直觉来看就是图的遍历。图的遍历有DFS pre-order, DFS post-order, BFS。具体选择哪种还有待商榷。
+- 数据结构确定为图结构，距离完整的实现差“逻辑结构”“数据操作”“存储结构”“代码实现”这几步。
+  - 逻辑结构：
+    - 数据库有两类文件，一类是synset（word及其ID和一个word的描述），一类是hyponym（各个词/ID之间的关系）。
+    - 直觉上感觉：synset充当着节点的角色（vertex），hyponym起着关系连接的作用（directed edge）。
+  - 数据操作：构造函数、遍历方法
+  - 存储结构：
+
+
+
+
+
+
+
+### Project 4C
+
+
 
 
 

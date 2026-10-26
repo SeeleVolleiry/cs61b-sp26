@@ -65,6 +65,18 @@ We now describe the two types of data files that store the WordNet dataset.
 These files are in comma separated format, meaning that each line contains a sequence of fields, separated by commas.
 
 `synset file`: the first type of file.
+- Each line of a synset file provides comma separated information about a synset.
+- The first field is the synset id (an integer), the second field is the synonym set (or synset), and the third field is its dictionary definition.
+  - e.g. : `6829,Goofy,a cartoon character created by Walt Disney`, means that the synset { Goofy } has an id number of 6829, and its definition is “a cartoon character created by Walt Disney”. 
+  - The individual nouns that comprise a synset are separated by spaces (and a synset element is not permitted to contain a space). 
+  - The id numbers are useful because they also appear in the hyponym files
+
+`hyponym file`: the second type of file.
+- Each line of a hyponym file provides comma separated information about a hyponym.(the hyponym relationships).
+- The first field is a synset id, and subsequent fields are the id numbers of the synset’s direct hyponyms.
+  - e.g. : `79537,38611,9007`, means that the synset `79537` (“viceroy vicereine”) has two hyponyms: `38611` (“exarch”) and `9007` (“Khedive”), representing that exarchs and Khedives are both types of viceroys (or vicereine).
+  - There may be more than one line that starts with the same synset ID. This indicates that both synsets 12 and 13 are direct hyponyms of synset 11. These two could also have been combined on to one line.
+
 
 
 

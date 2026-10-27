@@ -41,6 +41,10 @@ These files are in comma separated format, meaning that each line contains a seq
   - e.g. : `79537,38611,9007`, means that the synset `79537` (“viceroy vicereine”) has two hyponyms: `38611` (“exarch”) and `9007` (“Khedive”), representing that exarchs and Khedives are both types of viceroys (or vicereine).
   - There may be more than one line that starts with the same synset ID. This indicates that both synsets 12 and 13 are direct hyponyms of synset 11. These two could also have been combined on to one line.
 
+# StartUp
+
+修改项目结构：添加库文件+JDK属性
+
 # Project 4C
 
 Starter:

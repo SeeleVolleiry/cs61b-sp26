@@ -1,4 +1,10 @@
 package main;
 
-public class HyponymsHandler {
+import browser.NgordnetQueryHandler;
+
+public class HyponymsHandler extends NgordnetQueryHandler {
+    @Override
+    public String handle(browser.NgordnetQuery q) {
+        return "Hello";
+    }
 }

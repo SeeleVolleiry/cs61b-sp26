@@ -156,3 +156,5 @@ Handling `k != 0`: k represents the maximum number of hyponyms that we want in o
 No access to gradescope.com
 
 # Task 2: Technical Design Doc
+
+见docx文件。

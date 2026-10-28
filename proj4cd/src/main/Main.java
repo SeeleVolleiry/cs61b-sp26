@@ -33,7 +33,7 @@ public class Main {
         NgordnetServer hns = new NgordnetServer();
 
         hns.startUp();
-        hns.register("hyponyms", new HyponymsHandler());
+        hns.register("hyponyms", new HyponymsHandler(SYNSETS_SIZE82191_FILE, HYPONYMS_SIZE82191_FILE, WORD_HISTORY_SIZE14377_FILE, YEAR_HISTORY_FILE));
 
         System.out.println("Finished server startup! Visit http://localhost:4567/ngordnet.html");
     }

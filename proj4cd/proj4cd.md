@@ -98,3 +98,5 @@ TreeSet的比价就是用的自然顺序（按照大小写、字母顺序）
 - 查询类方法对于传入的参数是否在keySet中的两种情况没有分别处理。
 - lookAdj开始只写了一层，只拿到了children，而不是所有的子节点（比如没有grandchild）
 - 选取BFS算法来遍历后代：队列 ArrayDeque<>()—— addLast(), polFirst,isEmpty().
+- 集合交集的求法：Set自带的retainAll方法——把this中other没有的元素都删除。
+- toString方法：转换为字符串。

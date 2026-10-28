@@ -20,7 +20,6 @@ public class HyponymsHandler extends NgordnetQueryHandler {
     @Override
     public String handle(browser.NgordnetQuery q) {
         List<String> words = q.words();
-        Set<Integer> hyponymsIDs = new TreeSet<>();
         Set<String> hyponymsWords = new TreeSet<>(wordnet.findHypos(wordnet.lookWord(words.getFirst())));
         for (int i = 1; i < words.size(); i++) {
             hyponymsWords.retainAll( wordnet.findHypos(wordnet.lookWord(words.get(i))) );

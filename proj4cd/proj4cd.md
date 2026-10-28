@@ -85,3 +85,16 @@ Summary:
 Handling `k != 0`: k represents the maximum number of hyponyms that we want in output.
 - 返回的是要求的时间范围内，出现次数最多的那k个单词（按照大小写排序）。
 - 因此，需要记录每个单词在每个时间出现的次数，这样才能求和。Project 4A的NGMap？TimeSeries？
+
+# Records
+
+记录思路或者犯过的错误
+
+TreeSet的比价就是用的自然顺序（按照大小写、字母顺序）
+
+字符串数组怎么变成Set<String>类型？：`Set<String> words = new TreeSet<>(Arrays.asList(arr));`
+
+写图的方法时：
+- 查询类方法对于传入的参数是否在keySet中的两种情况没有分别处理。
+- lookAdj开始只写了一层，只拿到了children，而不是所有的子节点（比如没有grandchild）
+- 选取BFS算法来遍历后代：队列 ArrayDeque<>()—— addLast(), polFirst,isEmpty().

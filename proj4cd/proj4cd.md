@@ -59,7 +59,7 @@ Hyponyms Button implementation(2 & 3 & 4):
 Handling the lists of words: return common hyponyms of each word in the list.
 - Getting the intersection of words, not nodes.
 - Task 5: Lists of Words. Modify your `HyponymsHandler` and the rest of your implementation to deal with the list of words case.(返回的是每个词的下位词集合的交集。Task 4给出的下位词集合)
-- Task 6: Autograder Buddy. Open `AutograderBuddy.java` and fill in the `getHyponymHandler` method such that it returns a HyponymsHandler that uses synsetFile and hyponymFile. Your code here should be quite similar to your code in `Main.java`.
+- Task 6: Autograder Buddy. Open `AutograderBuddy.java` and fill in the `getHyponymHandler` method such that it returns a HyponymsHandler that uses synsetFile and hyponymFile. Your code here should be quite similar to your code in `Main.java`.(把Main.java中的代码复制过去，修改一下传入的参数就差不多了)
 
 Summary:
 - Project 4C 的目标是实现HyponymsHandler。接收网页传来的word(s)，返回其共有的下位word(s)。——> 接收输入，返回输入中每个word共有的字类。

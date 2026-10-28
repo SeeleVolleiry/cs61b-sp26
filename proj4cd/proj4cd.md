@@ -100,3 +100,7 @@ TreeSet的比价就是用的自然顺序（按照大小写、字母顺序）
 - 选取BFS算法来遍历后代：队列 ArrayDeque<>()—— addLast(), polFirst,isEmpty().
 - 集合交集的求法：Set自带的retainAll方法——把this中other没有的元素都删除。
 - toString方法：转换为字符串。
+- Map变成能排序的List：
+  - `List<Map.Entry<String, Double>> list = new ArrayList<>(counts.entrySet());`
+  - entrySet() 返回 Set<Map.Entry<K,V>>，Map.Entry 就是一个键值对。
+- List降序排列：`list.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));`

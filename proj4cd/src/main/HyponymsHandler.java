@@ -21,7 +21,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         int startYear = q.startYear();
         int endYear = q.endYear();
         int k = q.k();
-        Set<String> hyponymsWords = new TreeSet<>(wordnet.findHypos(wordnet.lookWord(words.getFirst())));
+        Set<String> hyponymsWords = new TreeSet<>(wordnet.findHypos(wordnet.lookWord(words.get(0))));
         for (int i = 1; i < words.size(); i++) {
             hyponymsWords.retainAll( wordnet.findHypos(wordnet.lookWord(words.get(i))) );
         }

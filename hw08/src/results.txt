@@ -1,0 +1,240 @@
+InsertRandomSpeedTest: This program inserts random Strings of length L into different types of maps as <String, Integer> pairs.
+
+What would you like L to be?: 10
+
+Enter # strings to insert into ULLMap: 1000
+ULLMap: 0.02 sec
+
+Enter # strings to insert into your MyHashMap: 1000
+MyHashMap: 0.01 sec
+
+Enter # strings to insert into Java's HashMap: 1000
+Java's Built-in HashMap: 0.00 sec
+
+
+Enter # strings to insert into ULLMap: 2000
+ULLMap: 0.01 sec
+
+Enter # strings to insert into your MyHashMap: 2000
+MyHashMap: 0.00 sec
+
+Enter # strings to insert into Java's HashMap: 2000
+Java's Built-in HashMap: 0.00 sec
+
+
+Enter # strings to insert into ULLMap: 4000
+ULLMap: 0.02 sec
+
+Enter # strings to insert into your MyHashMap: 4000
+MyHashMap: 0.00 sec
+
+Enter # strings to insert into Java's HashMap: 4000
+Java's Built-in HashMap: 0.00 sec
+
+
+Enter # strings to insert into ULLMap: 16000
+ULLMap: 0.38 sec
+
+Enter # strings to insert into your MyHashMap: 16000
+MyHashMap: 0.01 sec
+
+Enter # strings to insert into Java's HashMap: 16000
+Java's Built-in HashMap: 0.01 sec
+
+
+Enter # strings to insert into ULLMap: 32000
+--Stack Overflow -- couldn't add 32000 strings of length 10.
+
+Enter # strings to insert into your MyHashMap: 32000
+MyHashMap: 0.02 sec
+
+Enter # strings to insert into Java's HashMap: 32000
+Java's Built-in HashMap: 0.01 sec
+
+
+Enter # strings to insert into ULLMap: 64000
+--Stack Overflow -- couldn't add 64000 strings of length 10.
+
+Enter # strings to insert into your MyHashMap: 64000
+MyHashMap: 0.08 sec
+
+Enter # strings to insert into Java's HashMap: 64000
+Java's Built-in HashMap: 0.04 sec
+
+
+Enter # strings to insert into ULLMap: 128000
+--Stack Overflow -- couldn't add 128000 strings of length 10.
+
+Enter # strings to insert into your MyHashMap: 128000
+MyHashMap: 0.10 sec
+
+Enter # strings to insert into Java's HashMap: 128000
+Java's Built-in HashMap: 0.03 sec
+
+
+
+InsertInOrderSpeedTest: This program inserts lexicographically increasing Stringsinto Maps as <String, Integer> pairs.
+
+Enter # strings to insert into ULLMap: 2000
+ULLMap: 0.02 sec
+
+Enter # strings to insert into MyHashMap: 2000
+MyHashMap: 0.01 sec
+
+Enter # strings to insert into Java's HashMap: 2000
+Java's Built-in HashMap: 0.00 sec
+
+
+Enter # strings to insert into ULLMap: 4000
+ULLMap: 0.04 sec
+
+Enter # strings to insert into MyHashMap: 4000
+MyHashMap: 0.00 sec
+
+Enter # strings to insert into Java's HashMap: 4000
+Java's Built-in HashMap: 0.00 sec
+
+
+Enter # strings to insert into ULLMap: 8000
+ULLMap: 0.14 sec
+
+Enter # strings to insert into MyHashMap: 8000
+MyHashMap: 0.01 sec
+
+Enter # strings to insert into Java's HashMap: 8000
+Java's Built-in HashMap: 0.02 sec
+
+
+Enter # strings to insert into ULLMap: 16000
+ULLMap: 0.66 sec
+
+Enter # strings to insert into MyHashMap: 16000
+MyHashMap: 0.01 sec
+
+Enter # strings to insert into Java's HashMap: 16000
+Java's Built-in HashMap: 0.01 sec
+
+
+Enter # strings to insert into ULLMap: 32000
+--Stack Overflow -- couldn't add 32000 strings.
+
+Enter # strings to insert into MyHashMap: 32000
+MyHashMap: 0.02 sec
+
+Enter # strings to insert into Java's HashMap: 32000
+Java's Built-in HashMap: 0.01 sec
+
+
+Enter # strings to insert into ULLMap: 64000
+--Stack Overflow -- couldn't add 64000 strings.
+
+Enter # strings to insert into MyHashMap: 64000
+MyHashMap: 0.03 sec
+
+Enter # strings to insert into Java's HashMap: 64000
+Java's Built-in HashMap: 0.03 sec
+
+
+Enter # strings to insert into ULLMap: 128000
+--Stack Overflow -- couldn't add 128000 strings.
+
+Enter # strings to insert into MyHashMap: 128000
+MyHashMap: 0.08 sec
+
+Enter # strings to insert into Java's HashMap: 128000
+Java's Built-in HashMap: 0.07 sec
+
+
+Enter # strings to insert into ULLMap: 256000
+--Stack Overflow -- couldn't add 256000 strings.
+
+Enter # strings to insert into MyHashMap: 256000
+MyHashMap: 0.13 sec
+
+Enter # strings to insert into Java's HashMap: 256000
+Java's Built-in HashMap: 0.10 sec
+
+
+
+BucketsSpeedTest: This program inserts random Strings of length L into different types of maps as <String, Integer> pairs.
+
+What would you like L to be?: 8
+
+Enter # strings to insert into each map: 4000
+MyHashMap with ArrayList buckets: 0.02 sec
+MyHashMap with LinkedList buckets: 0.01 sec
+MyHashMap with HashSet buckets: 0.01 sec
+MyHashMap with Stack buckets: 0.01 sec
+MyHashMap with ArrayDeque buckets: 0.01 sec
+
+
+Enter # strings to insert into each map: 8000
+MyHashMap with ArrayList buckets: 0.01 sec
+MyHashMap with LinkedList buckets: 0.01 sec
+MyHashMap with HashSet buckets: 0.02 sec
+MyHashMap with Stack buckets: 0.02 sec
+MyHashMap with ArrayDeque buckets: 0.01 sec
+
+
+Enter # strings to insert into each map: 16000
+MyHashMap with ArrayList buckets: 0.01 sec
+MyHashMap with LinkedList buckets: 0.01 sec
+MyHashMap with HashSet buckets: 0.01 sec
+MyHashMap with Stack buckets: 0.01 sec
+MyHashMap with ArrayDeque buckets: 0.01 sec
+
+
+Enter # strings to insert into each map: 32000
+MyHashMap with ArrayList buckets: 0.03 sec
+MyHashMap with LinkedList buckets: 0.02 sec
+MyHashMap with HashSet buckets: 0.04 sec
+MyHashMap with Stack buckets: 0.02 sec
+MyHashMap with ArrayDeque buckets: 0.03 sec
+
+
+Enter # strings to insert into each map: 64000
+MyHashMap with ArrayList buckets: 0.06 sec
+MyHashMap with LinkedList buckets: 0.04 sec
+MyHashMap with HashSet buckets: 0.10 sec
+MyHashMap with Stack buckets: 0.08 sec
+MyHashMap with ArrayDeque buckets: 0.07 sec
+
+
+Enter # strings to insert into each map: 128000
+MyHashMap with ArrayList buckets: 0.12 sec
+MyHashMap with LinkedList buckets: 0.12 sec
+MyHashMap with HashSet buckets: 0.17 sec
+MyHashMap with Stack buckets: 0.18 sec
+MyHashMap with ArrayDeque buckets: 0.15 sec
+
+
+Enter # strings to insert into each map: 256000
+MyHashMap with ArrayList buckets: 0.32 sec
+MyHashMap with LinkedList buckets: 0.28 sec
+MyHashMap with HashSet buckets: 0.42 sec
+MyHashMap with Stack buckets: 0.51 sec
+MyHashMap with ArrayDeque buckets: 0.35 sec
+
+
+Enter # strings to insert into each map: 512000
+MyHashMap with ArrayList buckets: 0.73 sec
+MyHashMap with LinkedList buckets: 0.73 sec
+MyHashMap with HashSet buckets: 0.97 sec
+MyHashMap with Stack buckets: 0.69 sec
+MyHashMap with ArrayDeque buckets: 0.97 sec
+
+
+Enter # strings to insert into each map: 1024000
+MyHashMap with ArrayList buckets: 1.42 sec
+MyHashMap with LinkedList buckets: 1.24 sec
+MyHashMap with HashSet buckets: 1.70 sec
+MyHashMap with Stack buckets: 1.24 sec
+MyHashMap with ArrayDeque buckets: 1.14 sec
+
+
+Enter # strings to insert into each map: 2048000
+MyHashMap with ArrayList buckets: 2.22 sec
+MyHashMap with LinkedList buckets: 2.14 sec
+MyHashMap with HashSet buckets: 3.51 sec
+MyHashMap with Stack buckets: 2.58 sec
+MyHashMap with ArrayDeque buckets: 2.81 sec

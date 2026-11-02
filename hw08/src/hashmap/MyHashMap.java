@@ -6,7 +6,7 @@ import java.util.*;
  *  A hash table-backed Map implementation.
  *
  *  Assumes null keys will never be inserted, and does not resize down upon remove().
- *  @author YOUR NAME HERE
+ *  @author CYQ
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 
@@ -65,7 +65,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         N = 0;
         M = initialCapacity;
         this.loadFactor = loadFactor;
-        buckets = new Collection[initialCapacity];
+        buckets = (Collection<Node>[]) new Collection[initialCapacity];
         for (int i = 0; i < buckets.length; i++) {
             buckets[i] = createBucket();
         }
@@ -114,13 +114,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             return; // Notice: must return.
         }
         // compute index
-        int index = Math.floorMod(key.hashCode(),this.M);
+        int index = Math.floorMod(key.hashCode(), this.M);
         // node(k, v)
         Node nodeKV = new Node(key, value);
-        //buckets[index].add or put?
         buckets[index].add(nodeKV);
         N += 1; // size up!
-        // need resize?之后补充
         this.resize();
     }
 
@@ -214,7 +212,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     public void clear() {
         this.N = 0;
         // 把每个桶变为空桶而不是null
-        for(int i = 0; i < buckets.length; i++) {
+        for (int i = 0; i < buckets.length; i++) {
             buckets[i] = createBucket();
         }
     }

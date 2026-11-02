@@ -28,30 +28,30 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private Collection<Node>[] buckets;
     // You should probably define some more!
     private int N; // the number of items.
-    private final int DEFAULT_CAPACITY = 16;
     private int M; // the number of buckets.
     private double loadFactor;
-    private final double DEFAULT_LOADFACTOR = 0.75;
 
     /** Constructors */
     public MyHashMap() {
-        N = 0;
+        /*N = 0;
         M = DEFAULT_CAPACITY;
         loadFactor = DEFAULT_LOADFACTOR;
         buckets = new Collection[DEFAULT_CAPACITY];
         for (int i = 0; i < buckets.length; i++) {
             buckets[i] = createBucket();
-        }
+        }*/
+        this(16, 0.75);
     }
 
     public MyHashMap(int initialCapacity) {
-        N = 0;
+        /*N = 0;
         M = initialCapacity;
         loadFactor = DEFAULT_LOADFACTOR;
         buckets = new Collection[initialCapacity];
         for (int i = 0; i < buckets.length; i++) {
             buckets[i] = createBucket();
-        }
+        }*/
+        this(initialCapacity, 0.75);
     }
 
     /**
@@ -107,9 +107,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     @Override
     public void put(K key, V value) {
         // if contains key, update the value.
-        if (this.containsKey(key)) {
+        Node target = findHelper(key);
+        if (target != null) {
             // Modify the value.
-            Node target = findHelper(key);
             target.value = value;
             return; // Notice: must return.
         }
@@ -119,7 +119,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         Node nodeKV = new Node(key, value);
         //buckets[index].add or put?
         buckets[index].add(nodeKV);
-        N += 1;
+        N += 1; // size up!
         // need resize?之后补充
         this.resize();
     }
@@ -163,13 +163,17 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        // compute the hashcode and index in buckets
+        /*// compute the hashcode and index in buckets
         int index = Math.floorMod(key.hashCode(),this.M);
         // search the node object.
         for (Node item: buckets[index]) {
             if (item.key.equals(key)) {
                 return item.value;
             }
+        }*/
+        Node target = findHelper(key);
+        if (target != null) {
+            return target.value;
         }
         return null;
     }
@@ -181,12 +185,16 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public boolean containsKey(K key) {
-        int index = Math.floorMod(key.hashCode(), this.M);
+        /*int index = Math.floorMod(key.hashCode(), this.M);
         // search for the node whose key equals the specific key.
         for (Node item: buckets[index]) {
             if (item.key.equals(key)) {
                 return true;
             }
+        }*/
+        Node target = findHelper(key);
+        if (target != null) {
+            return true;
         }
         return false;
     }

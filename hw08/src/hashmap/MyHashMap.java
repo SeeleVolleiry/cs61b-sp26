@@ -236,7 +236,19 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        Node target = findHelper(key);
+        if (target != null) {
+            int index = Math.floorMod(key.hashCode(), M);
+            buckets[index].remove(target);
+            return target.value;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public V remove(K key, V value) {
+        return remove(key);
     }
 
     /**
@@ -246,7 +258,57 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return new myIterator<>();
+    }
+
+    private class myIterator<K> implements Iterator<K> {
+        int bucketIndex; //在哪个桶
+        Iterator<Node> bucketCursor; // 在该桶的哪个位置
+
+        private myIterator() {
+            bucketIndex = 0;
+            bucketCursor = buckets[0].iterator();
+        }
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            if (bucketCursor.hasNext()) {
+                return true;
+            }
+            else {
+                while (buckets[bucketIndex].isEmpty()) {
+                    if (bucketIndex >= buckets.length - 1) {
+                        return false;
+                    }
+                    bucketIndex++;
+                }
+                bucketCursor = buckets[bucketIndex].iterator();
+                if (bucketCursor.hasNext()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public K next() {
+            if (this.hasNext()) {
+                return (K) bucketCursor.next().key;
+            }
+            throw new NoSuchElementException();
+        }
     }
 
 }

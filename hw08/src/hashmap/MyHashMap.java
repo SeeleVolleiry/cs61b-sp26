@@ -2,6 +2,7 @@ package hashmap;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -30,12 +31,31 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private Collection<Node>[] buckets;
     // You should probably define some more!
     private int N; // the number of items.
+    private final int DEFAULT_CAPACITY = 16;
     private int M; // the number of buckets.
+    private double loadFactor;
+    private final double DEFAULT_LOADFACTOR = 0.75;
 
     /** Constructors */
-    public MyHashMap() { }
+    public MyHashMap() {
+        N = 0;
+        M = DEFAULT_CAPACITY;
+        loadFactor = DEFAULT_LOADFACTOR;
+        buckets = new Collection[DEFAULT_CAPACITY];
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = createBucket();
+        }
+    }
 
-    public MyHashMap(int initialCapacity) { }
+    public MyHashMap(int initialCapacity) {
+        N = 0;
+        M = initialCapacity;
+        loadFactor = DEFAULT_LOADFACTOR;
+        buckets = new Collection[initialCapacity];
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = createBucket();
+        }
+    }
 
     /**
      * MyHashMap constructor that creates a backing array of initialCapacity.
@@ -44,7 +64,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param initialCapacity initial size of backing array
      * @param loadFactor maximum load factor
      */
-    public MyHashMap(int initialCapacity, double loadFactor) { }
+    public MyHashMap(int initialCapacity, double loadFactor) {
+        N = 0;
+        M = initialCapacity;
+        this.loadFactor = loadFactor;
+        buckets = new Collection[initialCapacity];
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = createBucket();
+        }
+    }
 
     /**
      * Returns a data structure to be a hash table bucket
@@ -67,8 +95,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * OWN BUCKET DATA STRUCTURES WITH THE NEW OPERATOR!
      */
     protected Collection<Node> createBucket() {
-        // TODO: Fill in this method.
-        return null;
+        return new LinkedList<>();
     }
 
     // Your code won't compile until you do so!

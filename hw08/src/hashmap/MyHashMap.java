@@ -1,9 +1,6 @@
 package hashmap;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 /**
  *  A hash table-backed Map implementation.
@@ -109,7 +106,53 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        // if contains key, update the value.
+        if (this.containsKey(key)) {
+            // Modify the value.
+            Node target = findHelper(key);
+            target.value = value;
+            return; // Notice: must return.
+        }
+        // compute index
+        int index = Math.floorMod(key.hashCode(),this.M);
+        // node(k, v)
+        Node nodeKV = new Node(key, value);
+        //buckets[index].add or put?
+        buckets[index].add(nodeKV);
+        N += 1;
+        // need resize?之后补充
+        this.resize();
+    }
+
+    private Node findHelper(K key) {
+        int index = Math.floorMod(key.hashCode(), M);
+        for (Node item: buckets[index]) {
+            if (item.key.equals(key)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    private void resize() {
+        double curFactor = N * 1.0 / M;
+        if (curFactor > loadFactor) { // resize
+            // 扩容
+            int newSize = M * 2;
+            Collection[] newBuckets = new Collection[newSize];
+            for (int i = 0; i < newBuckets.length; i++) {
+                newBuckets[i] = createBucket();
+            }
+            // rehash and put in.
+            for (int i = 0; i < buckets.length; i++) {
+                for (Node item: buckets[i]) {
+                    int newIndex = Math.floorMod(item.key.hashCode(), newSize);
+                    newBuckets[newIndex].add(item);
+                }
+            }
+            M = newSize;
+            this.buckets = newBuckets;
+        }
     }
 
     /**
@@ -120,7 +163,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        // compute the hashcode and index in buckets
+        int index = Math.floorMod(key.hashCode(),this.M);
+        // search the node object.
+        for (Node item: buckets[index]) {
+            if (item.key.equals(key)) {
+                return item.value;
+            }
+        }
+        return null;
     }
 
     /**
@@ -130,7 +181,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public boolean containsKey(K key) {
-        throw new UnsupportedOperationException();
+        int index = Math.floorMod(key.hashCode(), this.M);
+        // search for the node whose key equals the specific key.
+        for (Node item: buckets[index]) {
+            if (item.key.equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -138,7 +196,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return this.N;
     }
 
     /**
@@ -146,7 +204,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        this.N = 0;
+        // 把每个桶变为空桶而不是null
+        for(int i = 0; i < buckets.length; i++) {
+            buckets[i] = createBucket();
+        }
     }
 
     /**

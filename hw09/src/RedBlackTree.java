@@ -118,17 +118,34 @@ public class RedBlackTree<T extends Comparable<T>> {
      * @return
      */
     private RBTreeNode<T> insertHelper(RBTreeNode<T> node, T item) {
-        // TODO: Insert (return) new red leaf node.
-
-        // TODO: Handle normal binary search tree insertion.
-
-        // TODO: Rotate left operation
-
-        // TODO: Rotate right operation
-
-        // TODO: Color flip
-
-        return null; //fix this return statement
+        // Insert (return) new red leaf node. -> 括号中的return提醒是 Recursive
+        if (node == null) {
+            return new RBTreeNode<>(false, item);
+        }
+        // Handle normal binary search tree insertion.
+        int cmp = item.compareTo(node.item);
+        if (cmp > 0) {
+            node.right = insertHelper(node.right, item); // 不是node = insertHelper(node.right, item);
+        }
+        else if (cmp < 0) {
+            node.left = insertHelper(node.left, item); // 不是node = insertHelper(node.left, item);
+        }
+        else {
+            return node;
+        }
+        // Rotate left operation
+        if (isRed(node.right) && !isRed(node.left)) {
+            node = rotateLeft(node);
+        }
+        // Rotate right operation
+        if (isRed(node.left) && isRed(node.left.left)) {
+            node = rotateRight(node);
+        }
+        // Color flip
+        if (isRed(node.left) && isRed(node.right)) {
+            flipColors(node);
+        }
+        return node; //fix this return statement
     }
 
 }

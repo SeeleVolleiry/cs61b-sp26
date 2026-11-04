@@ -2,11 +2,75 @@
 
 BYOW: Build Your Own World
 
+# Project Roadmap
+
+1. Software engineering Design Doc (Project 5A)
+2. Implement code to generate random worlds (Project 5B).
+3. Add a main menu for the user to start the game from (Project 5C).
+4. Add support for saving a game and loading it back (Project 5C).
+5. Add several game mechanics/features to your project (Project 5C).
+
 # Project 5A: Design
 
+## Overview
 
+In this project, you will create an engine for generating explorable worlds. This is a large design project requiring to work through every stage of development from ideation to presentation.
 
+This project is about software engineering, and will achieve several goals that come with large design projects
+- Emulating a real product development cycle. This comes from handling a larger pieces of code with little starter code
+- Recognize and mitigate code complexity. Inevitably, whenever a team builds a large software system, they’ll make some bad design decisions and cut corners, resulting in “technical debt”. Your code becomes complicated to understand and modify, which in the real world translates to software that becomes stale and expensive to maintain. It is very likely that your code will feel sort of hacked together by the end of this project. As you grow as a programmer over the course of your career, arguably the main skill you’ll be building is to avoid such hacks. However, the only way to know and defeat this is to suffer from it.
+- Exploring and experimenting with resources. Know that there are no right and wrong answers, as this is a very open-ended project. In fact, it is not required to use any of the data structures from class, but it will likely make your solution significantly simpler and more efficient. You will likely go through several iterations before settling on your final implementation
 
+Your task is to design and implement a 2D tile-based world exploration engine. The system you build can either use graphical tiles, or it can use text based tiles.
+
+There will be a tile renderer and a small set of starter tiles for you to use. This will be the same tile renderer you used in Project 0 and 3.
+
+## Task 0: Partnership Formation
+
+伯克利选课学生需要做的组队事项，其余人并无必要。
+
+## Task 1: Setup
+
+接收邀请，获得骨架代码。对于校外人员，去找fa25 project5的骨架代码以继续接下来的任务（或者让AI直接给你搜寻、下载吧）。
+
+## Task 2: Writing Your TDD
+
+TDD: Technical Design Document
+
+Before getting started, please read the Project 5B: World Generation and Project 5C: Gameplay specs. You won’t be able to begin either task without understanding the BYOW spec first!
+
+**Design Tips**: We’ve included below a few questions for you to consider while brainstorming your design:
+
+`General Questions`
+- Look through the provided code:
+  - Notice what’s already built for you. What may be useful for your implementation?
+  - Notice what isn’t. What gaps does your implementation need to fill?
+- Where do tasks overlap? Are there opportunities to reuse methods across different cases? Think about opportunities for helper methods.
+- Can you find groups of data structures and methods that serve a similar, clearly defined purpose? If so, consider moving them to a separate class. Building abstraction barriers may be helpful for managing code complexity.
+
+`World Generation`
+- What are the core components of each world? Does it make sense to have a separate class for each component?
+- How will you ensure that every generated world is valid?
+  - Will you decide on a layout first, validate it, then build the world after?
+  - Or, will you gradually generate the world, ensuring that only valid components are built as you go?
+- Ultimately, each world is a 2D grid of values, each representing a Tile. What data structures would be helpful for tracking the state of the world on top of this grid? Representing specific aspects of your world with data structures may be helpful for building ambition features later.
+
+`Interactivity`
+- Read through the StdDraw library documentation. This library acts as the bridge between your implementation and what is outputted on screen (e.g. the /tileengine implementation uses library methods to draw to the screen).
+  - Can you find methods for drawing on the screen, not specifically for tile drawing?
+  - Can you find methods for soliticiting user inputs?
+- Rendering video is much like a classic film projector, in that by rapidly rendering images, we can create the illusion of motion. Video games are essentially the same, except that user inputs can alter what’s displayed in the next frame. (Read about common paradigms for implementing video games and graphics engines here)
+  - Does your implementation clearly separate the steps of collecting, processing, and displaying the result of user inputs?
+- Consider that your computer can compute thousands of instructions each second. If your implementation has real-time elements (i.e. timers, slow-motion movement, NPCs moving at user-like speed, etc.), how can you adjust the speed of your event loop to match real-time?
+
+`Ambition Features`
+- Most importantly, which ambition features are you most excited about building?
+- For each feature, determine where it fits within your current abstraction barriers:
+  - Does it require fundamental changes to the process of generating and representing worlds?
+  - Does it alter the process for collecting user input?
+  - Does it change the process for rendering the world state?
+- Do any features span multiple domains of this project? If so, consider creating separate classes to contain their complexity.
+- How could you structure your core project implementation (world generation and interactivity) to make feature integration seamless?
 
 # Project 5B: World Generation
 

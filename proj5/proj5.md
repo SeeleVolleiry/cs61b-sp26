@@ -74,6 +74,59 @@ Before getting started, please read the Project 5B: World Generation and Project
 
 # Project 5B: World Generation
 
+## Code Overview
+
+In the `TileEngine` package, you’ll find the following useful files:
+- `TERenderer.java` contains rendering-related methods.
+- `TETile.java` represents a tile.
+- `Tileset.java` has some pre-made tile designs that you can use.
+
+In the Utils package, you’ll find the following useful file:
+- `RandomUtils.java` has methods for generating randomness for your world.
+
+In the `Core` package, you’ll write code for your game. We recommend putting all your code in this package (though this is not required).
+- `Main.java` is how your user starts the entire system.
+- `World.java` represents your world!
+- You can add other classes of your own, too!
+
+This project makes heavy use of `StdDraw`, which is a package that has basic graphics rendering capabilities. Additionally, it supports user interaction with keyboard and mouse clicks. You will likely need to consult the API specification for StdDraw at some points in the project.
+
+Your project should only use standard Java libraries or any libraries we provided with your repo and library-sp26.
+
+## Getting Started
+
+`TETile Array`
+
+At a high level, *your goal is to create a 2D array of TETile objects, and fill in the array with different tiles, to create a nice-looking world*. Then, you can call one of our library functions to display this world to the user.
+
+Go through the files in the tileengine folder: `TETile.java`, `Tileset.java`, and `TERenderer.java`. Overall, you do not need to understand these implementations deeply, but they provide useful context.
+
+`TETile.java`:
+- class description:
+  * The TETile object is used to represent `a single tile` in your world. 
+  * A 2D array of tiles make up a board, and can be drawn to the screen using the TERenderer class.
+  * All TETile objects must have a `character`, `textcolor`, and `background color` to be used to represent the tile when drawn to the screen. You can also optionally provide a path to an image file of an appropriate size (16x16) to be drawn in place of the unicode representation. If the image path provided cannot be found, draw will fallback to using the provided character and color representation, so you are free to use image tiles on your own computer.
+  * The provided TETile is `immutable`, i.e. none of its instance variables can change. 
+  * You are welcome to make your TETile class mutable, if you prefer.
+- methods description:
+  - constructor: 
+    - TETile(char character, Color textColor, Color backgroundColor, String description, String filepath, int id)
+    - TETile(char character, Color textColor, Color backgroundColor, String description, int id)
+    - TETile(TETile t, Color textColor): creates a copy of TETile t, except with given color.
+    - TETile(TETile t, char c): creates a copy of TETile t, except with given character.
+  - draw(double x, double y): Draws the tile to the screen at location (x, y).
+  - Get the properties of instance variable: character(), descroption() ,id().
+  - TETile colorVariant(TETile t, int dr, int dg, int db, Random r): Creates a copy of the given tile with a slightly different text color.
+  - String toString(TETile[][] world): Converts the given 2D array to a String.
+  - TETile[][] copyOf(TETile[][] tiles): makes a copy of the given 2D tile array.
+  - equals(Object o):  Checks if two tiles are equal by comparing their IDs.
+
+`Tileset.java`:
+
+
+Important note: world[0][0] corresponds to the bottom-left tile of the world.
+
+
 
 
 

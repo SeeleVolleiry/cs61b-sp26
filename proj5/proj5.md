@@ -74,6 +74,8 @@ Before getting started, please read the Project 5B: World Generation and Project
 
 # Project 5B: World Generation
 
+The goal is to implement world generation for generating a world which satisfies the properties of valid and pseudorandom.
+
 ## Code Overview
 
 In the `TileEngine` package, you’ll find the following useful files:
@@ -224,8 +226,6 @@ This world is sheer chaos – walls and flowers everywhere! If you look at the R
 6. The world should be substantially different each time, i.e. you should not have the same basic layout with easily predictable features. 
 7. You can pick any window size you want, as long as the window size is reasonable (e.g. not something tiny like 3×3), and the entire window is visible on your computer. For example, a fixed, non-random window size is fine.
 
-
-
 ### Task: World Generation
 
 TASK: Implement code that takes in a seed, generates a pseudo-random 2D world array, and displays that world back to the user.
@@ -239,3 +239,40 @@ Your seeds are(with 1270):
 
 
 # Project 5C: Interactivity
+
+## Task 1:
+
+
+
+
+
+
+## Task 2:
+
+
+
+
+
+
+## Task 3:
+
+
+
+
+
+
+## Task 4:
+
+
+
+
+
+
+## Task 5:
+
+
+
+
+
+
+## Task 6:

@@ -191,4 +191,51 @@ The RandomUtils class provides some useful methods for getting other types of ra
 
 Open up the skeleton and check out the `RandomWorldDemo.java` file in the `demo` folder. Try running it.
 
+This world is sheer chaos – walls and flowers everywhere! If you look at the RandomWorldDemo.java file, you’ll see that we’re doing a few new things:
+- We create and use an object of type `Random` that is a “pseudorandom number generator”.
+- We use a new type of conditional called a `switch` statement.
+- We have delegated work to functions instead of doing everything in main.
+
+### World Requirements
+
+**Your goal in Project 5B is to write a world generator that can create pseudorandom worlds with hallways and floors**.
+
+`Valid`:
+1. The world must include distinct rooms and hallways. For any floor square, it should be obvious whether that square belongs to a room or a hallway.
+2. At least some rooms should be rectangular. You can optionally support rooms of other shapes as well.
+3. Hallways should be width-1 or width-2. However, hallways must be visually distinct from rooms. The vast majority of students use width-1 hallways.
+4. Your world generator must be capable of generating hallways that include turns (or equivalently, straight hallways that intersect). Random worlds should generate a turning hallway with high frequency, in that a majority of worlds should have a turning hallway.
+5. The world should not have any dead-end hallways. Hallways should always lead into rooms.
+6. Walls, floors, and empty spaces should all be visually distinct. The easiest way to do this is to use three different tile types: one for walls, one for floors, and one for empty spaces.
+7. Walls in the corners of rooms and hallways are optional.
+8. All floor tiles (rooms and hallways) should be reachable from each other.
+9. All the space “inside” the walls should be floor tiles, and all the space “outside” the walls should be empty space tiles.
+10. Rooms cannot clip off the edge of the world. In other words, there should be no floor tiles on the edge of the world.
+11. The world must not have excess unused space. There’s no strict requirement, but try to consistently fill at least 50% of the world with rooms and hallways.
+
+`Pseudorandom`—— Requirements for a pseudorandom world:
+1. The world must be pseudorandom.
+    - If the user chooses the same seed twice, the resulting world must be identical. 
+    - If the user chooses two different seeds, the resulting worlds should be different.
+2. Different worlds should different numbers of rooms and hallways.
+3. Different worlds should have rooms and hallways in different locations.
+4. Different rooms should have different widths and heights. 
+5. Different hallways should have different lengths. 
+6. The world should be substantially different each time, i.e. you should not have the same basic layout with easily predictable features. 
+7. You can pick any window size you want, as long as the window size is reasonable (e.g. not something tiny like 3×3), and the entire window is visible on your computer. For example, a fixed, non-random window size is fine.
+
+
+
+### Task: World Generation
+
+TASK: Implement code that takes in a seed, generates a pseudo-random 2D world array, and displays that world back to the user.
+
+Your seeds are(with 1270):
+6578897764558030256
+1013758890894698811
+7162790311120124118
+7003957710856902839
+6206686636164176845
+
+
 # Project 5C: Interactivity

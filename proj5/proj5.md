@@ -240,39 +240,72 @@ Your seeds are(with 1270):
 
 # Project 5C: Interactivity
 
-## Task 1:
+## Task 1: Main Menu
 
+修改程序启动界面——先出菜单，不再是5B中先渲染出世界。界面有三个选项（大小写不敏感）：
+- N/n → 新游戏，进入输 seed 界面：每敲一个数字立即上屏，敲 S/s 确认，按该 seed 生成世界并开始
+- L/l → 读档（读 save.txt 最近一次存档）
+- Q/q → System.exit(0) 直接关窗口（菜单里单按 Q 就退，不存档）
+- 明确不测的行为（代码怎么处理都行）：seed 超出 long 范围 [0, 9223372036854775807]；seed 界面按退格/逗号/字母等非法键。
 
+## Task 2: Interactivity
 
+When the user starts the game, the world you generated should additionally include a single `avatar tile` representing the user. In the example below, the @ tile is the avatar. Your avatar can look different, as long as there is a clear single avatar.
 
+- 世界里加一个明确的 avatar tile（长什么样随意），出生点随意但必须确定——同 seed 两次出生在同一格（如固定取“最左下角的地板”）
+- W/A/S/D（含小写）移动一格；撞墙不动、程序不能崩
+- 不需要支持长按连走
+- 核心架构是游戏循环：初始化 → 读输入更新状态 → 重渲染 → 循环。官方指路看骨架里的 GameLoopDemo.java
+- 确定性硬要求：同样的按键序列 → 游戏状态完全一样。计时/刷怪这类机制要用“步数”衡量（每 5 步刷一个怪），不能用真实秒数——除非慢到别人能稳定复现。
 
+`Animating the Game`: To animate your game, you need to continuously re-render updates to your game state. These updates will vary depending on the specific scene you are in. You can conceptualize this process as a “`game loop`”. Your world movement scene might be characterized by the following game loop:
+- Initialize the game window and the world state.
+- Update the movements of the avatar based on the player’s input.
+- Render the updated game state in the game window.
+- Repeat steps 2 and 3 until the player quits.
 
-## Task 2:
+Check out `GameLoopDemo.java`, located in the `demo` folder of your Project 5 repo, for an example of what this might look like.
 
+In general, good coding practice is to first build small procedures with explicit purposes and then compose more complex methods using the basic ones. It will give you a clear path forward in development and will be easier to break down your logic for unit testing.
 
+`Non real-time gameplay`: The easiest way to produce deterministic behavior is for your game to not depend on real-time. Some examples of non-real-time behavior:
+- If the user presses the same sequence of keys very quickly, or very slowly, the resulting behavior should be exactly the same.
+- If you have features like a countdown timer, the timer should be measured by number of moves (e.g. decrement each time the user moves), as opposed to real-time like number of seconds.
+- If you have features like enemy character spawning, you can spawn an enemy every 5 moves, as opposed to something real-time like every 5 seconds.
 
+If you do intend to implement real-time behavior, that’s fine, as long as anybody can easily produce deterministic behavior by pressing the same keys in the same sequence.
 
+For example, asking the user to press a key within a 10-second timer is fine and reproducible, but asking the user to press 20 keys within a 0.1-second timer is too hard to reproduce reliably.
 
+## Task 3: HUD
 
-## Task 3:
+最低要求：屏幕上方留一条空带，用 StdDraw.textLeft(x, y, text) 实时显示鼠标当前指向的 tile 名字（如 "floor"、"goblin"）。
 
+三个硬性要求：
+- 鼠标移动时 HUD 必须更新（不能只在按键时刷新）
+- 不能闪烁
+- 想加分就自己加：血条、提示文字等
 
+## Task 4: Saving and Loading
 
+World 模式下按 :q 或 :Q → 立即存档并退出；单独的 q/Q/: 都不能触发退出
+存进 save.txt（格式自定），内容要足以完美重建当时的游戏状态。
 
+官方验收例子：
+场景一：N999SDDDWWW（新游戏，seed 999，开始，右×3，上×3）
+场景二：N999SDDD:Q（同上但只右×3，存档退出）→ 重开程序 → LWWW（读档，上×3）
+两个场景最终世界必须完全相同——包括随机数生成器的内部状态
 
+## Task 5: Pathfinding
 
-## Task 4:
+鼠标点击某个 tile → 画出一条到该点的路径：只能走地板等可通行 tile，且必须是最短路（多条最短路任选一条；最短路算法 20 章的 BFS 就够——无权图最短路）
 
+再点一次同一点 → avatar 沿这条路径动画走过去
 
+## Task 6: Ambition Features
 
+至少实现 1 个 primary + 1 个 secondary 野心特性（官方预批清单在 sp26.datastructur.es/proj5/ambition），或自己提（要在 Ed 上提前报备）。
 
+存档必须覆盖野心特性的状态——读档后特性状态也要还原。
 
-
-## Task 5:
-
-
-
-
-
-
-## Task 6:
+自选特性的一个硬规矩：AI 生成的非平凡代码必须注释标注来源，比如 // This method was written by Gemini 2.5.

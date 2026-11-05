@@ -95,7 +95,7 @@ Your project should only use standard Java libraries or any libraries we provide
 
 ## Getting Started
 
-`TETile Array`
+### TETile Array
 
 At a high level, *your goal is to create a 2D array of TETile objects, and fill in the array with different tiles, to create a nice-looking world*. Then, you can call one of our library functions to display this world to the user.
 
@@ -122,13 +122,73 @@ Go through the files in the tileengine folder: `TETile.java`, `Tileset.java`, an
   - equals(Object o):  Checks if two tiles are equal by comparing their IDs.
 
 `Tileset.java`:
+- Tileset class description:
+  - Contains constant tile objects, to avoid having to remake the same tiles in different parts of the code.
+- pre-define TETile objects:
+  - `AVATAR`: TETile('@', Color.white, Color.black, "you", 0);
+  - `WALL`: TETile('#', new Color(216, 128, 128), Color.darkGray,
+    "wall", 1);
+  - `FLOOR`: TETile('·', new Color(128, 192, 128), Color.black, "floor", 2);
+  - `NOTHING`: TETile(' ', Color.black, Color.black, "nothing", 3); 
+  - `GRASS`: TETile('"', Color.green, Color.black, "grass", 4); 
+  - `WATER`: TETile('≈', Color.blue, Color.black, "water", 5); 
+  - `FLOWER`: TETile('❀', Color.magenta, Color.pink, "flower", 6);
+  - `LOCKED_DOOR`: TETile('█', Color.orange, Color.black, "locked door", 7); 
+  - `UNLOCKED_DOOR`: TETile('▢', Color.orange, Color.black,
+    "unlocked door", 8);
+  - `SAND`: TETile('▒', Color.yellow, Color.black, "sand", 9);
+  - `MOUNTAIN`: TETile('▲', Color.gray, Color.black, "mountain", 10);
+  - `TREE`: TETile('♠', Color.green, Color.black, "tree", 11);
+  - `CELL`: TETile('█', Color.white, Color.black, "cell", 12);
 
+`TERender.java`:
+- class description:  Utility class for rendering tiles.
+  -  instance attributes: TILE_SIZE, weight, height, xOffset, yOffset
+- methods description:
+  - initialize(): 
+    - initialize(int w, int h, int xOff, int yOff)
+    - initialize(int w, int h): initialize(w, h, 0, 0)
+  - renderFrame(TETile[][] world): Takes in a 2d array of TETile objects and renders the 2d array to the screen, starting from xOffset and yOffset.
+  - drawTiles(TETile[][] world): Draws all world tiles without clearing the canvas or showing the tiles.
+  - resetFont(): Resets the font to default settings. You should call this method before drawing any tiles if you changed the pen settings.
 
 Important note: world[0][0] corresponds to the bottom-left tile of the world.
 
+### Tile Rendering
 
+Open up the skeleton and check out the `BoringWorldDemo` file in the `demo` folder. Try running it. This code does 3 things:
+- Initializing the tile rendering engine.
+- Generating a two-dimensional TETile[][] array.
+- Using the tile rendering engine to display the TETile[][] array.
 
+### Randomness and Pseudo-Randomness
 
+To generate random numbers in Java, we can use create a `Random` object, which represents a random number generator:
+```
+Random r = new Random(); // Totally random. Don't do this in Project 5.
+System.out.println(r.nextInt());
+System.out.println(r.nextInt());
+System.out.println(r.nextInt());
+```
+Every time you run this program, you’ll get 3 totally random integers.
 
+What if we want to control the output of the random number generator (e.g. for debugging purposes)? In that case, we can provide a `seed` to the constructor.
+
+r is now a pseudorandom number generator, because it generates a deterministic sequence of random-looking numbers based on the seed you provide. If you provide the same seed, you will get the same sequence of values. For example, every time you run this program, you will get the same 3 integers.
+```
+Random r = new Random(82731);
+System.out.println(r.nextInt());
+System.out.println(r.nextInt());
+r = new Random(82731);
+System.out.println(r.nextInt());
+```
+
+The RandomUtils class provides some useful methods for getting other types of randomness out of a Random object, examples include:
+- `int uniform(Random random, int a, int b)`: Returns an integer from the range [a, b)
+- `T randomChoice(Random random, List<T> items)`: Returns a random item from items.
+- `void shuffle(Random random, Object[] a)`: Shuffles the given array.
+- `double gaussian(Random random, double mu, double sigma)`: Gives a sample from a Gaussian distribution.
+
+Open up the skeleton and check out the `RandomWorldDemo.java` file in the `demo` folder. Try running it.
 
 # Project 5C: Interactivity

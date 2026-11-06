@@ -279,6 +279,8 @@ For example, asking the user to press a key within a 10-second timer is fine and
 
 ## Task 3: HUD
 
+Add a “Heads up Display” (HUD) that provides additional information that maybe useful to the user.
+
 最低要求：屏幕上方留一条空带，用 StdDraw.textLeft(x, y, text) 实时显示鼠标当前指向的 tile 名字（如 "floor"、"goblin"）。
 
 三个硬性要求：
@@ -286,7 +288,13 @@ For example, asking the user to press a key within a 10-second timer is fine and
 - 不能闪烁
 - 想加分就自己加：血条、提示文字等
 
+As a hint on how you can do this, we’d recommend two things:
+- Modify your code so that there is some empty space at the top for you to put your HUD in.
+- Look into the `StdDraw.textLeft(x, y, text)` function, which draws the given text at the given x and y position. Analogously, there are also the textRight and text functions with the same inputs but will make it so that the right and center of text is at the given x and y positions.
+
 ## Task 4: Saving and Loading
+
+Implement the Saving and Loading feature that follows the requirements detailed below.
 
 World 模式下按 :q 或 :Q → 立即存档并退出；单独的 q/Q/: 都不能触发退出
 存进 save.txt（格式自定），内容要足以完美重建当时的游戏状态。
@@ -296,7 +304,11 @@ World 模式下按 :q 或 :Q → 立即存档并退出；单独的 q/Q/: 都不�
 场景二：N999SDDD:Q（同上但只右×3，存档退出）→ 重开程序 → LWWW（读档，上×3）
 两个场景最终世界必须完全相同——包括随机数生成器的内部状态
 
+Go through the `ExampleSaveLoad.java` file in your demo folder and make sure you understand it.
+
 ## Task 5: Pathfinding
+
+Now, we are going to add the ability for movement by clicking on a tile, rather than just using keyboard (WASD) movements.
 
 鼠标点击某个 tile → 画出一条到该点的路径：只能走地板等可通行 tile，且必须是最短路（多条最短路任选一条；最短路算法 20 章的 BFS 就够——无权图最短路）
 
@@ -309,3 +321,31 @@ World 模式下按 :q 或 :Q → 立即存档并退出；单独的 q/Q/: 都不�
 存档必须覆盖野心特性的状态——读档后特性状态也要还原。
 
 自选特性的一个硬规矩：AI 生成的非平凡代码必须注释标注来源，比如 // This method was written by Gemini 2.5.
+
+`Primary Features`:
+- `Line of Sight`: Create a system so that the tile renderer only displays tiles on the screen that are within the line of sight of the avatar. The line of sight must be able to be toggled on and off with a keypress. Note the line of sight should NOT go through walls although it is fine to be able to wrap around walls/corners. This also means that the line of sight must be long enough such that we can tell if it goes through a wall or not.
+- `Light Sources`: Add the ability for light sources to affect how the world is rendered, with at least one light source that can be turned on and off with a keypress. The intensity of the light must diminish in a gradient as the distance from the source increases. Light sources should fill a majority of the room it belongs to, and light should not pass through walls. 
+- `Encounters`: Create a system for “encounters”, where a new interface appears when the avatar interacts with entities in the world, returning the avatar to the original interface when the encounter ends (e.g. Pokémon). Note that the world must be in the same state it was before the encounter, after the encounter ends. It’s okay if save/load is not available during encounters. 
+- `Undo, Redo and Restart`: Add the ability to undo moves, redo moves, and reset your world using three different keypresses. The redo key should do nothing if the most recent action was not an undo.
+- `Perspective`: Add the ability for the user to change the perspective of their view (first-person, isometric 2.5D, 3D, etc.) (We’ve never seen anyone do isometric 2.5D or full 3D before! The Nintendo 64 game ‘Kirby 64 - The Crystal Shards’ is an example of what an isometric 2.5D world looks like). One particularly interesting example is Dorottya Urmossy and David Yang’s Fall 2022 submission, which is a 2.5D first-person view, i.e. the world is 3D but the entities are 2D.
+- `Battle System`: Implement a battle system that allows players to interact with moving enemies and obstacles. Assign the player a health value, place collectibles that restore health around the map, and create randomly-moving enemies/objects that inflict damage on and receive damage from the player.
+- `Explorer`: Make your world larger than the preset display size such that the player can “explore” beyond the starting world. The rendered world should move with the player beyond a certain point and be scrollable.
+- `Wrap`: Make your world “wrap” around the border of the rendered world, where the player should be able to enter from one side of the screen and exit from the opposite side interchangeably. In order to wrap, you must have rooms on the edge of the world that clip off such that the opposite side also has a room that is clipped off, allowing the player to continue traveling on the floor tiles. The world should still follow the World Requirements from Part B excluding requirement #10.
+- `Online Multiplayer`: Add online multiplayer where other users can join and leave the current game. java.net.Socket might be useful here. All players must have the ability to do interactivity (moving, save/load, etc)
+- `NPCs`: Add NPC interaction and dialogue with the player. Allow the player to choose different response options depending on the NPC and/or game state. Let us know if you do any cool realtime API calls to an LLM service.
+- `Levels`: Implement elevators/navigable floors with a toggleable multi-floor view or with a significantly different interface with the ability to go back to the main world.
+`Altered Terrain`: Implement the ability for the avatar to significantly alter the landscape of the world, e.g. digging, triggering traps that cause parts of the world to become dangerous or impassible, solving puzzles that make some rooms accessible only after fulfilling some objective.
+
+`Secondary Features`:
+- `Replay`: Add the ability for the user to “replay” their most recent save, visually displaying all the actions taken since the last time a new world was created. This must result in the same final state as would occur if the user had loaded the most recent save. This means that the game should be playable once the replay is complete. 
+- `Save Slots`: Add multiple save slots that can be accessed with a new menu option, and a new keyboard shortcut to save to a slot other than slot 1. You should be careful to still support the default behavior of saving and loading in order to be consistent with the replay string requirements. 
+- `New World`: Add the ability to create a new world without closing and reopening the project, either as a special option you can press while exploring, or when you reach a “game over” state if you’ve turned your world into a game. 
+- `Custom Avatar`: Make your engine render images instead of unicode characters, and add a menu option to change your avatar’s appearance to a custom image created by you. 
+- `Theme`: Make your engine render images instead of unicode characters, and add a menu option to select the environment/theme of the world will be.
+- `Language`: Add a menu option to change all text in the interface to a different language. English should be the default and there should be a way to switch it back to English.
+- `Audio`: Add cool music to both your menu and exploration interface, as well as sound effects for interactions the avatar makes with the world.
+- `Minimap`: Add a minimap somewhere which shows the entire map and the current avatar location. This feature is a lot more interesting if you also implement a map which is larger than the screen so that you are unable to see the entire map normally.
+- `Rotate`: Add ability to rotate the world, i.e. turn the board 90 degrees and adjust movement keys accordingly.
+- `Local Multiplayer`: Add support for 2 users to interact at the same time. This will require that you have two avatars on screen which can move around, and they should have separate control schemes.
+- `Moveable Blocks`: Add ability for the player to place and remove blocks based on a sequence of keypresses.
+- `Coins`: Add the ability for the user to collect coins. Once all coins are collected, the user should be returned to the main menu, where they are given the option to either start a new game, load a previous world, or quit.

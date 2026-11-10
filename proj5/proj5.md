@@ -101,7 +101,7 @@ Your project should only use standard Java libraries or any libraries we provide
 
 At a high level, *your goal is to create a 2D array of TETile objects, and fill in the array with different tiles, to create a nice-looking world*. Then, you can call one of our library functions to display this world to the user.
 
-Go through the files in the tileengine folder: `TETile.java`, `Tileset.java`, and `TERenderer.java`. Overall, you do not need to understand these implementations deeply, but they provide useful context.
+Go through the files in the `tileengine` folder: `TETile.java`, `Tileset.java`, and `TERenderer.java`. Overall, you do not need to understand these implementations deeply, but they provide useful context.
 
 `TETile.java`:
 - class description:
@@ -230,7 +230,7 @@ This world is sheer chaos – walls and flowers everywhere! If you look at the R
 
 TASK: Implement code that takes in a seed, generates a pseudo-random 2D world array, and displays that world back to the user.
 
-Your seeds are(with 1270):
+Your `seed`s are(with 1270):
 6578897764558030256
 1013758890894698811
 7162790311120124118

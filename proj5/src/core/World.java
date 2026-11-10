@@ -55,13 +55,12 @@ public class World {
                 int roomHeight = r.nextInt(14, 17); // 房间的高度：14到16， y + 房间的高度 < 世界高度-1 && y >= 1
                 Room trialRoom = new Room(roomX, roomY, roomWidth, roomHeight);
                 // 如果房间是贴边的且被完全包含：跳过，进入下一次trial随机生成。
-                if (!trialRoom.isLlegal() && trialRoom.isSubRoom(rooms)) {
-                    trial--;
-                    continue;
+                if (trialRoom.isLlegal() && !trialRoom.isSubRoom(rooms)) {
+                    rooms.add(trialRoom);  // 前两项检验通过，房间是合法的: 加入房间列表
+                    this.fillRoom(trialRoom); // 房间生成：用floor铺满矩形内的空间 fillRoom
+                    break; // break，跳出该次生成房间的循环，进入下一个房间生成。
                 }
-                rooms.add(trialRoom);  // 前两项检验通过，房间是合法的: 加入房间列表
-                this.fillRoom(trialRoom); // 房间生成：用floor铺满矩形内的空间 fillRoom
-                break; // break，跳出该次生成房间的循环，进入下一个房间生成。
+                trial--;
             }
             roomNumber--;
         }
@@ -80,19 +79,7 @@ public class World {
             hallways.add(connectHallway);
         }
         // 铺墙
-        for (int x = 0; x < w; x++) { // 扫描整个tiles，对于是NOTHING的tile：
-            for (int y = 0; y < h; y++) {
-                if (tiles[x][y] == NOTHING) { // 如若以自身为中心的九宫格范围内的八个邻居tile存在floor，修改为WALL
-                    if ((tiles[x-1][y] == FLOOR)
-                            || (tiles[x+1][y] == FLOOR)
-                            || (tiles[x][y-1] == FLOOR)
-                            || (tiles[x][y+1] == FLOOR)) {
-                        tiles[x][y] = WALL;
-                    }
-                }
-            }
-        }
-
+        this.fillWall();
     }
 
     public TETile[][] getTiles() {
@@ -165,6 +152,45 @@ public class World {
                 }
             }
         }
+    }
+
+    private void fillWall() {
+        for (int x = 0; x < w; x++) { // 扫描整个tiles，对于是NOTHING的tile：
+            for (int y = 0; y < h; y++) {
+                for (TETile neighbor: findNeighbors(tiles, x, y)) {
+                    // 如若以自身为中心的八个邻居tile存在floor，修改为WALL
+                    if (neighbor == FLOOR && tiles[x][y] == NOTHING) {
+                        tiles[x][y] = WALL;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private List<TETile> findNeighbors(TETile[][] tiles, int x, int y) {
+        List<TETile> neighbors = new ArrayList<>();
+        if (x - 1 >= 0) {
+            neighbors.add(tiles[x-1][y]);
+            if (y - 1 >= 0) {
+                neighbors.add(tiles[x][y-1]);
+                neighbors.add(tiles[x-1][y-1]);
+            }
+            if (y + 1 < tiles[0].length) {
+                neighbors.add(tiles[x][y+1]);
+                neighbors.add(tiles[x-1][y+1]);
+            }
+        }
+        if (x + 1 <= tiles.length - 1) {
+            neighbors.add(tiles[x+1][y]);
+            if (y - 1 >= 0) {
+                neighbors.add(tiles[x+1][y-1]);
+            }
+            if (y + 1 < tiles[0].length) {
+                neighbors.add(tiles[x+1][y+1]);
+            }
+        }
+        return neighbors;
     }
 
     public class Avatar {

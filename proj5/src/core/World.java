@@ -46,9 +46,9 @@ public class World {
         Random r = new Random(this.seed);
         // 生成房间，维护房间列表。
         int roomNumber = r.nextInt(12, 15); // 房间的数量：12到14。
-        while (roomNumber >= 0) {
+        while (roomNumber > 0) {
             int trial = 200; // 每间房间的生成循环最多试200次，失败就少一间，继续下一间。
-            while (trial >= 0) {
+            while (trial > 0) {
                 int roomX = r.nextInt(1, w); // 房间的左下角坐标:x,y
                 int roomY = r.nextInt(1, h); // 房间的左下角坐标:x,y
                 int roomWidth = r.nextInt(14, 17); // 房间的宽度：14到16， x + 房间的宽度 < 世界宽度-1 && x >= 1

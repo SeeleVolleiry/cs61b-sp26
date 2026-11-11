@@ -6,8 +6,6 @@ import utils.FileUtils;
 
 import java.io.File;
 
-import static tileengine.Tileset.FLOOR;
-
 public class Game {
     private final int windowWidth;
     private final int windowHeight;
@@ -16,6 +14,7 @@ public class Game {
     private TERenderer ter;
     private Menu menu;
     private World world;
+    private HUD hud;
     StringBuilder actionHistory;
 
     public Game(int w, int h) {
@@ -26,7 +25,32 @@ public class Game {
         ter.initialize(windowWidth, windowHeight);
 
         menu = new Menu();
+        hud = new HUD();
         actionHistory = new StringBuilder();
+    }
+
+    private class HUD {
+        String left;
+        String middle;
+        String right;
+
+        public HUD() {
+            left = "World";
+            middle = "Gaming";
+            right = "Player: avatar";
+        }
+
+        private void draw() {
+            int mx = (int) StdDraw.mouseX();
+            int my = (int) StdDraw.mouseY();
+            String tileDesc;
+            if (mx >= 0 && mx < 80 && my >= 0 && my < 55) {
+                tileDesc = world.getTiles()[mx][my].description();
+            } else {
+                tileDesc = "---";
+            }
+
+        }
     }
 
     public void gameRun() {
@@ -39,7 +63,14 @@ public class Game {
                 default: break;
             }
         }
-        System.exit(0);
+        System.exit(0); // 退出
+    }
+
+    public void gameRender() {
+        this.ter.drawTiles(world.getTiles());
+        this.world.avatar.draw();
+        this.hud.draw();
+        StdDraw.show();
     }
 
     public String menuLoop() {
@@ -56,7 +87,6 @@ public class Game {
                     case 'l': // load game
                         return loadGame();
                     case 'q': // quit game
-                        System.exit(0);
                         return "Quit";
                     default:
                         break;
@@ -66,6 +96,7 @@ public class Game {
     }
 
     public String createGame() {
+        this.menu.seedBuffer.setLength(0); // 清空
         char userInput;
         this.menu.newGameRender();
         while (true) {
@@ -90,58 +121,50 @@ public class Game {
     public String gameLoop() {
         this.ter.renderFrame(this.world.getTiles());
         this.world.avatar.draw();
+        this.hud.draw(); // draw HUD
         char operation;
+        boolean waitingQ = false;
         while (true) {
             while (StdDraw.hasNextKeyTyped()) {
                 operation = StdDraw.nextKeyTyped();
                 operation = Character.toLowerCase(operation);
+                if (waitingQ && operation == 'q') {
+                    waitingQ = false;
+                    actionHistory.append(":Q");
+                    saveGame();
+                    return "Quit"; // 存档后退出游戏
+                }
                 switch(operation) {
                     case 'w':
-                        if (world.avatar.y + 1 < world.getTiles()[0].length-1) {
-                            if (world.getTiles()[world.avatar.x][world.avatar.y + 1] == FLOOR) {
-                                world.avatar.y += 1;
-                                this.actionHistory.append('w');
-                                this.ter.renderFrame(this.world.getTiles());
-                                this.world.avatar.draw();
-                            }
-                        }
+                        this.world.avatar.move(0, 1);
+                        this.actionHistory.append('w');
+                        gameRender();
                         break;
                     case 'a':
-                        if (world.avatar.x - 1 >= 0) {
-                            if (world.getTiles()[world.avatar.x - 1][world.avatar.y] == FLOOR) {
-                                world.avatar.x -= 1;
-                                this.actionHistory.append('a');
-                                this.ter.renderFrame(this.world.getTiles());
-                                this.world.avatar.draw();
-                            }
-                        }
+                        this.world.avatar.move(-1, 0);
+                        this.actionHistory.append('a');
+                        gameRender();
                         break;
                     case 's':
-                        if (world.avatar.y - 1 >= 0) {
-                            if (world.getTiles()[world.avatar.x][world.avatar.y - 1] == FLOOR) {
-                                world.avatar.y -= 1;
-                                this.actionHistory.append('s');
-                                this.ter.renderFrame(this.world.getTiles());
-                                this.world.avatar.draw();
-                            }
-                        }
+                        this.world.avatar.move(0, -1);
+                        this.actionHistory.append('s');
+                        gameRender();
                         break;
                     case 'd':
-                        if (world.avatar.x + 1 < world.getTiles().length-1) {
-                            if (world.getTiles()[world.avatar.x + 1][world.avatar.y] == FLOOR) {
-                                world.avatar.x += 1;
-                                this.actionHistory.append('d');
-                                this.ter.renderFrame(this.world.getTiles());
-                                this.world.avatar.draw();
-                            }
-                        }
+                        this.world.avatar.move(1, 0);
+                        this.actionHistory.append('d');
+                        gameRender();
                         break;
                     case ':':
-                        if (StdDraw.hasNextKeyTyped() && StdDraw.nextKeyTyped() == 'q') {
-                            actionHistory.append(":Q");
-                            saveGame();
-                            return "Quit"; // 存档后退出游戏
-                        }
+                        /*if (StdDraw.hasNextKeyTyped()) {
+                            char c = Character.toLowerCase(StdDraw.nextKeyTyped());
+                            if (c == 'q') {
+                                actionHistory.append(":Q");
+                                saveGame();
+                                return "Quit"; // 存档后退出游戏
+                            }
+                        }*/
+                        waitingQ = true;
                         break;
                     default:
                         break;
@@ -154,57 +177,36 @@ public class Game {
         String filename = "savedGameData.txt";
         FileUtils fileIO = new FileUtils();
         if (!fileIO.fileExists(filename)) {
-            return "Quit";
+            return "MainMenu";
         }
         String fileString = fileIO.readFile(filename);
-        String[] history = fileString.split("\t");
+        String[] history = fileString.split("\t", -1);
         this.seed = Long.parseLong(history[0]);
         this.world = new World(windowWidth, windowHeight - HUDHeight, this.seed);
+        actionHistory.setLength(0);
+        actionHistory.append(history[0]).append("\t");
         for (int i = 0; i < history[1].length(); i++) {
             char move = history[1].charAt(i);
             switch(move) {
                 case 'w':
-                    if (world.avatar.y + 1 < world.getTiles()[0].length-1) {
-                        if (world.getTiles()[world.avatar.x][world.avatar.y + 1] == FLOOR) {
-                            world.avatar.y += 1;
-                            this.actionHistory.append('w');
-                            this.ter.renderFrame(this.world.getTiles());
-                            this.world.avatar.draw();
-                        }
-                    }
+                    this.world.avatar.move(0, 1);
+                    actionHistory.append('w');
                     break;
                 case 'a':
-                    if (world.avatar.x - 1 >= 0) {
-                        if (world.getTiles()[world.avatar.x - 1][world.avatar.y] == FLOOR) {
-                            world.avatar.x -= 1;
-                            this.actionHistory.append('a');
-                            this.ter.renderFrame(this.world.getTiles());
-                            this.world.avatar.draw();
-                        }
-                    }
+                    this.world.avatar.move(-1, 0);
+                    actionHistory.append('a');
                     break;
                 case 's':
-                    if (world.avatar.y - 1 >= 0) {
-                        if (world.getTiles()[world.avatar.x][world.avatar.y - 1] == FLOOR) {
-                            world.avatar.y -= 1;
-                            this.actionHistory.append('s');
-                            this.ter.renderFrame(this.world.getTiles());
-                            this.world.avatar.draw();
-                        }
-                    }
+                    this.world.avatar.move(0, -1);
+                    actionHistory.append('s');
                     break;
                 case 'd':
-                    if (world.avatar.x + 1 < world.getTiles().length-1) {
-                        if (world.getTiles()[world.avatar.x + 1][world.avatar.y] == FLOOR) {
-                            world.avatar.x += 1;
-                            this.actionHistory.append('d');
-                            this.ter.renderFrame(this.world.getTiles());
-                            this.world.avatar.draw();
-                        }
-                    }
+                    this.world.avatar.move(1, 0);
+                    actionHistory.append('d');
                     break;
             }
         }
+        gameRender();
         return "Game";
     }
 
@@ -212,13 +214,9 @@ public class Game {
         String filename = "savedGameData.txt";
         FileUtils fileIO = new FileUtils();
 
-        if (fileIO.fileExists(filename)) { // 如果文件存在，不遗漏信息地覆盖掉源文件
-            fileIO.writeFile(filename, this.actionHistory.toString());
-        }
-        else { // 文件不存在，写入
-            File file = new File(filename);
-            fileIO.writeFile(filename, this.actionHistory.toString());
-        }
+        File file = new File(filename);
+        fileIO.writeFile(filename, this.actionHistory.toString());
+
     }
 
     public static void main(String[] args) {

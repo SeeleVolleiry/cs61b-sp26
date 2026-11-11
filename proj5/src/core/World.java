@@ -166,11 +166,21 @@ public class World {
             y = avatarY;
         }
 
+        public void move(int dx, int dy) {
+            int newX = this.x + dx;
+            int newY = this.y + dy;
+            if (newX >= 0 && newY >= 0 && newX < getTiles().length-1 && newY < getTiles()[0].length-1) {
+                if (getTiles()[newX][newY] == FLOOR) {
+                    this.x += dx;
+                    this.y += dy;
+                }
+            }
+        }
+
         public void draw() {
             Font font = new Font("Monaco", Font.BOLD, 16 - 2);
             StdDraw.setFont(font);
-            look.draw(x, y);
-            StdDraw.show();
+            look.draw(x, y); //StdDraw.show();
         }
     }
 

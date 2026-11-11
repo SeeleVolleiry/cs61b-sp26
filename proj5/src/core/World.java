@@ -18,7 +18,7 @@ public class World {
     private int h; // height
     private long seed; // pseudorandom seed
     private TETile[][] tiles;
-    Avatar avatar;
+    public Avatar avatar;
     List<Room> rooms;
     List<Hallway> hallways;
 
@@ -38,21 +38,20 @@ public class World {
             }
         }
         this.generation();
-        avatar = new Avatar(rooms.get(0).x, rooms.get(0).y); // modify
+        avatar = new Avatar(rooms.get(0).coreX, rooms.get(0).coreY); // modify
     }
 
-    // generation algorithm
-    private void generation() {
+    private void generation() { // generation algorithm
         Random r = new Random(this.seed);
         // 生成房间，维护房间列表。
-        int roomNumber = r.nextInt(12, 15); // 房间的数量：12到14。
+        int roomNumber = r.nextInt(14, 18); // 房间的数量：14到17。
         while (roomNumber > 0) {
             int trial = 200; // 每间房间的生成循环最多试200次，失败就少一间，继续下一间。
             while (trial > 0) {
                 int roomX = r.nextInt(1, w); // 房间的左下角坐标:x,y
                 int roomY = r.nextInt(1, h); // 房间的左下角坐标:x,y
-                int roomWidth = r.nextInt(14, 17); // 房间的宽度：14到16， x + 房间的宽度 < 世界宽度-1 && x >= 1
-                int roomHeight = r.nextInt(14, 17); // 房间的高度：14到16， y + 房间的高度 < 世界高度-1 && y >= 1
+                int roomWidth = r.nextInt(12, 18); // 房间的宽度：12到17， x + 房间的宽度 < 世界宽度-1 && x >= 1
+                int roomHeight = r.nextInt(12, 18); // 房间的高度：12到17， y + 房间的高度 < 世界高度-1 && y >= 1
                 Room trialRoom = new Room(roomX, roomY, roomWidth, roomHeight);
                 // 如果房间是贴边的且被完全包含：跳过，进入下一次trial随机生成。
                 if (trialRoom.isLlegal() && !trialRoom.isSubRoom(rooms)) {
@@ -64,22 +63,19 @@ public class World {
             }
             roomNumber--;
         }
-        // 生成走廊，维护走廊列表
-          // 连接房间列表中第 i 和 i+1 个房间的中心 ——> 生成一条走廊，宽度为1。
-          // 两个房间的中心坐标不一致则生成L型走廊，一致则生成直线型
-          // 更新走廊列表；填充floor
-        for (int i = 0; i < rooms.size() - 1; i++) {
+
+        for (int i = 0; i < rooms.size() - 1; i++) { // 生成走廊，维护走廊列表
             int prevX = rooms.get(i).coreX;
             int prevY = rooms.get(i).coreY;
             int nextX = rooms.get(i+1).coreX;
             int nextY = rooms.get(i+1).coreY;
-
+            // 连接房间列表中第 i 和 i+1 个房间的中心 ——> 生成一条走廊，宽度为1。
             Hallway connectHallway = new Hallway(prevX, prevY, nextX, nextY);
-            fillHallway(connectHallway);
+            fillHallway(connectHallway); // 更新走廊列表、填充floor
             hallways.add(connectHallway);
         }
-        // 铺墙
-        this.fillWall();
+
+        this.fillWall(); // 铺墙
     }
 
     public TETile[][] getTiles() {
@@ -95,62 +91,21 @@ public class World {
         }
     }
 
-    // 根据传入的Hallway对象的参数，在世界tiles中填充FLOOR
+    // 根据传入的Hallway对象的参数，在世界tiles中填充FLOOR——先横后竖
     private void fillHallway(Hallway hallway) {
-        if (hallway.startX < hallway.endX && hallway.startY < hallway.endY) {
-            int horizon = hallway.endX - hallway.startX;
-            int vertical = hallway.endY - hallway.startY;
-            for (int h = 0; h < horizon; h++) {
-                if (tiles[hallway.startX + h][hallway.middleY] != FLOOR) {
-                    tiles[hallway.startX + h][hallway.middleY] = FLOOR;
-                }
-            }
-            for (int v = 0; v < vertical; v++) {
-                if (tiles[hallway.middleX][hallway.middleY + v] != FLOOR) {
-                    tiles[hallway.middleX][hallway.middleY + v] = FLOOR;
-                }
-            }
-        } else if (hallway.startX < hallway.endX && hallway.startY > hallway.endY) {
-            int horizon = hallway.endX - hallway.startX;
-            int vertical = hallway.startY - hallway.endY;
-            for (int h = 0; h < horizon; h++) {
-                if (tiles[hallway.startX + h][hallway.middleY] != FLOOR) {
-                    tiles[hallway.startX + h][hallway.middleY] = FLOOR;
-                }
-            }
-            for (int v = 0; v < vertical; v++) {
-                if (tiles[hallway.middleX][hallway.middleY - v] != FLOOR) {
-                    tiles[hallway.middleX][hallway.middleY - v] = FLOOR;
-                }
-            }
+        fillHorizonLine(hallway.startX, hallway.endX, hallway.startY);
+        fillVerticalLine(hallway.startY, hallway.endY, hallway.endX);
+    }
+
+    private void fillHorizonLine(int xa, int xb, int y) {
+        for (int x = Math.min(xa, xb); x <= Math.max(xa, xb); x++) {
+            tiles[x][y] = FLOOR;
         }
-        else if (hallway.startX > hallway.endX && hallway.startY > hallway.endY) {
-            int horizon = hallway.startX - hallway.endX;
-            int vertical = hallway.startY - hallway.endY;
-            for (int v = 0; v < vertical; v++) {
-                if (tiles[hallway.middleX][hallway.startY - v] != FLOOR) {
-                    tiles[hallway.middleX][hallway.startY - v] = FLOOR;
-                }
-            }
-            for (int h = 0; h < horizon; h++) {
-                if (tiles[hallway.middleX - h][hallway.middleY] != FLOOR) {
-                    tiles[hallway.middleX - h][hallway.middleY] = FLOOR;
-                }
-            }
-        }
-        else {
-            int horizon = hallway.startX - hallway.endX;
-            int vertical = hallway.endY - hallway.startY;
-            for (int v = 0; v < vertical; v++) {
-                if (tiles[hallway.middleX][hallway.startY + v] != FLOOR) {
-                    tiles[hallway.middleX][hallway.startY + v] = FLOOR;
-                }
-            }
-            for (int h = 0; h < horizon; h++) {
-                if (tiles[hallway.startX - h][hallway.middleY] != FLOOR) {
-                    tiles[hallway.startX - h][hallway.middleY] = FLOOR;
-                }
-            }
+    }
+
+    private void fillVerticalLine(int ya, int yb, int x) {
+        for (int y = Math.min(ya, yb); y <= Math.max(ya, yb); y++) {
+            tiles[x][y] = FLOOR;
         }
     }
 
@@ -198,13 +153,19 @@ public class World {
         int x;
         int y;
         // appearance：AVATAR
-        TETile appr = AVATAR;
+        TETile look;
         // name
-        String name = "avatar";
+        String name;
 
         public Avatar(int avatarX, int avatarY) {
+            look = AVATAR;
+            name = "avatar";
             x = avatarX;
             y = avatarY;
+        }
+
+        public void draw() {
+            look.draw(x, y);
         }
     }
 
@@ -232,13 +193,17 @@ public class World {
         // 判断房间是否不贴边
         private boolean isLlegal() {
             //房间满足不贴边的要求
-            return ( (this.x + this.width < w - 1)
-                     && (this.y + this.height < h - 1));
+            return ( (this.x + this.width <= w - 1)
+                     && (this.y + this.height <= h - 1));
         }
-        // 判断是否被other这一房间完全包含
+        // 判断是否被other这一房间包含过多，而不能清晰分辨出两个房间
         private boolean isSubRoom(Room other) {
-            if ((other.x <= this.x && other.x + other.width >= this.x + this.width)
-                    && (other.y <= this.y && other.y + other.height >= this.y + this.height)) {
+            // 与已有房间 b 的重叠面积
+            int ox = Math.min(this.x + this.width, other.x + other.width)  - Math.max(this.x, other.x);
+            int oy = Math.min(this.y + this.height, other.y + other.height) - Math.max(this.y, other.y);
+            int overlapArea = (ox > 0 && oy > 0) ? ox * oy : 0;
+            // 超过较小那间房面积的 30% → 重叠过多，返回true
+            if (overlapArea > 0.35 * Math.min(this.width * this.height, other.width * other.height)) {
                 return true;
             }
             else return false;

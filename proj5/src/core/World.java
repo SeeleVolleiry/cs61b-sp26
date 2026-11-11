@@ -1,7 +1,9 @@
 package core;
 
+import edu.princeton.cs.algs4.StdDraw;
 import tileengine.TETile;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -165,7 +167,10 @@ public class World {
         }
 
         public void draw() {
+            Font font = new Font("Monaco", Font.BOLD, 16 - 2);
+            StdDraw.setFont(font);
             look.draw(x, y);
+            StdDraw.show();
         }
     }
 

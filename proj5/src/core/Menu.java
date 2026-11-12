@@ -1,7 +1,6 @@
 package core;
 
 import edu.princeton.cs.algs4.StdDraw;
-import tileengine.TERenderer;
 
 import java.awt.*;
 
@@ -35,17 +34,5 @@ public class Menu {
         StdDraw.text(39 , 35, this.newGame[1]);
         StdDraw.text(39 , 25, seedBuffer.toString());
         StdDraw.show();
-    }
-
-    public static void main(String[] args) {
-        // 渲染菜单
-        TERenderer ter = new TERenderer();
-        ter.initialize(80, 60);
-
-        Menu startMenu = new Menu();
-
-        startMenu.mainMenuRender();
-        //startMenu.newGameRender();
-
     }
 }

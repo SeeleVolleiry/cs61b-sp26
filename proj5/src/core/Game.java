@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.StdDraw;
 import tileengine.TERenderer;
 import utils.FileUtils;
 
-import java.io.File;
+import java.awt.*;
 
 public class Game {
     private final int windowWidth;
@@ -35,9 +35,9 @@ public class Game {
         String right;
 
         public HUD() {
-            left = "World";
-            middle = "Gaming";
-            right = "Player: avatar";
+            left = "World Gaming";
+            middle = "Tile pointed: ";
+            right = "Player: avatar at ";
         }
 
         private void draw() {
@@ -49,7 +49,10 @@ public class Game {
             } else {
                 tileDesc = "---";
             }
-
+            StdDraw.setFont(new Font("Monaco", Font.BOLD, 28));
+            StdDraw.textLeft(1, 57, left);
+            StdDraw.text(40, 57, middle + tileDesc);
+            StdDraw.textRight(79, 57, right + "(" + world.avatar.x + " ," + world.avatar.y + ")");
         }
     }
 
@@ -59,6 +62,7 @@ public class Game {
             switch (state) {
                 case "MainMenu": state = menuLoop(); break;
                 case "CreateGame": state = createGame(); break;
+                case "LoadGame": state = loadGame(); break;
                 case "Game": state = gameLoop(); break;
                 default: break;
             }
@@ -67,6 +71,9 @@ public class Game {
     }
 
     public void gameRender() {
+        StdDraw.clear(StdDraw.BLACK);
+        StdDraw.setPenColor(StdDraw.WHITE);
+        ter.resetFont();
         this.ter.drawTiles(world.getTiles());
         this.world.avatar.draw();
         this.hud.draw();
@@ -83,20 +90,22 @@ public class Game {
 
                 switch(userInput) {
                     case 'n':
-                        return createGame();
+                        return "CreateGame";
                     case 'l': // load game
-                        return loadGame();
+                        return "LoadGame";
                     case 'q': // quit game
                         return "Quit";
                     default:
                         break;
                 }
             }
+            StdDraw.pause(20);
         }
     }
 
     public String createGame() {
         this.menu.seedBuffer.setLength(0); // 清空
+        actionHistory.setLength(0);
         char userInput;
         this.menu.newGameRender();
         while (true) {
@@ -115,62 +124,13 @@ public class Game {
                     return "Game"; // 切换游戏状态
                 }
             }
+            StdDraw.pause(20);
         }
     }
 
     public String gameLoop() {
-        this.ter.renderFrame(this.world.getTiles());
-        this.world.avatar.draw();
-        this.hud.draw(); // draw HUD
-        char operation;
-        boolean waitingQ = false;
-        while (true) {
-            while (StdDraw.hasNextKeyTyped()) {
-                operation = StdDraw.nextKeyTyped();
-                operation = Character.toLowerCase(operation);
-                if (waitingQ && operation == 'q') {
-                    waitingQ = false;
-                    actionHistory.append(":Q");
-                    saveGame();
-                    return "Quit"; // 存档后退出游戏
-                }
-                switch(operation) {
-                    case 'w':
-                        this.world.avatar.move(0, 1);
-                        this.actionHistory.append('w');
-                        gameRender();
-                        break;
-                    case 'a':
-                        this.world.avatar.move(-1, 0);
-                        this.actionHistory.append('a');
-                        gameRender();
-                        break;
-                    case 's':
-                        this.world.avatar.move(0, -1);
-                        this.actionHistory.append('s');
-                        gameRender();
-                        break;
-                    case 'd':
-                        this.world.avatar.move(1, 0);
-                        this.actionHistory.append('d');
-                        gameRender();
-                        break;
-                    case ':':
-                        /*if (StdDraw.hasNextKeyTyped()) {
-                            char c = Character.toLowerCase(StdDraw.nextKeyTyped());
-                            if (c == 'q') {
-                                actionHistory.append(":Q");
-                                saveGame();
-                                return "Quit"; // 存档后退出游戏
-                            }
-                        }*/
-                        waitingQ = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        gameRender();
+        return gameInteract();
     }
 
     public String loadGame() {
@@ -213,13 +173,58 @@ public class Game {
     public void saveGame() {
         String filename = "savedGameData.txt";
         FileUtils fileIO = new FileUtils();
-
-        File file = new File(filename);
         fileIO.writeFile(filename, this.actionHistory.toString());
 
     }
 
-    public static void main(String[] args) {
+    public String gameInteract() {
+        char operation;
+        boolean waitingQ = false;
+        int lastX = Integer.MIN_VALUE; int lastY = Integer.MIN_VALUE;
+        while (true) {
+            int currX = (int) StdDraw.mouseX();
+            int currY = (int) StdDraw.mouseY();
+            if (currX != lastX || currY != lastY) {
+                gameRender();
+                lastX = currX; lastY = currY;
+            }
 
+            while (StdDraw.hasNextKeyTyped()) {
+                operation = StdDraw.nextKeyTyped();
+                operation = Character.toLowerCase(operation);
+                if (waitingQ && operation == 'q') {
+                    waitingQ = false;
+                    actionHistory.append(":Q");
+                    saveGame();
+                    return "Quit"; // 存档后退出游戏
+                }
+                waitingQ = false;
+                switch(operation) {
+                    case 'w':
+                        this.world.avatar.move(0, 1);
+                        this.actionHistory.append('w');
+                        break;
+                    case 'a':
+                        this.world.avatar.move(-1, 0);
+                        this.actionHistory.append('a');
+                        break;
+                    case 's':
+                        this.world.avatar.move(0, -1);
+                        this.actionHistory.append('s');
+                        break;
+                    case 'd':
+                        this.world.avatar.move(1, 0);
+                        this.actionHistory.append('d');
+                        break;
+                    case ':':
+                        waitingQ = true;
+                        break;
+                    default:
+                        break;
+                }
+                gameRender();
+            }
+            StdDraw.pause(20);
+        }
     }
 }

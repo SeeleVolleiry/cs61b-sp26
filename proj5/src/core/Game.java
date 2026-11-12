@@ -2,9 +2,16 @@ package core;
 
 import edu.princeton.cs.algs4.StdDraw;
 import tileengine.TERenderer;
+import static tileengine.Tileset.*;
 import utils.FileUtils;
 
 import java.awt.*;
+import java.awt.Point;
+import java.util.List;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
 
 public class Game {
     private final int windowWidth;
@@ -180,13 +187,20 @@ public class Game {
     public String gameInteract() {
         char operation;
         boolean waitingQ = false;
+        boolean pressedNow = false;
         int lastX = Integer.MIN_VALUE; int lastY = Integer.MIN_VALUE;
         while (true) {
             int currX = (int) StdDraw.mouseX();
             int currY = (int) StdDraw.mouseY();
+            pressedNow = StdDraw.isMousePressed();
             if (currX != lastX || currY != lastY) {
                 gameRender();
                 lastX = currX; lastY = currY;
+            }
+
+            if (pressedNow) {
+                pathMoveDraw();
+                pressedNow = false;
             }
 
             while (StdDraw.hasNextKeyTyped()) {
@@ -226,5 +240,84 @@ public class Game {
             }
             StdDraw.pause(20);
         }
+    }
+
+    public void pathMoveDraw() {
+        // BFS algorithm
+        Deque<Point> deq = new ArrayDeque<>();
+        Point[][] prev = new Point[windowWidth][windowHeight];
+        boolean[][] visited = new boolean[windowWidth][windowHeight];
+
+        // 起点start的坐标
+        int sx = world.avatar.x; int sy = world.avatar.y;
+        int dx = (int) StdDraw.mouseX(); int dy = (int) StdDraw.mouseY();
+        Point start = new Point(sx, sy);
+        Point destination = new Point(dx, dy);
+        visited[sx][sy] = true;
+        deq.add(new Point(sx, sy));
+
+        while (!deq.isEmpty()) {
+            Point curr = deq.poll();
+            if (curr.x != destination.x && curr.y != destination.y) {
+                break;
+            }
+            for (Point neighbor: pointNeighbors(curr)) {
+                if (visited[neighbor.x][neighbor.y] || !isReachable(curr.x, curr.y)) {
+                    continue;
+                }
+                visited[neighbor.x][neighbor.y] = true;
+                prev[curr.x][curr.y] = neighbor;
+                deq.add(neighbor);
+            }
+        }
+        // prev数组中从destination索引可以回到start
+        List path = new ArrayList<>();
+        Point curr = destination;
+        while (curr.x != start.x && curr.y != start.y) {
+            path.add(curr);
+            curr = prev[curr.x][curr.y];
+        }
+        Collections.reverse(path);
+
+        //有了路径开始绘制
+        for (Point p: path) {
+            // move, update actionHistory
+            int xDiff = p.x - world.avatar.x;
+            int yDiff = p.y - world.avatar.y;
+            world.avatar.move(xDiff, yDiff);
+            if (xDiff == 1) {
+                actionHistory.append('d');
+            }
+            if (yDiff == 1) {
+                actionHistory.append('w');
+            }
+            if (xDiff == -1) {
+                actionHistory.append('a');
+            }
+            if (yDiff == -1) {
+                actionHistory.append('s');
+            }
+            gameRender();
+            StdDraw.pause(30);
+        }
+    }
+
+    private List<Point> pointNeighbors(Point p) {
+        List<Point> neighbors = new ArrayList<>();
+        neighbors.add(new Point(p.x - 1, p.y));
+        neighbors.add(new Point(p.x + 1, p.y));
+        neighbors.add(new Point(p.x, p.y - 1));
+        neighbors.add(new Point(p.x, p.y + 1));
+        return neighbors;
+    }
+
+    private boolean isReachable(int x, int y) {
+        if (world.getTiles()[x][y] != FLOOR) {
+            return false;
+        }
+        if (x < 0 || x > windowWidth - 1 || y < 0 || y > windowHeight - 1) {
+            return false;
+        }
+        return true;
     }
 }

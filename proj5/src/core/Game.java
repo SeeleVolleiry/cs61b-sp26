@@ -197,7 +197,7 @@ public class Game {
 
             if (pressedNow && !pressedLast) {
                 if (isReachable(currX, currY)) {
-                    pathMoveDraw();
+                    pathMoveDraw(currX, currY);
                 }
             }
             pressedLast = pressedNow;
@@ -241,7 +241,7 @@ public class Game {
         }
     }
 
-    public void pathMoveDraw() {
+    public void pathMoveDraw(int dx, int dy) {
         // BFS algorithm
         Deque<Point> deq = new ArrayDeque<>();
         Point[][] prev = new Point[windowWidth][windowHeight];
@@ -249,7 +249,7 @@ public class Game {
 
         // 起点start的坐标
         int sx = world.avatar.x; int sy = world.avatar.y;
-        int dx = (int) StdDraw.mouseX(); int dy = (int) StdDraw.mouseY();
+        // int dx = (int) StdDraw.mouseX(); int dy = (int) StdDraw.mouseY();
         Point start = new Point(sx, sy);
         Point destination = new Point(dx, dy);
         visited[sx][sy] = true;
@@ -311,7 +311,7 @@ public class Game {
     }
 
     private boolean isReachable(int x, int y) {
-        if (x < 0 || x > windowWidth - 1 || y < 0 || y > windowHeight - HUDHeight - 1) {
+        if (x < 0 || x >= windowWidth - 1 || y < 0 || y >= windowHeight - HUDHeight - 1) {
             return false;
         }
         if (world.getTiles()[x][y] != FLOOR) {

@@ -2,16 +2,13 @@ package core;
 
 import edu.princeton.cs.algs4.StdDraw;
 import tileengine.TERenderer;
-import static tileengine.Tileset.*;
 import utils.FileUtils;
 
 import java.awt.*;
-import java.awt.Point;
+import java.util.*;
 import java.util.List;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
+
+import static tileengine.Tileset.FLOOR;
 
 public class Game {
     private final int windowWidth;
@@ -187,7 +184,7 @@ public class Game {
     public String gameInteract() {
         char operation;
         boolean waitingQ = false;
-        boolean pressedNow = false;
+        boolean pressedNow = false; boolean pressedLast = false;
         int lastX = Integer.MIN_VALUE; int lastY = Integer.MIN_VALUE;
         while (true) {
             int currX = (int) StdDraw.mouseX();
@@ -198,10 +195,12 @@ public class Game {
                 lastX = currX; lastY = currY;
             }
 
-            if (pressedNow) {
-                pathMoveDraw();
-                pressedNow = false;
+            if (pressedNow && !pressedLast) {
+                if (isReachable(currX, currY)) {
+                    pathMoveDraw();
+                }
             }
+            pressedLast = pressedNow;
 
             while (StdDraw.hasNextKeyTyped()) {
                 operation = StdDraw.nextKeyTyped();
@@ -258,22 +257,22 @@ public class Game {
 
         while (!deq.isEmpty()) {
             Point curr = deq.poll();
-            if (curr.x != destination.x && curr.y != destination.y) {
+            if (curr.x == destination.x && curr.y == destination.y) {
                 break;
             }
             for (Point neighbor: pointNeighbors(curr)) {
-                if (visited[neighbor.x][neighbor.y] || !isReachable(curr.x, curr.y)) {
+                if (!isReachable(neighbor.x, neighbor.y) || visited[neighbor.x][neighbor.y]) {
                     continue;
                 }
                 visited[neighbor.x][neighbor.y] = true;
-                prev[curr.x][curr.y] = neighbor;
+                prev[neighbor.x][neighbor.y] = curr;
                 deq.add(neighbor);
             }
         }
         // prev数组中从destination索引可以回到start
-        List path = new ArrayList<>();
+        List<Point> path = new ArrayList<>();
         Point curr = destination;
-        while (curr.x != start.x && curr.y != start.y) {
+        while (!(curr.x == start.x && curr.y == start.y)) {
             path.add(curr);
             curr = prev[curr.x][curr.y];
         }
@@ -312,10 +311,10 @@ public class Game {
     }
 
     private boolean isReachable(int x, int y) {
-        if (world.getTiles()[x][y] != FLOOR) {
+        if (x < 0 || x > windowWidth - 1 || y < 0 || y > windowHeight - HUDHeight - 1) {
             return false;
         }
-        if (x < 0 || x > windowWidth - 1 || y < 0 || y > windowHeight - 1) {
+        if (world.getTiles()[x][y] != FLOOR) {
             return false;
         }
         return true;
